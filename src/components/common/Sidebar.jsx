@@ -4,7 +4,6 @@ const navItems = [
   { label: 'Dashboard', path: '/' },
   { label: 'Analysis', path: '/analysis' },
   { label: 'History', path: '/history' },
-  { label: 'Patient Detail', path: '/patient/PS-2026-001' },
 ]
 
 export function Sidebar() {

@@ -4,7 +4,6 @@ const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Analysis', path: '/analysis' },
   { label: 'History', path: '/history' },
-  { label: 'Detail', path: '/patient/PS-2026-001' },
 ]
 
 export function BottomNav() {

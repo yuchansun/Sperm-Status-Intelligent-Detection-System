@@ -3,9 +3,9 @@ import { Sidebar } from './components/common/Sidebar.jsx'
 import { BottomNav } from './components/common/BottomNav.jsx'
 import { Navbar } from './components/common/Navbar.jsx'
 import { DashboardPage } from './pages/DashboardPage.jsx'
-import { AnalysisPage } from './pages/AnalysisPage.jsx'
+import { AnalysisUploadPage } from './pages/AnalysisUploadPage.jsx'
+import { AnalysisResultPage } from './pages/AnalysisResultPage.jsx'
 import { HistoryPage } from './pages/HistoryPage.jsx'
-import { PatientDetailPage } from './pages/PatientDetailPage.jsx'
 import './App.css'
 
 function AppLayout() {
@@ -16,9 +16,9 @@ function AppLayout() {
         <Navbar />
         <Routes>
           <Route path="/" element={<DashboardPage />} />
-          <Route path="/analysis" element={<AnalysisPage />} />
+          <Route path="/analysis" element={<AnalysisUploadPage />} />
+          <Route path="/analysis/result" element={<AnalysisResultPage />} />
           <Route path="/history" element={<HistoryPage />} />
-          <Route path="/patient/:id" element={<PatientDetailPage />} />
         </Routes>
         <BottomNav />
       </main>
