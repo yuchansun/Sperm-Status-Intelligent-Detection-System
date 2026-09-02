@@ -1,6 +1,6 @@
 export const mockResult = {
   image:
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
+    'C:\\Keling\\program\\發明展_精蟲檢測\\Sperm-Status-Intelligent-Detection-System\\src\\assets\\image.png?auto=format&fit=crop&w=1200&q=80',
   summary: {
     detected: '128 / 160',
     density: '14.8M/mL',

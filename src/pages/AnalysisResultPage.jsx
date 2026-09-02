@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BoundingBoxView } from '../components/analysis/BoundingBoxView.jsx'
 import { mockResult } from '../services/mockData.js'
+import image from '../assets/image.png'
 
 export function AnalysisResultPage() {
   const [viewMode, setViewMode] = useState('original')
@@ -81,7 +82,7 @@ export function AnalysisResultPage() {
           </div>
 
           <div className="visual-box">
-            <img src={result.image} alt="Microscope image analysis" />
+            <img src={image} alt="Microscope image analysis" />
           </div>
 
           <div className="evidence-row">
