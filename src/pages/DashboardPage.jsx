@@ -1,27 +1,36 @@
 import { dashboardStats, workQueue, recentResults } from '../services/mockData.js'
 import { MetricCard } from '../components/common/MetricCard.jsx'
+import { useLanguage } from '../context/language.js'
 
 export function DashboardPage() {
+  const { t } = useLanguage()
+  const statLabels = [
+    [t.pendingSamples, t.todayPending, t.pending],
+    [t.analyzing, t.cloudAnalyzing, t.analyzing],
+    [t.reviewResult, t.manualReview, t.attention],
+    [t.completed, t.todayClosed, t.normal],
+  ]
+
   return (
     <div className="page-shell dashboard-page">
       <header className="page-header compact-header">
         <div>
-          <p className="eyebrow">檢驗工作台</p>
-          <h2>精蟲檢驗系統</h2>
+          <p className="eyebrow">{t.dashboardEyebrow}</p>
+          <h2>{t.dashboardTitle}</h2>
         </div>
         <button type="button" className="primary-btn">
-          ＋ 新增檢驗
+          ＋ {t.newAnalysis}
         </button>
       </header>
 
       <section className="stats-grid dashboard-grid">
-        {dashboardStats.map((stat) => (
+        {dashboardStats.map((stat, index) => (
           <MetricCard
             key={stat.label}
-            label={stat.label}
+            label={statLabels[index][0]}
             value={stat.value}
-            detail={stat.detail}
-            status={stat.status}
+            detail={statLabels[index][1]}
+            status={statLabels[index][2]}
             tone={stat.tone}
           />
         ))}
@@ -29,16 +38,16 @@ export function DashboardPage() {
 
       <section className="dashboard-block">
         <div className="panel-header">
-          <h3>待處理檢體</h3>
-          <span className="chip neutral">今日工作</span>
+          <h3>{t.pendingSamples}</h3>
+          <span className="chip neutral">{t.todayWork}</span>
         </div>
 
         <div className="queue-table">
           <div className="queue-row queue-head">
-            <span>檢體編號</span>
-            <span>收件時間</span>
-            <span>狀態</span>
-            <span>操作</span>
+            <span>{t.sampleId}</span>
+            <span>{t.receivedAt}</span>
+            <span>{t.status}</span>
+            <span>{t.action}</span>
           </div>
 
           {workQueue.map((item) => (
@@ -46,10 +55,10 @@ export function DashboardPage() {
               <span>{item.id}</span>
               <span>{item.time}</span>
               <span className={`status-pill ${item.status === '待分析' ? 'warning' : item.status === 'AI分析中' ? 'neutral-badge' : 'success'}`}>
-                {item.status}
+                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : t.reviewResult}
               </span>
               <button type="button" className="secondary-btn small">
-                {item.action}
+                {item.action === '開始分析' ? t.startAnalysis : item.action === '複核結果' ? t.reviewResult : t.view}
               </button>
             </div>
           ))}
@@ -58,18 +67,18 @@ export function DashboardPage() {
 
       <section className="dashboard-block">
         <div className="panel-header">
-          <h3>最近檢驗</h3>
-          <span className="chip neutral">本週</span>
+          <h3>{t.recentTests}</h3>
+          <span className="chip neutral">{t.thisWeek}</span>
         </div>
 
         <div className="recent-table">
           <div className="recent-row recent-head">
-            <span>檢體編號</span>
-            <span>濃度</span>
-            <span>活動力</span>
-            <span>形態</span>
-            <span>判讀</span>
-            <span>操作</span>
+            <span>{t.sampleId}</span>
+            <span>{t.concentration}</span>
+            <span>{t.motility}</span>
+            <span>{t.morphology}</span>
+            <span>{t.interpretation}</span>
+            <span>{t.action}</span>
           </div>
 
           {recentResults.map((item) => (
@@ -78,9 +87,9 @@ export function DashboardPage() {
               <span>{item.density}</span>
               <span>{item.motility}</span>
               <span>{item.morphology}</span>
-              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result}</span>
+              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : t.followUp}</span>
               <button type="button" className="secondary-btn small">
-                查看
+                {t.view}
               </button>
             </div>
           ))}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LoadingOverlay } from '../components/common/LoadingOverlay.jsx'
+import { useLanguage } from '../context/language.js'
 
 const templateOptions = [
   '範例檢體 A - 高濃度正常',
@@ -9,6 +10,7 @@ const templateOptions = [
 ]
 
 export function AnalysisUploadPage() {
+  const { t } = useLanguage()
   const [selectedTemplate, setSelectedTemplate] = useState(templateOptions[0])
   const [includeMotility, setIncludeMotility] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -27,18 +29,18 @@ export function AnalysisUploadPage() {
 
       <header className="page-header">
         <div>
-          <p className="eyebrow">檢驗設定</p>
-          <h2>新檢驗</h2>
+          <p className="eyebrow">{t.uploadSettings}</p>
+          <h2>{t.newTest}</h2>
         </div>
       </header>
 
       <section className="upload-card">
         <div className="form-section">
-          <h3>檢體基本資訊</h3>
+          <h3>{t.basicInfo}</h3>
 
           <div className="field-row">
             <label>
-              <span>病患 / 檢體編號</span>
+              <span>{t.patientSampleId}</span>
               <input type="text" defaultValue="SMP-2026-001" />
             </label>
           </div>
@@ -46,23 +48,23 @@ export function AnalysisUploadPage() {
           <div className="check-list">
             <label className="check-item">
               <input type="checkbox" checked readOnly />
-              <span>精蟲數量與濃度 (YOLO 計數)</span>
-              <strong>必選</strong>
+              <span>{t.spermCount}</span>
+              <strong>{t.required}</strong>
             </label>
 
             <label className="check-item">
               <input type="checkbox" checked readOnly />
-              <span>型態與頭身比評估</span>
-              <strong>必選</strong>
+              <span>{t.morphologyAssessment}</span>
+              <strong>{t.required}</strong>
             </label>
 
             <label className="toggle-item">
-              <span>游動活動力預估 (Motility)</span>
+              <span>{t.motilityEstimate}</span>
               <button
                 type="button"
                 className={includeMotility ? 'switch switch-on' : 'switch'}
                 onClick={() => setIncludeMotility((prev) => !prev)}
-                aria-label="Toggle motility analysis"
+                aria-label={t.toggleMotility}
               >
                 <span className="switch-thumb" />
               </button>
@@ -73,18 +75,18 @@ export function AnalysisUploadPage() {
 
       <section className="upload-card">
         <div className="form-section">
-          <h3>影像來源</h3>
+          <h3>{t.imageSource}</h3>
 
           <div className="source-grid">
             <div className="source-option highlight">
-              <h4>選項 A：從雲端範本選擇</h4>
+              <h4>{t.cloudTemplate}</h4>
               <select
                 value={selectedTemplate}
                 onChange={(event) => setSelectedTemplate(event.target.value)}
               >
-                {templateOptions.map((option) => (
+                {templateOptions.map((option, index) => (
                   <option key={option} value={option}>
-                    {option}
+                    {t[`template${String.fromCharCode(65 + index)}`]}
                   </option>
                 ))}
               </select>
@@ -97,21 +99,21 @@ export function AnalysisUploadPage() {
             </div>
 
             <div className="source-option">
-              <h4>選項 B：手機拍照 / 相簿上傳</h4>
+              <h4>{t.cameraUpload}</h4>
               <div className="upload-box">
-                <span>開啟相機或從相簿選擇影像</span>
+                <span>{t.openCamera}</span>
                 <button type="button" className="secondary-btn small">
-                  選擇影像
+                  {t.chooseImage}
                 </button>
               </div>
             </div>
 
             <div className="source-option muted">
-              <h4>選項 C：短影片抽取</h4>
+              <h4>{t.videoExtract}</h4>
               <div className="upload-box">
-                <span>影片抽幀分析模式（預留介面）</span>
+                <span>{t.videoMode}</span>
                 <button type="button" className="secondary-btn small">
-                  上傳 1 秒短片
+                  {t.uploadVideo}
                 </button>
               </div>
             </div>
@@ -124,7 +126,7 @@ export function AnalysisUploadPage() {
         className="primary-btn full-width"
         onClick={handleStartAnalysis}
       >
-        🚀 開始 AI 雲端分析
+        🚀 {t.startCloudAnalysis}
       </button>
     </div>
   )

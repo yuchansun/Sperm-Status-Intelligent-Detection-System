@@ -1,92 +1,92 @@
 import { useState } from 'react'
 import { mockResult } from '../services/mockData.js'
 import image from '../assets/image.png'
+import { useLanguage } from '../context/language.js'
 
 export function AnalysisResultPage() {
   const [viewMode, setViewMode] = useState('original')
   const result = mockResult
+  const { t } = useLanguage()
 
   return (
     <div className="page-shell result-page">
       <header className="page-header">
         <div>
-          <p className="eyebrow">AI 分析結果</p>
+          <p className="eyebrow">{t.analysisResult}</p>
           <h2>檢體編號 #A001</h2>
         </div>
         <div className="header-actions">
-          <button type="button" className="secondary-btn">重新檢測</button>
-          <button type="button" className="primary-btn">下載 PDF</button>
+          <button type="button" className="secondary-btn">{t.retest}</button>
+          <button type="button" className="primary-btn">{t.downloadPdf}</button>
         </div>
       </header>
 
       <section className="summary-banner result-summary">
-        <span className="status-pill danger">需追蹤</span>
+        <span className="status-pill danger">{t.followUp}</span>
         <div>
-          <h3>AI 判讀結果</h3>
-          <p>
-            本次分析顯示精子濃度偏低，建議由專業人員確認並安排後續追蹤檢測。
-          </p>
+          <h3>{t.aiResult}</h3>
+          <p>{t.resultSummary}</p>
         </div>
       </section>
 
       <section className="result-overview">
         <div className="result-card highlight">
-          <span className="metric-label">精蟲數量</span>
+          <span className="metric-label">{t.spermCountLabel}</span>
           <div className="value-line">
             <strong>48</strong>
             <span>Million/mL</span>
           </div>
-          <div className="status-inline success">綠色：達標 WHO 標準</div>
+          <div className="status-inline success">{t.whoPass}</div>
         </div>
 
         <div className="result-card">
-          <span className="metric-label">型態與頭身比</span>
+          <span className="metric-label">{t.headBodyRatio}</span>
           <div className="value-line">
             <strong>4%</strong>
-            <span>正常型態</span>
+            <span>{t.normalMorphology}</span>
           </div>
-          <div className="status-inline warning">偏低，建議追蹤</div>
+          <div className="status-inline warning">{t.lowFollowUp}</div>
         </div>
 
         <div className="result-card">
-          <span className="metric-label">活動力預估</span>
+          <span className="metric-label">{t.motilityEstimateLabel}</span>
           <div className="value-line">
             <strong>32%</strong>
-            <span>前進性</span>
+            <span>{t.progressive}</span>
           </div>
-          <div className="status-inline neutral">活動力中等</div>
+          <div className="status-inline neutral">{t.moderateMotility}</div>
         </div>
       </section>
 
       <section className="analysis-content">
         <div className="analysis-panel image-panel">
           <div className="panel-header">
-            <h3>影像與 YOLO 標註</h3>
+            <h3>{t.imageYolo}</h3>
             <div className="toggle-group">
               <button
                 type="button"
                 className={viewMode === 'original' ? 'chip success' : 'chip neutral'}
                 onClick={() => setViewMode('original')}
               >
-                原始顯微影像
+                {t.originalImage}
               </button>
               <button
                 type="button"
                 className={viewMode === 'yolo' ? 'chip success' : 'chip neutral'}
                 onClick={() => setViewMode('yolo')}
               >
-                AI YOLO 標註視圖
+                {t.yoloView}
               </button>
             </div>
           </div>
 
           <div className="visual-box">
-            <img src={image} alt="Microscope image analysis" />
+            <img src={image} alt={t.imageYolo} />
           </div>
 
           <div className="evidence-row">
             <div>
-              <span>辨識成功</span>
+              <span>{t.detected}</span>
               <strong>{result.summary.detected}</strong>
             </div>
             <div>
@@ -103,36 +103,36 @@ export function AnalysisResultPage() {
         <div className="analysis-panel info-panel">
           <div className="info-block">
             <div className="panel-header">
-              <h3>檢驗摘要</h3>
+              <h3>{t.testSummary}</h3>
             </div>
             <ul className="summary-list">
-              <li><span>精子濃度</span><strong>48 M/mL</strong></li>
-              <li><span>正常型態</span><strong>4%</strong></li>
-              <li><span>活動力</span><strong>32%</strong></li>
+              <li><span>{t.concentration}</span><strong>48 M/mL</strong></li>
+              <li><span>{t.normalMorphology}</span><strong>4%</strong></li>
+              <li><span>{t.motility}</span><strong>32%</strong></li>
             </ul>
           </div>
 
           <div className="info-block">
             <div className="panel-header">
-              <h3>醫管效益</h3>
+              <h3>{t.medicalBenefit}</h3>
             </div>
-            <p>本分析耗時 1.2 秒，已為醫檢師省下人工計數時間與判讀重複性差異。</p>
+            <p>{t.benefitText}</p>
           </div>
 
           <div className="info-block">
             <div className="panel-header">
-              <h3>檢驗資訊</h3>
+              <h3>{t.testInfo}</h3>
             </div>
             <ul className="summary-list compact-list">
-              <li><span>病患代號</span><strong>SMP-2026-001</strong></li>
-              <li><span>檢驗項目</span><strong>數量 + 型態</strong></li>
-              <li><span>採集時間</span><strong>2026/09/02 14:30</strong></li>
+              <li><span>{t.patientCode}</span><strong>SMP-2026-001</strong></li>
+              <li><span>{t.testItems}</span><strong>{t.spermCountLabel} + {t.morphology}</strong></li>
+              <li><span>{t.collectionTime}</span><strong>2026/09/02 14:30</strong></li>
             </ul>
           </div>
 
           <div className="action-block">
-            <button type="button" className="primary-btn">重新檢測</button>
-            <button type="button" className="secondary-btn">儲存至病患歷程</button>
+            <button type="button" className="primary-btn">{t.retest}</button>
+            <button type="button" className="secondary-btn">{t.saveToHistory}</button>
           </div>
         </div>
       </section>

@@ -1,12 +1,15 @@
 import { NavLink } from 'react-router-dom'
-
-const navItems = [
-  { label: 'Dashboard', path: '/' },
-  { label: 'Analysis', path: '/analysis' },
-  { label: 'History', path: '/history' },
-]
+import { useLanguage } from '../../context/language.js'
 
 export function Sidebar() {
+  const { t } = useLanguage()
+  const navItems = [
+    { label: t.home, path: '/' },
+    { label: t.analysis, path: '/analysis' },
+    { label: t.history, path: '/history' },
+    { label: t.settings, path: '/settings' },
+  ]
+
   return (
     <aside className="sidebar">
       <div className="brand-block">
@@ -17,7 +20,7 @@ export function Sidebar() {
         </div>
       </div>
 
-      <nav className="side-nav" aria-label="Main navigation">
+      <nav className="side-nav" aria-label={t.mainNavigation}>
         {navItems.map(({ label, path }) => (
           <NavLink
             key={label}
@@ -34,12 +37,12 @@ export function Sidebar() {
       </nav>
 
       <div className="sidebar-card">
-        <p className="status-label">系統狀態</p>
+        <p className="status-label">{t.systemStatus}</p>
         <div className="status-row">
-          <span className="status-pill success">正常</span>
-          <span>雲端 YOLO 模型</span>
+          <span className="status-pill success">{t.normal}</span>
+          <span>{t.cloudModel}</span>
         </div>
-        <small>離線備援模式：已準備</small>
+        <small>{t.offlineReady}</small>
       </div>
     </aside>
   )

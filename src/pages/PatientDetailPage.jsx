@@ -1,15 +1,17 @@
 import { patientTrend } from '../services/mockData.js'
+import { useLanguage } from '../context/language.js'
 
 export function PatientDetailPage() {
   const max = Math.max(...patientTrend.values)
+  const { t } = useLanguage()
 
   return (
     <div className="page-shell">
       <section className="detail-layout">
         <div className="line-chart-card">
           <div className="panel-header">
-            <h3>精子數量變化曲線</h3>
-            <span className="chip success">改善趨勢</span>
+            <h3>{t.trend}</h3>
+            <span className="chip success">{t.completed}</span>
           </div>
           <div className="line-chart" aria-label="Sperm count trend chart">
             {patientTrend.labels.map((label, index) => (
@@ -26,8 +28,8 @@ export function PatientDetailPage() {
 
         <div className="notes-card">
           <div className="panel-header">
-            <h3>臨床備忘</h3>
-            <span className="chip neutral">醫檢師紀錄</span>
+            <h3>{t.notes}</h3>
+            <span className="chip neutral">{t.doctor}</span>
           </div>
           <ul>
             <li>建議持續規律作息與避免高熱環境</li>
