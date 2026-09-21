@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { useLanguage } from '../../context/language.js'
+import { useAuth } from '../../context/auth.js'
 
 export function Sidebar() {
   const { t } = useLanguage()
+  const { logout } = useAuth()
   const navItems = [
     { label: t.home, path: '/' },
     { label: t.analysis, path: '/analysis' },
@@ -44,6 +46,10 @@ export function Sidebar() {
         </div>
         <small>{t.offlineReady}</small>
       </div>
+
+      <button type="button" className="logout-btn" onClick={logout}>
+        {t.logout}
+      </button>
     </aside>
   )
 }

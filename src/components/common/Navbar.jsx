@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLanguage } from '../../context/language.js'
+import { useAuth } from '../../context/auth.js'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { t } = useLanguage()
+  const { logout } = useAuth()
 
   const navItems = [
     { label: t.home, path: '/' },
@@ -81,6 +83,14 @@ export function Navbar() {
               {label}
             </NavLink>
           ))}
+          <button
+            type="button"
+            className="drawer-nav-item drawer-logout"
+            onClick={logout}
+          >
+            <span className="drawer-nav-dot" />
+            {t.logout}
+          </button>
         </nav>
       </aside>
     </>
