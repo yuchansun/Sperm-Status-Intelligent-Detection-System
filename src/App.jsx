@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Sidebar } from './components/common/Sidebar.jsx'
-import { BottomNav } from './components/common/BottomNav.jsx'
 import { Navbar } from './components/common/Navbar.jsx'
 import { DashboardPage } from './pages/DashboardPage.jsx'
 import { AnalysisUploadPage } from './pages/AnalysisUploadPage.jsx'
@@ -20,7 +19,6 @@ function AppLayout() {
           <Route path="/analysis/result" element={<AnalysisResultPage />} />
           <Route path="/history" element={<HistoryPage />} />
         </Routes>
-        <BottomNav />
       </main>
     </div>
   )

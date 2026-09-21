@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { historyRecords } from '../services/mockData.js'
 
 export function HistoryPage() {
@@ -25,12 +25,6 @@ export function HistoryPage() {
       return patientText.includes(term)
     })
   }, [searchTerm])
-
-  useEffect(() => {
-    if (selectedId && !filteredRecords.some((record) => record.id === selectedId)) {
-      setSelectedId(null)
-    }
-  }, [filteredRecords, selectedId])
 
   const selectedRecord = filteredRecords.find((record) => record.id === selectedId) ?? null
 

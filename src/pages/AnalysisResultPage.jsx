@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { BoundingBoxView } from '../components/analysis/BoundingBoxView.jsx'
 import { mockResult } from '../services/mockData.js'
 import image from '../assets/image.png'
 
