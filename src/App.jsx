@@ -5,6 +5,8 @@ import { DashboardPage } from './pages/DashboardPage.jsx'
 import { AnalysisUploadPage } from './pages/AnalysisUploadPage.jsx'
 import { AnalysisResultPage } from './pages/AnalysisResultPage.jsx'
 import { HistoryPage } from './pages/HistoryPage.jsx'
+import { PatientDetailPage } from './pages/PatientDetailPage.jsx'
+import { PatientHistoryPage } from './pages/PatientHistoryPage.jsx'
 import { SettingsPage } from './pages/SettingsPage.jsx'
 import { LanguageProvider } from './context/LanguageContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
@@ -27,6 +29,8 @@ function AppLayout() {
           <Route path="/analysis" element={<AnalysisUploadPage />} />
           <Route path="/analysis/result" element={<AnalysisResultPage />} />
           <Route path="/history" element={<HistoryPage />} />
+          <Route path="/patients/:patientId/history" element={<PatientHistoryPage />} />
+          <Route path="/history/:recordId" element={<PatientDetailPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

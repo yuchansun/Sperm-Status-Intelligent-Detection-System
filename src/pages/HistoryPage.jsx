@@ -1,29 +1,30 @@
 import { useMemo, useState } from 'react'
-import { historyRecords } from '../services/mockData.js'
+import { useNavigate } from 'react-router-dom'
+import { getHistoryRecords } from '../services/historyStorage.js'
 import { useLanguage } from '../context/language.js'
+
+function translateStatus(status, t) {
+  if (status === '正常') return t.normal
+  return t.followUp
+}
+
+function translateProcessingState(state, t) {
+  if (state === '已完成') return t.completed
+  return t.reviewResult
+}
 
 export function HistoryPage() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedId, setSelectedId] = useState(null)
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
   const { t } = useLanguage()
-
-  const translateStatus = (status) => {
-    if (status === '正常') return t.normal
-    if (status === '異常') return t.attention
-    return t.followUp
-  }
-
-  const translateProcessingState = (state) => {
-    if (state === '已完成') return t.completed
-    return t.reviewResult
-  }
+  const navigate = useNavigate()
+  const records = useMemo(() => getHistoryRecords(), [])
 
   const filteredRecords = useMemo(() => {
     const term = searchTerm.trim().toLowerCase()
-    if (!term) return historyRecords
-
-    return historyRecords.filter((record) => {
-      const patientText = [
+    return records.filter((record) => {
+      const searchableText = [
         record.id,
         record.sampleId,
         record.date,
@@ -31,147 +32,114 @@ export function HistoryPage() {
         record.processingState,
         record.patient?.name,
         record.patient?.doctor,
+        record.patient?.phone,
+        translateStatus(record.status, t),
+        translateProcessingState(record.processingState, t),
       ]
         .join(' ')
         .toLowerCase()
 
-      return patientText.includes(term)
+      const matchesSearch = !term || searchableText.includes(term)
+      const matchesStartDate = !startDate || record.date >= startDate
+      const matchesEndDate = !endDate || record.date <= endDate
+
+      return matchesSearch && matchesStartDate && matchesEndDate
     })
-  }, [searchTerm])
+  }, [records, searchTerm, startDate, endDate, t])
 
-  const selectedRecord = filteredRecords.find((record) => record.id === selectedId) ?? null
+  const hasActiveFilters = searchTerm || startDate || endDate
+  const patientRows = useMemo(() => {
+    const groupedRecords = new Map()
 
-  if (selectedRecord) {
-    return (
-      <div className="page-shell history-page detail-mode">
-        <section className="detail-card">
-          <div className="history-detail-header">
-            <button type="button" className="back-btn" onClick={() => setSelectedId(null)}>
-              ← {t.previousPage}
-            </button>
-            <div>
-              <p className="eyebrow">{t.patientData} / {t.testInfo}</p>
-              <h3>{selectedRecord.patient.name}</h3>
-            </div>
-            <span className={`status-pill ${selectedRecord.status === '正常' ? 'success' : selectedRecord.status === '異常' ? 'danger' : 'warning'}`}>
-              {translateStatus(selectedRecord.status)}
-            </span>
-          </div>
+    filteredRecords.forEach((record) => {
+      const patientId = record.patient?.id ?? record.patient?.name
+      const current = groupedRecords.get(patientId)
+      if (!current) {
+        groupedRecords.set(patientId, { patient: record.patient, records: [record] })
+      } else {
+        current.records.push(record)
+      }
+    })
 
-          <div className="patient-grid">
-            <div className="profile-block">
-              <h4>{t.patientData}</h4>
-              <ul>
-                <li><span>{t.patientNumber}</span><strong>{selectedRecord.id}</strong></li>
-                <li><span>{t.sex}</span><strong>{selectedRecord.patient.sex}</strong></li>
-                <li><span>{t.age}</span><strong>{selectedRecord.patient.age}</strong></li>
-                <li><span>{t.phone}</span><strong>{selectedRecord.patient.phone}</strong></li>
-                <li><span>{t.doctor}</span><strong>{selectedRecord.patient.doctor}</strong></li>
-              </ul>
-            </div>
-
-            <div className="profile-block">
-              <h4>{t.analysisResult}</h4>
-              <div className="mini-metrics">
-                <div>
-                  <span>{t.concentration}</span>
-                  <strong>{selectedRecord.density} M/mL</strong>
-                </div>
-                <div>
-                  <span>{t.motility}</span>
-                  <strong>{selectedRecord.motility}</strong>
-                </div>
-                <div>
-                  <span>{t.morphology}</span>
-                  <strong>{selectedRecord.morphology}</strong>
-                </div>
-                <div>
-                  <span>{t.processingStatus}</span>
-                  <strong>{translateProcessingState(selectedRecord.processingState)}</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="detail-content-grid">
-            <div className="detail-card-box">
-              <h4>{t.testSummary}</h4>
-              <p>{selectedRecord.summary}</p>
-            </div>
-
-            <div className="detail-card-box">
-              <h4>{t.aiInterpretation}</h4>
-              <ul className="summary-list compact-list">
-                <li><span>Precision</span><strong>{selectedRecord.aiResult.precision}</strong></li>
-                <li><span>Confidence</span><strong>{selectedRecord.aiResult.confidence}</strong></li>
-                <li><span>{t.processingTime}</span><strong>{selectedRecord.aiResult.processingTime}</strong></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="detail-card-box">
-            <h4>{t.notes}</h4>
-            <p>{selectedRecord.patient.note}</p>
-          </div>
-
-          <div className="detail-card-box">
-            <h4>{t.trend}</h4>
-            <div className="trend-bar-wrap" aria-label={t.trend}>
-              {selectedRecord.trend.map((value, index) => (
-                <div key={`${selectedRecord.id}-${index}`} className="trend-bar-col">
-                  <span className="trend-bar" style={{ height: `${(value / 22) * 100}%` }} />
-                  <small>{index + 1}</small>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-    )
-  }
+    return Array.from(groupedRecords.values()).map(({ patient, records: patientRecords }) => {
+      const latestRecord = [...patientRecords].sort((first, second) => second.date.localeCompare(first.date))[0]
+      return { patient, latestRecord, count: patientRecords.length }
+    })
+  }, [filteredRecords])
 
   return (
     <div className="page-shell history-page">
       <section className="table-card">
         <div className="panel-header history-header">
           <h3>{t.historyList}</h3>
+          <span className="chip neutral">{patientRows.length} {t.patientCount}</span>
+        </div>
+
+        <div className="history-filter-bar">
           <div className="search-box">
+            <label htmlFor="history-search">{t.filter}</label>
             <input
-              type="text"
+              id="history-search"
+              type="search"
               placeholder={t.historySearchPlaceholder}
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
             />
           </div>
+
+          <label className="history-filter-field">
+            <span>{t.startDate}</span>
+            <input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} />
+          </label>
+
+          <label className="history-filter-field">
+            <span>{t.endDate}</span>
+            <input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
+          </label>
+
+          {hasActiveFilters && (
+            <button
+              type="button"
+              className="secondary-btn small history-clear-btn"
+              onClick={() => {
+                setSearchTerm('')
+                setStartDate('')
+                setEndDate('')
+              }}
+            >
+              {t.clearFilters}
+            </button>
+          )}
         </div>
 
         <div className="record-list">
-          {filteredRecords.length === 0 ? (
+          {patientRows.length === 0 ? (
             <div className="empty-state">{t.noRecords}</div>
           ) : (
-            filteredRecords.map((record) => (
+            patientRows.map(({ patient, latestRecord, count }) => (
               <div
                 className="record-row"
-                key={record.id}
+                key={patient.id ?? patient.name}
               >
-                <div>
-                  <strong>{record.id}</strong>
-                  <small>{record.sampleId}</small>
+                <div aria-label={`${t.patientName}: ${patient.name}`}>
+                  <strong>{patient.name}</strong>
+                  <small>{patient.id}</small>
+                  <small>{count} {t.recordCount}</small>
                 </div>
                 <div>
-                  <strong>{record.date}</strong>
-                  <small>{translateProcessingState(record.processingState)}</small>
+                  <strong>{latestRecord.date}</strong>
+                  <small>{t.latestRecord}</small>
                 </div>
-                <span className={`status-pill ${record.status === '正常' ? 'success' : record.status === '異常' ? 'danger' : 'warning'}`}>
-                  {translateStatus(record.status)}
+                <span className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
+                  {translateStatus(latestRecord.status, t)}
                 </span>
-                <strong>{record.score}</strong>
+                <strong>{latestRecord.score}</strong>
                 <button
                   type="button"
                   className="secondary-btn small"
-                  onClick={() => setSelectedId(record.id)}
+                  onClick={() => navigate(`/patients/${patient.id ?? patient.name}/history`)}
                 >
-                  {t.viewDetails}
+                  {t.viewPatientHistory}
                 </button>
               </div>
             ))

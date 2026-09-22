@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LoadingOverlay } from '../components/common/LoadingOverlay.jsx'
 import { useLanguage } from '../context/language.js'
+import { createDemoHistoryRecord, saveHistoryRecord } from '../services/historyStorage.js'
 
 const templateOptions = [
   '範例檢體 A - 高濃度正常',
@@ -12,11 +13,13 @@ const templateOptions = [
 export function AnalysisUploadPage() {
   const { t } = useLanguage()
   const [selectedTemplate, setSelectedTemplate] = useState(templateOptions[0])
+  const [sampleId, setSampleId] = useState('SMP-2026-001')
   const [includeMotility, setIncludeMotility] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleStartAnalysis = () => {
+    saveHistoryRecord(createDemoHistoryRecord(sampleId))
     setIsLoading(true)
     window.setTimeout(() => {
       navigate('/analysis/result')
@@ -41,7 +44,7 @@ export function AnalysisUploadPage() {
           <div className="field-row">
             <label>
               <span>{t.patientSampleId}</span>
-              <input type="text" defaultValue="SMP-2026-001" />
+              <input type="text" value={sampleId} onChange={(event) => setSampleId(event.target.value)} />
             </label>
           </div>
 
