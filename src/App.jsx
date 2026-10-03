@@ -9,6 +9,7 @@ import { PatientDetailPage } from './pages/PatientDetailPage.jsx'
 import { PatientHistoryPage } from './pages/PatientHistoryPage.jsx'
 import { SettingsPage } from './pages/SettingsPage.jsx'
 import { LanguageProvider } from './context/LanguageContext.jsx'
+import { ExaminationSessionProvider } from './context/ExaminationSessionContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { useAuth } from './context/auth.js'
 import { LoginPage } from './pages/LoginPage.jsx'
@@ -44,10 +45,12 @@ function App() {
     <BrowserRouter>
       <LanguageProvider>
         <AuthProvider>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<AppLayout />} />
-          </Routes>
+          <ExaminationSessionProvider>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="*" element={<AppLayout />} />
+            </Routes>
+          </ExaminationSessionProvider>
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>

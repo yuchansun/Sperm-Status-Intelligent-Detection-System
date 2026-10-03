@@ -1,8 +1,14 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PatientBasicInfoSection } from '../components/analysis/PatientBasicInfoSection.jsx'
 import { LoadingOverlay } from '../components/common/LoadingOverlay.jsx'
+import { useExaminationSession } from '../context/examinationSession.js'
 import { useLanguage } from '../context/language.js'
+import { createExamination } from '../services/examinationApi.js'
+import { getHealthCardReader } from '../services/healthCard/getHealthCardReader.ts'
 import { createDemoHistoryRecord, saveHistoryRecord } from '../services/historyStorage.js'
+import { createEmptyPatientDraft } from '../utils/patientDraft.js'
+import { validatePatientDraft } from '../utils/patientValidation.ts'
 
 const templateOptions = [
   '範例檢體 A - 高濃度正常',
@@ -16,10 +22,56 @@ export function AnalysisUploadPage() {
   const [sampleId, setSampleId] = useState('SMP-2026-001')
   const [includeMotility, setIncludeMotility] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [patientDraft, setPatientDraft] = useState(createEmptyPatientDraft)
+  const [patientInputMode, setPatientInputMode] = useState('manual')
+  const [patientFieldErrors, setPatientFieldErrors] = useState({})
+  const [formError, setFormError] = useState('')
   const navigate = useNavigate()
+  const { setActiveExamination } = useExaminationSession()
+  const healthCardReader = useMemo(() => getHealthCardReader(), [])
+
+  const canStartAnalysis = useMemo(() => {
+    return Object.keys(validatePatientDraft(patientDraft)).length === 0 && sampleId.trim().length > 0
+  }, [patientDraft, sampleId])
 
   const handleStartAnalysis = () => {
-    saveHistoryRecord(createDemoHistoryRecord(sampleId))
+    const patientErrors = validatePatientDraft(patientDraft)
+    setPatientFieldErrors(patientErrors)
+
+    if (Object.keys(patientErrors).length > 0 || !sampleId.trim()) {
+      setFormError('請完成病人基本資料與檢體編號後再開始分析')
+      return
+    }
+
+    const result = createExamination({
+      patientDraft,
+      specimen: {
+        sampleId,
+        includeMotility,
+        templateLabel: selectedTemplate,
+      },
+    })
+
+    if ('errors' in result) {
+      setPatientFieldErrors((prev) => ({ ...prev, ...result.errors }))
+      setFormError('資料驗證未通過，請修正後再試')
+      return
+    }
+
+    setFormError('')
+    setActiveExamination({
+      examination: result.examination,
+      patient: result.patient,
+    })
+
+    saveHistoryRecord(
+      createDemoHistoryRecord({
+        sampleId,
+        patientId: result.patient.patientId,
+        examinationId: result.examination.examinationId,
+      }),
+    )
+
     setIsLoading(true)
     window.setTimeout(() => {
       navigate('/analysis/result')
@@ -36,6 +88,16 @@ export function AnalysisUploadPage() {
           <h2>{t.newTest}</h2>
         </div>
       </header>
+
+      <PatientBasicInfoSection
+        draft={patientDraft}
+        onDraftChange={setPatientDraft}
+        inputMode={patientInputMode}
+        onInputModeChange={setPatientInputMode}
+        reader={healthCardReader}
+        fieldErrors={patientFieldErrors}
+        onFieldErrorsChange={setPatientFieldErrors}
+      />
 
       <section className="upload-card">
         <div className="form-section">
@@ -124,10 +186,14 @@ export function AnalysisUploadPage() {
         </div>
       </section>
 
+      {formError ? <p className="form-banner error">{formError}</p> : null}
+
       <button
         type="button"
         className="primary-btn full-width"
         onClick={handleStartAnalysis}
+        disabled={!canStartAnalysis || isLoading}
+        aria-disabled={!canStartAnalysis || isLoading}
       >
         🚀 {t.startCloudAnalysis}
       </button>

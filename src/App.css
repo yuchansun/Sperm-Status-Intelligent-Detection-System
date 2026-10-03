@@ -638,6 +638,7 @@
 }
 
 .field-row input,
+.field-row select,
 .source-option select {
   width: 100%;
   background: #f5f8ff;
@@ -645,6 +646,111 @@
   border-radius: 12px;
   padding: 12px 14px;
   color: #17375f;
+}
+
+.patient-basic-card {
+  margin-bottom: 18px;
+}
+
+.patient-input-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.segment-btn {
+  background: #eef3ff;
+  border: 1px solid #d5e2fb;
+  border-radius: 999px;
+  color: #35517f;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 10px 16px;
+}
+
+.segment-btn.active {
+  background: #2f67d8;
+  border-color: #2f67d8;
+  color: #fff;
+}
+
+.health-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.patient-fields {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.sensitive-field-row {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.sensitive-field-row input {
+  flex: 1;
+}
+
+.field-message {
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.field-message.error {
+  color: #b42318;
+}
+
+.field-message.muted-preview {
+  color: #667a9a;
+}
+
+.field-error input,
+.field-error select {
+  border-color: #f1aeb5;
+}
+
+.read-status {
+  background: #f7faff;
+  border-radius: 10px;
+  color: #35517f;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.read-status.error {
+  background: #fff5f5;
+  color: #b42318;
+}
+
+.read-status.success {
+  background: #f1fbf6;
+  color: #1c7d61;
+}
+
+.form-banner.error {
+  background: #fff5f5;
+  border: 1px solid #f1aeb5;
+  border-radius: 12px;
+  color: #b42318;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+}
+
+.chip.warning {
+  background: #fff7ea;
+  color: #9a6200;
+}
+
+.primary-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
 }
 
 .check-list {

@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import { dashboardStats, workQueue, recentResults } from '../services/mockData.js'
 import { MetricCard } from '../components/common/MetricCard.jsx'
 import { useLanguage } from '../context/language.js'
 
 export function DashboardPage() {
   const { t } = useLanguage()
+  const navigate = useNavigate()
   const statLabels = [
     [t.pendingSamples, t.todayPending, t.pending],
     [t.analyzing, t.cloudAnalyzing, t.analyzing],
@@ -18,7 +20,11 @@ export function DashboardPage() {
           <p className="eyebrow">{t.dashboardEyebrow}</p>
           <h2>{t.dashboardTitle}</h2>
         </div>
-        <button type="button" className="primary-btn">
+        <button
+          type="button"
+          className="primary-btn"
+          onClick={() => navigate('/analysis')}
+        >
           ＋ {t.newAnalysis}
         </button>
       </header>
