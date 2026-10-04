@@ -18,13 +18,17 @@ function translateProcessingState(state, t) {
 }
 
 export function HistoryPage() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
   const { t } = useLanguage()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const processingFilter = searchParams.get('filter') === 'pending-review' ? 'pending-review' : 'all'
+  const processingFilter = ['pending-review', 'completed'].includes(searchParams.get('filter'))
+    ? searchParams.get('filter')
+    : 'all'
+  const initialStartDate = searchParams.get('startDate') ?? ''
+  const initialEndDate = searchParams.get('endDate') ?? ''
+  const [searchTerm, setSearchTerm] = useState('')
+  const [startDate, setStartDate] = useState(initialStartDate)
+  const [endDate, setEndDate] = useState(initialEndDate)
   const [records] = useState(getHistoryRecords)
 
   const filteredRecords = useMemo(() => {
@@ -48,7 +52,9 @@ export function HistoryPage() {
       const matchesSearch = !term || searchableText.includes(term)
       const matchesStartDate = !startDate || record.date >= startDate
       const matchesEndDate = !endDate || record.date <= endDate
-      const matchesProcessingFilter = processingFilter !== 'pending-review' || record.processingState === '待複核'
+      const matchesProcessingFilter = processingFilter === 'all'
+        || (processingFilter === 'pending-review' && record.processingState === '待複核')
+        || (processingFilter === 'completed' && record.processingState === '已完成')
 
       return matchesSearch && matchesStartDate && matchesEndDate && matchesProcessingFilter
     })
@@ -58,9 +64,16 @@ export function HistoryPage() {
 
   const updateProcessingFilter = (nextFilter) => {
     const nextParams = new URLSearchParams(searchParams)
-    if (nextFilter === 'pending-review') nextParams.set('filter', nextFilter)
+    if (nextFilter !== 'all') nextParams.set('filter', nextFilter)
     else nextParams.delete('filter')
     setSearchParams(nextParams)
+  }
+
+  const clearFilters = () => {
+    setSearchTerm('')
+    setStartDate('')
+    setEndDate('')
+    setSearchParams({})
   }
   const patientRows = useMemo(() => {
     const groupedRecords = new Map()
@@ -125,10 +138,7 @@ export function HistoryPage() {
               type="button"
               className="secondary-btn small history-clear-btn"
               onClick={() => {
-                setSearchTerm('')
-                setStartDate('')
-                setEndDate('')
-                updateProcessingFilter('all')
+                clearFilters()
               }}
             >
               {t.clearFilters}

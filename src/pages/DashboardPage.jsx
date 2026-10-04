@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { dashboardStats, getWorkQueue, recentResults, updateWorkQueueItem } from '../services/mockData.js'
+import { getHistoryRecords } from '../services/historyStorage.js'
 import { MetricCard } from '../components/common/MetricCard.jsx'
 import { useLanguage } from '../context/language.js'
 
@@ -8,6 +9,11 @@ export function DashboardPage() {
   const { t } = useLanguage()
   const navigate = useNavigate()
   const [queue, setQueue] = useState(getWorkQueue)
+  const today = new Date().toISOString().slice(0, 10)
+  const todayCompletedCount = useMemo(
+    () => getHistoryRecords().filter((record) => record.date === today && record.processingState === '已完成').length,
+    [today],
+  )
   const statLabels = [
     [t.pendingSamples, t.todayPending, t.pending],
     [t.analyzing, t.cloudAnalyzing, t.analyzing],
@@ -36,11 +42,17 @@ export function DashboardPage() {
           <MetricCard
             key={stat.label}
             label={statLabels[index][0]}
-            value={stat.value}
+            value={index === 3 ? String(todayCompletedCount) : stat.value}
             detail={statLabels[index][1]}
             status={statLabels[index][2]}
             tone={stat.tone}
-            onClick={index === 2 ? () => navigate('/history?filter=pending-review') : undefined}
+            onClick={
+              index === 2
+                ? () => navigate('/history?filter=pending-review')
+                : index === 3
+                  ? () => navigate(`/history?filter=completed&startDate=${today}&endDate=${today}`)
+                  : undefined
+            }
           />
         ))}
       </section>
