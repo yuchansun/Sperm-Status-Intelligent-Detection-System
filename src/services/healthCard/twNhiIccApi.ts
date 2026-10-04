@@ -3,6 +3,7 @@ import { rocYyyMmDdToGregorian } from '../../utils/rocDate'
 
 export type TwNhiIccCardPayload = {
   reader_name?: string
+  name?: string
   card_no?: string
   full_name?: string
   id_no?: string
@@ -11,7 +12,29 @@ export type TwNhiIccCardPayload = {
   issue_date?: string
 }
 
-const DEFAULT_BASE = 'http://127.0.0.1:8000'
+export type TwNhiIccReaderSnapshot = {
+  status?: 'ok' | 'pcsc_unavailable' | string
+  error?: string | null
+  readers?: Array<{
+    name?: string
+    state?: 'empty' | 'nhi_card' | 'unsupported_card' | 'error' | string
+    card?: TwNhiIccCardPayload | null
+    error?: string | null
+  }>
+}
+
+export type TwNhiIccHealthStatus = {
+  service: 'ready' | 'old_version' | 'unavailable' | 'unknown'
+  version: string
+  versionSupported: boolean
+  pcsc: 'ready' | 'unavailable' | 'unknown'
+  reader: 'connected' | 'not_found' | 'error' | 'unknown'
+  card: 'ready' | 'empty' | 'unsupported' | 'sharing_violation' | 'error' | 'unknown'
+  readerError: string | null
+  snapshot: TwNhiIccReaderSnapshot
+}
+
+const DEFAULT_BASE = 'http://127.0.0.1:12345'
 
 export function getTwNhiIccServiceBase(): string {
   const fromEnv = import.meta.env.VITE_NHI_ICC_SERVICE_URL?.trim()
@@ -42,9 +65,53 @@ export async function pingTwNhiIccService(timeoutMs = 3000): Promise<boolean> {
   }
 }
 
-export async function fetchTwNhiIccCards(timeoutMs = 10000): Promise<TwNhiIccCardPayload[]> {
-  const cards = await fetchJson<TwNhiIccCardPayload[]>(`${getTwNhiIccServiceBase()}/`, timeoutMs)
-  return Array.isArray(cards) ? cards : []
+export async function fetchTwNhiIccSnapshot(timeoutMs = 10000): Promise<TwNhiIccReaderSnapshot> {
+  return fetchJson<TwNhiIccReaderSnapshot>(`${getTwNhiIccServiceBase()}/`, timeoutMs)
+}
+
+export async function checkTwNhiIccService(timeoutMs = 5000) {
+  const version = await fetchJson<{ text?: string }>(`${getTwNhiIccServiceBase()}/version`, timeoutMs)
+  const versionText = version.text ?? 'unknown'
+  const versionParts = versionText.split('.').map((part) => Number.parseInt(part, 10))
+  const versionSupported = versionParts.length >= 2 && (versionParts[0] > 0 || (versionParts[0] === 0 && versionParts[1] >= 3))
+  const snapshot = await fetchTwNhiIccSnapshot(timeoutMs)
+  return mapTwNhiIccHealthStatus(versionText, versionSupported, snapshot)
+}
+
+export function mapTwNhiIccHealthStatus(
+  version: string,
+  versionSupported: boolean,
+  snapshot: TwNhiIccReaderSnapshot,
+): TwNhiIccHealthStatus {
+  const readers = snapshot.readers ?? []
+  const reader = readers[0]
+  const readerState = readers.length === 0 ? 'no_reader' : reader?.state ?? 'unknown'
+  const readerError = readers.find((item) => item.error)?.error ?? snapshot.error ?? null
+  const errorText = String(readerError ?? '').toLowerCase()
+  const cardState = readers.some((item) => item.state === 'nhi_card' && item.card)
+    ? 'ready'
+    : errorText.includes('sharingviolation')
+      ? 'sharing_violation'
+      : readerState === 'empty'
+        ? 'empty'
+        : readerState === 'unsupported_card'
+          ? 'unsupported'
+          : readerState === 'no_reader'
+            ? 'unknown'
+            : readerState === 'error'
+              ? 'error'
+              : 'unknown'
+
+  return {
+    service: !versionSupported ? 'old_version' : snapshot.status === 'ok' ? 'ready' : 'unavailable',
+    version,
+    versionSupported,
+    pcsc: snapshot.status === 'ok' ? 'ready' : snapshot.status === 'pcsc_unavailable' ? 'unavailable' : 'unknown',
+    reader: readers.length === 0 ? 'not_found' : readerState === 'error' ? 'error' : 'connected',
+    card: cardState,
+    readerError,
+    snapshot,
+  }
 }
 
 function mapSex(raw: string | undefined): HealthCardSex {

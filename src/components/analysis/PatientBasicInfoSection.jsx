@@ -190,19 +190,6 @@ export function PatientBasicInfoSection({
             {fieldErrors.birthDate ? <p className="field-message error">{fieldErrors.birthDate}</p> : null}
           </label>
 
-          <label className={fieldErrors.sex ? 'field-error' : undefined}>
-            <span>生理性別</span>
-            <select
-              value={draft.sex}
-              onChange={(event) => patchDraft({ sex: event.target.value })}
-            >
-              <option value="UNKNOWN">請選擇</option>
-              <option value="M">男</option>
-              <option value="F">女</option>
-            </select>
-            {fieldErrors.sex ? <p className="field-message error">{fieldErrors.sex}</p> : null}
-          </label>
-
           {draft.patientDataSource === 'health_card' || draft.healthCardNumber ? (
             <SensitiveField
               label="健保卡卡號"

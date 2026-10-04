@@ -1,6 +1,6 @@
 import { HealthCardReadError, type HealthCardReader } from '../../types/healthCard'
 import {
-  fetchTwNhiIccCards,
+  fetchTwNhiIccSnapshot,
   isAbortError,
   isLikelyConnectionError,
   mapTwNhiIccCardToPatient,
@@ -8,8 +8,8 @@ import {
 } from './twNhiIccApi'
 
 /**
- * 搭配本機 tw-nhi-icc-service（例如 `nhicard` 監聽 http://127.0.0.1:8000）。
- * API：GET /version、GET /（回傳健保卡陣列）。
+ * 搭配本機 tw-nhi-icc-service v0.3.0，預設監聽 http://127.0.0.1:12345。
+ * API：GET /version、GET /（回傳 v0.3 snapshot）。
  */
 export class TwNhiHealthCardReader implements HealthCardReader {
   constructor(private readonly timeoutMs = 10000) {}
@@ -19,17 +19,18 @@ export class TwNhiHealthCardReader implements HealthCardReader {
     if (!alive) {
       throw new HealthCardReadError(
         'software_not_installed',
-        '無法連線本機健保卡服務，請確認 nhicard／tw-nhi-icc-service 是否已啟動',
+        '無法連線本機健保卡服務，請確認 v0.3.0 tw-nhi-icc-service 是否已啟動',
       )
     }
 
     try {
-      const cards = await fetchTwNhiIccCards(this.timeoutMs)
-      if (cards.length === 0) {
+      const snapshot = await fetchTwNhiIccSnapshot(this.timeoutMs)
+      const card = snapshot.readers?.find((reader) => reader.state === 'nhi_card' && reader.card)?.card
+      if (!card) {
         throw new HealthCardReadError('no_card', '尚未讀到健保卡，請確認讀卡機連線並插入卡片')
       }
 
-      return mapTwNhiIccCardToPatient(cards[0])
+      return mapTwNhiIccCardToPatient(card)
     } catch (error) {
       if (error instanceof HealthCardReadError) throw error
       if (isAbortError(error)) {

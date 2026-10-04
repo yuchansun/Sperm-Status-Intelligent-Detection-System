@@ -1,4 +1,3 @@
-import type { HealthCardSex } from '../types/healthCard'
 import type { PatientInputDraft } from '../types/examination'
 
 export type PatientFieldErrors = Partial<Record<keyof PatientInputDraft, string>>
@@ -53,11 +52,6 @@ export function validatePatientDraft(draft: PatientInputDraft): PatientFieldErro
     errors.birthDate = '請選擇出生日期'
   } else if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.birthDate.trim())) {
     errors.birthDate = '出生日期格式不正確'
-  }
-
-  const sex: HealthCardSex = draft.sex
-  if (sex !== 'M' && sex !== 'F' && sex !== 'UNKNOWN') {
-    errors.sex = '請選擇生理性別'
   }
 
   if (draft.phone.trim() && !/^[\d+\-() ]{6,20}$/.test(draft.phone.trim())) {
