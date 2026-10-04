@@ -732,6 +732,17 @@
   font-size: 0.9rem;
 }
 
+.health-card-browser-note {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #cfe0f7;
+  border-radius: 10px;
+  background: #f3f8ff;
+  color: #315982;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
 .health-card-check-results {
   display: grid;
   gap: 6px;

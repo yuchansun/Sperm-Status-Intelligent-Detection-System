@@ -161,6 +161,7 @@ export function SettingsPage() {
             <div><h4>{t.healthCardCheckTitle}</h4><p>{t.healthCardCheckDescription}</p></div>
             <button type="button" className="secondary-btn" onClick={handleServiceCheck} disabled={serviceCheck.status === 'checking'}>{serviceCheck.status === 'checking' ? t.healthCardChecking : serviceCheck.status === 'idle' ? t.healthCardCheckButton : t.healthCardRecheck}</button>
           </div>
+          <p className="health-card-browser-note">{t.healthCardBrowserNote}</p>
           <div className="health-card-check-results" role="status">
             {statusRows.map(([key, label]) => {
               const result = statusLabel(key)
