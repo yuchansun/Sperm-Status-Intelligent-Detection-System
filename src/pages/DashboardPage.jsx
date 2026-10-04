@@ -40,6 +40,7 @@ export function DashboardPage() {
             detail={statLabels[index][1]}
             status={statLabels[index][2]}
             tone={stat.tone}
+            onClick={index === 2 ? () => navigate('/history?filter=pending-review') : undefined}
           />
         ))}
       </section>

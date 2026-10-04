@@ -1,5 +1,7 @@
+// eslint-disable-next-line no-unused-vars
+import React from 'react'
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getHistoryRecords } from '../services/historyStorage.js'
 import { useLanguage } from '../context/language.js'
 
@@ -21,7 +23,9 @@ export function HistoryPage() {
   const [endDate, setEndDate] = useState('')
   const { t } = useLanguage()
   const navigate = useNavigate()
-  const [records, setRecords] = useState(getHistoryRecords)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const processingFilter = searchParams.get('filter') === 'pending-review' ? 'pending-review' : 'all'
+  const [records] = useState(getHistoryRecords)
 
   const filteredRecords = useMemo(() => {
     const term = searchTerm.trim().toLowerCase()
@@ -44,12 +48,20 @@ export function HistoryPage() {
       const matchesSearch = !term || searchableText.includes(term)
       const matchesStartDate = !startDate || record.date >= startDate
       const matchesEndDate = !endDate || record.date <= endDate
+      const matchesProcessingFilter = processingFilter !== 'pending-review' || record.processingState === '待複核'
 
-      return matchesSearch && matchesStartDate && matchesEndDate
+      return matchesSearch && matchesStartDate && matchesEndDate && matchesProcessingFilter
     })
-  }, [records, searchTerm, startDate, endDate, t])
+  }, [records, searchTerm, startDate, endDate, processingFilter, t])
 
-  const hasActiveFilters = searchTerm || startDate || endDate
+  const hasActiveFilters = searchTerm || startDate || endDate || processingFilter !== 'all'
+
+  const updateProcessingFilter = (nextFilter) => {
+    const nextParams = new URLSearchParams(searchParams)
+    if (nextFilter === 'pending-review') nextParams.set('filter', nextFilter)
+    else nextParams.delete('filter')
+    setSearchParams(nextParams)
+  }
   const patientRows = useMemo(() => {
     const groupedRecords = new Map()
 
@@ -99,6 +111,15 @@ export function HistoryPage() {
             <input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
           </label>
 
+          <button
+            type="button"
+            className={processingFilter === 'pending-review' ? 'secondary-btn small history-filter-toggle active' : 'secondary-btn small history-filter-toggle'}
+            onClick={() => updateProcessingFilter(processingFilter === 'pending-review' ? 'all' : 'pending-review')}
+            aria-pressed={processingFilter === 'pending-review'}
+          >
+            {t.pendingReviewFilter}
+          </button>
+
           {hasActiveFilters && (
             <button
               type="button"
@@ -107,6 +128,7 @@ export function HistoryPage() {
                 setSearchTerm('')
                 setStartDate('')
                 setEndDate('')
+                updateProcessingFilter('all')
               }}
             >
               {t.clearFilters}

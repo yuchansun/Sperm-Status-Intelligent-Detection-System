@@ -866,6 +866,21 @@
   padding: 20px;
 }
 
+.metric-card-interactive {
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card-interactive:hover,
+.metric-card-interactive:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(59, 92, 161, 0.14);
+}
+
 .metric-card:nth-child(4n) {
   background: rgba(237, 248, 255, 0.9);
 }
@@ -1903,7 +1918,7 @@
 
 .history-filter-bar {
   display: grid;
-  grid-template-columns: minmax(220px, 2fr) repeat(2, minmax(140px, 1fr)) auto;
+  grid-template-columns: minmax(240px, 1fr) 132px 132px 108px 108px;
   gap: 10px;
   align-items: end;
   margin-top: 18px;
@@ -1938,6 +1953,18 @@
 .history-clear-btn {
   min-height: 42px;
   white-space: nowrap;
+  justify-self: end;
+}
+
+.history-filter-toggle {
+  min-height: 42px;
+  white-space: nowrap;
+}
+
+.history-filter-toggle.active {
+  border-color: #2f67d8;
+  background: #2f67d8;
+  color: #fff;
 }
 
 .search-box {
