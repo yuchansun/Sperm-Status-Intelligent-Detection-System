@@ -1,23 +1,42 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { mockResult } from '../services/mockData.js'
+import { useExaminationSession } from '../context/examinationSession.js'
 import image from '../assets/image.png'
 import { useLanguage } from '../context/language.js'
 
 export function AnalysisResultPage() {
   const [viewMode, setViewMode] = useState('original')
-  const result = mockResult
+  const [email, setEmail] = useState('patient@example.com')
+  const [mailStatus, setMailStatus] = useState('')
   const { t } = useLanguage()
+  const navigate = useNavigate()
+  const { activeExamination } = useExaminationSession()
+  const result = mockResult
+  const sampleId = activeExamination?.sampleId ?? 'SP-20260901-01'
+  const imageSource = activeExamination?.image?.dataUrl || image
+  const chartData = [
+    { name: '正常型態', value: 4, color: '#35b779' },
+    { name: '異常型態', value: 6, color: '#f59e0b' },
+  ]
+
+  const handleSendEducation = () => {
+    if (!email.trim()) return
+    window.localStorage.setItem('sperm-ai-last-email', JSON.stringify({ email, sampleId, sentAt: new Date().toISOString() }))
+    setMailStatus(`已將結果與衛教內容寄送至 ${email}`)
+  }
 
   return (
     <div className="page-shell result-page">
       <header className="page-header">
         <div>
           <p className="eyebrow">{t.analysisResult}</p>
-          <h2>檢體編號 #A001</h2>
+          <h2>檢體編號 #{sampleId}</h2>
         </div>
         <div className="header-actions">
-          <button type="button" className="secondary-btn">{t.retest}</button>
-          <button type="button" className="primary-btn">{t.downloadPdf}</button>
+          <button type="button" className="secondary-btn" onClick={() => navigate('/analysis')}>{t.retest}</button>
+          <button type="button" className="primary-btn" onClick={() => setMailStatus('PDF 模擬報告已準備下載')}>{t.downloadPdf}</button>
         </div>
       </header>
 
@@ -81,7 +100,18 @@ export function AnalysisResultPage() {
           </div>
 
           <div className="visual-box">
-            <img src={image} alt={t.imageYolo} />
+            <img src={imageSource} alt={t.imageYolo} />
+            {viewMode === 'yolo' ? (
+              <div className="result-box-overlay" aria-label={t.yoloView}>
+                {result.boxes.map((box) => (
+                  <span
+                    key={box.id}
+                    className="result-bounding-box"
+                    style={{ left: `${box.x}%`, top: `${box.y}%`, width: `${box.width}%`, height: `${box.height}%` }}
+                  />
+                ))}
+              </div>
+            ) : null}
           </div>
 
           <div className="evidence-row">
@@ -112,6 +142,35 @@ export function AnalysisResultPage() {
             </ul>
           </div>
 
+          <div className="info-block chart-block">
+            <div className="panel-header">
+              <h3>{t.morphologyAnalysis}</h3>
+              <span className="chart-percent">正常率 40%</span>
+            </div>
+            <div className="chart-wrap">
+              <ResponsiveContainer width="100%" height={190}>
+                <PieChart>
+                  <Pie data={chartData} dataKey="value" nameKey="name" innerRadius={54} outerRadius={78} paddingAngle={4}>
+                    {chartData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="chart-legend">
+              {chartData.map((entry) => <span key={entry.name}><i style={{ background: entry.color }} />{entry.name} {entry.value * 10}%</span>)}
+            </div>
+          </div>
+
+          <div className="info-block signal-block">
+            <div className="panel-header"><h3>{t.healthSignal}</h3></div>
+            <div className="signal-list">
+              <div><span className="signal-dot signal-green" />{t.spermCountLabel}<strong>48 M/mL</strong></div>
+              <div><span className="signal-dot signal-yellow" />{t.normalMorphology}<strong>4%</strong></div>
+              <div><span className="signal-dot signal-yellow" />{t.motility}<strong>32%</strong></div>
+            </div>
+          </div>
+
           <div className="info-block">
             <div className="panel-header">
               <h3>{t.medicalBenefit}</h3>
@@ -131,8 +190,17 @@ export function AnalysisResultPage() {
           </div>
 
           <div className="action-block">
-            <button type="button" className="primary-btn">{t.retest}</button>
-            <button type="button" className="secondary-btn">{t.saveToHistory}</button>
+            <button type="button" className="primary-btn" onClick={() => navigate('/analysis')}>{t.retest}</button>
+            <button type="button" className="secondary-btn" onClick={() => navigate('/history')}>{t.viewPatientHistory}</button>
+          </div>
+          <div className="education-block">
+            <div className="panel-header"><h3>{t.sendEducation}</h3></div>
+            <p>{t.educationText}</p>
+            <div className="email-row">
+              <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} aria-label={t.emailAddress} />
+              <button type="button" className="primary-btn small" onClick={handleSendEducation}>{t.sendEmail}</button>
+            </div>
+            {mailStatus ? <p className="form-banner success">{mailStatus}</p> : null}
           </div>
         </div>
       </section>

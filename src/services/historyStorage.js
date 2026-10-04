@@ -39,7 +39,7 @@ function hydrateRecord(record) {
     ...record,
     patient: {
       id: record.patientId ?? '—',
-      name: '（需重新登入檢驗工作階段以載入病患資料）',
+      name: record.patientId ? `病患 ${record.patientId}` : '未命名病患',
       sex: '—',
       phone: '—',
       age: '—',
@@ -90,6 +90,16 @@ export function saveHistoryRecord(record) {
   window.localStorage.setItem(historyStorageKey, JSON.stringify(nextRecords))
 }
 
+export function updateHistoryRecord(recordId, updates) {
+  const records = getHistoryRecords()
+  const record = records.find((savedRecord) => savedRecord.id === recordId)
+  if (!record) return null
+
+  const updatedRecord = { ...record, ...updates }
+  saveHistoryRecord(updatedRecord)
+  return updatedRecord
+}
+
 export function createDemoHistoryRecord({ sampleId, patientId, examinationId }) {
   const baseRecord = historyRecords[0]
   const today = new Date().toISOString().slice(0, 10)
@@ -101,7 +111,7 @@ export function createDemoHistoryRecord({ sampleId, patientId, examinationId }) 
     sampleId: sampleId || `SP-${today.replaceAll('-', '')}-01`,
     date: today,
     status: '待追蹤',
-    processingState: '已完成',
+    processingState: '待複核',
     patientId,
     examinationId,
   }

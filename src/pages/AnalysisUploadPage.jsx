@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PatientBasicInfoSection } from '../components/analysis/PatientBasicInfoSection.jsx'
 import { LoadingOverlay } from '../components/common/LoadingOverlay.jsx'
@@ -26,6 +26,8 @@ export function AnalysisUploadPage() {
   const [patientInputMode, setPatientInputMode] = useState('manual')
   const [patientFieldErrors, setPatientFieldErrors] = useState({})
   const [formError, setFormError] = useState('')
+  const [selectedImage, setSelectedImage] = useState(null)
+  const fileInputRef = useRef(null)
   const navigate = useNavigate()
   const { setActiveExamination } = useExaminationSession()
   const healthCardReader = useMemo(() => getHealthCardReader(), [])
@@ -59,23 +61,34 @@ export function AnalysisUploadPage() {
     }
 
     setFormError('')
+    const historyRecord = createDemoHistoryRecord({
+      sampleId,
+      patientId: result.patient.patientId,
+      examinationId: result.examination.examinationId,
+    })
     setActiveExamination({
       examination: result.examination,
       patient: result.patient,
+      historyRecordId: historyRecord.id,
+      sampleId,
+      image: selectedImage,
     })
 
-    saveHistoryRecord(
-      createDemoHistoryRecord({
-        sampleId,
-        patientId: result.patient.patientId,
-        examinationId: result.examination.examinationId,
-      }),
-    )
+    saveHistoryRecord(historyRecord)
 
     setIsLoading(true)
     window.setTimeout(() => {
       navigate('/analysis/result')
     }, 1500)
+  }
+
+  const handleImageSelected = (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = () => setSelectedImage({ name: file.name, dataUrl: reader.result })
+    reader.readAsDataURL(file)
   }
 
   return (
@@ -167,9 +180,22 @@ export function AnalysisUploadPage() {
               <h4>{t.cameraUpload}</h4>
               <div className="upload-box">
                 <span>{t.openCamera}</span>
-                <button type="button" className="secondary-btn small">
+                <input
+                  ref={fileInputRef}
+                  className="visually-hidden"
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleImageSelected}
+                />
+                <button
+                  type="button"
+                  className="secondary-btn small"
+                  onClick={() => fileInputRef.current?.click()}
+                >
                   {t.chooseImage}
                 </button>
+                {selectedImage ? <small className="upload-file-name">{selectedImage.name}</small> : null}
               </div>
             </div>
 

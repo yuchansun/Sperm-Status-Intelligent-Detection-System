@@ -7,6 +7,7 @@ import { validatePatientDraft } from '../utils/patientValidation.ts'
 
 const patients = new Map()
 const examinations = new Map()
+const patientStorageKey = 'sperm-ai-patients'
 
 let patientSequence = 1
 let examinationSequence = 1
@@ -21,6 +22,18 @@ function createExaminationId() {
   const id = `EX-${Date.now()}-${String(examinationSequence).padStart(4, '0')}`
   examinationSequence += 1
   return id
+}
+
+function persistPatient(patient) {
+  if (typeof window === 'undefined') return
+
+  try {
+    const savedPatients = JSON.parse(window.localStorage.getItem(patientStorageKey) ?? '{}')
+    savedPatients[patient.patientId] = patient
+    window.localStorage.setItem(patientStorageKey, JSON.stringify(savedPatients))
+  } catch {
+    // Local storage is optional for the in-memory demo mode.
+  }
 }
 
 /**
@@ -52,6 +65,7 @@ export function upsertPatientFromDraft(draft) {
   }
 
   patients.set(patient.patientId, patient)
+  persistPatient(patient)
   return { patient }
 }
 
@@ -89,7 +103,22 @@ export function createExamination(input) {
 
 /** @param {string} patientId */
 export function getPatientById(patientId) {
-  return patients.get(patientId) ?? null
+  const inMemoryPatient = patients.get(patientId)
+  if (inMemoryPatient) return inMemoryPatient
+  if (typeof window === 'undefined') return null
+
+  try {
+    const savedPatients = JSON.parse(window.localStorage.getItem(patientStorageKey) ?? '{}')
+    const savedPatient = savedPatients[patientId]
+    if (savedPatient) {
+      patients.set(patientId, savedPatient)
+      return savedPatient
+    }
+  } catch {
+    return null
+  }
+
+  return null
 }
 
 /** @param {string} examinationId */

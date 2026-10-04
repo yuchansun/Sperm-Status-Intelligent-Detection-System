@@ -33,6 +33,28 @@ export const workQueue = [
   { id: 'SP-20260901-04', time: '10:45', status: '待分析', action: '開始分析' },
 ]
 
+const workQueueStorageKey = 'sperm-ai-work-queue'
+
+export function getWorkQueue() {
+  const savedQueue = window.localStorage.getItem(workQueueStorageKey)
+  if (!savedQueue) return workQueue
+
+  try {
+    const parsedQueue = JSON.parse(savedQueue)
+    return Array.isArray(parsedQueue) ? parsedQueue : workQueue
+  } catch {
+    return workQueue
+  }
+}
+
+export function updateWorkQueueItem(sampleId, updates) {
+  const nextQueue = getWorkQueue().map((item) => (
+    item.id === sampleId ? { ...item, ...updates } : item
+  ))
+  window.localStorage.setItem(workQueueStorageKey, JSON.stringify(nextQueue))
+  return nextQueue
+}
+
 export const recentResults = [
   { id: 'SP-20260829-02', density: '32', motility: '48%', morphology: '5%', result: '正常' },
   { id: 'SP-20260828-01', density: '18', motility: '32%', morphology: '3%', result: '需追蹤' },
