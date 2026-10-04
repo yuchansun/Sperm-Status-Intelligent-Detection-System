@@ -1,11 +1,13 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { dashboardStats, workQueue, recentResults } from '../services/mockData.js'
+import { dashboardStats, getWorkQueue, recentResults, updateWorkQueueItem } from '../services/mockData.js'
 import { MetricCard } from '../components/common/MetricCard.jsx'
 import { useLanguage } from '../context/language.js'
 
 export function DashboardPage() {
   const { t } = useLanguage()
   const navigate = useNavigate()
+  const [queue, setQueue] = useState(getWorkQueue)
   const statLabels = [
     [t.pendingSamples, t.todayPending, t.pending],
     [t.analyzing, t.cloudAnalyzing, t.analyzing],
@@ -56,14 +58,31 @@ export function DashboardPage() {
             <span>{t.action}</span>
           </div>
 
-          {workQueue.map((item) => (
+          {queue.map((item) => (
             <div className="queue-row" key={item.id}>
               <span>{item.id}</span>
               <span>{item.time}</span>
               <span className={`status-pill ${item.status === '待分析' ? 'warning' : item.status === 'AI分析中' ? 'neutral-badge' : 'success'}`}>
                 {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : t.reviewResult}
               </span>
-              <button type="button" className="secondary-btn small">
+              <button
+                type="button"
+                className="secondary-btn small"
+                onClick={() => {
+                  if (item.action === '開始分析') {
+                    setQueue(updateWorkQueueItem(item.id, { status: 'AI分析中', action: '查看' }))
+                    navigate('/analysis')
+                    return
+                  }
+
+                  if (item.action === '複核結果') {
+                    navigate('/history')
+                    return
+                  }
+
+                  navigate('/analysis/result')
+                }}
+              >
                 {item.action === '開始分析' ? t.startAnalysis : item.action === '複核結果' ? t.reviewResult : t.view}
               </button>
             </div>

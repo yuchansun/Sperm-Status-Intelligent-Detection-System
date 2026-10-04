@@ -10,6 +10,8 @@ function translateStatus(status, t) {
 
 function translateProcessingState(state, t) {
   if (state === '已完成') return t.completed
+  if (state === '待分析') return t.pending
+  if (state === 'AI分析中') return t.analyzing
   return t.reviewResult
 }
 
@@ -19,7 +21,7 @@ export function HistoryPage() {
   const [endDate, setEndDate] = useState('')
   const { t } = useLanguage()
   const navigate = useNavigate()
-  const records = useMemo(() => getHistoryRecords(), [])
+  const [records, setRecords] = useState(getHistoryRecords)
 
   const filteredRecords = useMemo(() => {
     const term = searchTerm.trim().toLowerCase()
@@ -133,6 +135,10 @@ export function HistoryPage() {
                 <span className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
                   {translateStatus(latestRecord.status, t)}
                 </span>
+                <div className={`processing-state ${latestRecord.processingState === '已完成' ? 'processing-complete' : 'processing-pending'}`}>
+                  {latestRecord.processingState === '已完成' ? null : <span aria-hidden="true">!</span>}
+                  {translateProcessingState(latestRecord.processingState, t)}
+                </div>
                 <strong>{latestRecord.score}</strong>
                 <button
                   type="button"
