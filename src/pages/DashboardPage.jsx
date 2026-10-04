@@ -10,9 +10,14 @@ export function DashboardPage() {
   const navigate = useNavigate()
   const [queue, setQueue] = useState(getWorkQueue)
   const today = new Date().toISOString().slice(0, 10)
+  const historyRecords = useMemo(() => getHistoryRecords(), [today])
+  const pendingReviewCount = useMemo(
+    () => historyRecords.filter((record) => record.processingState === '待複核').length,
+    [historyRecords],
+  )
   const todayCompletedCount = useMemo(
-    () => getHistoryRecords().filter((record) => record.date === today && record.processingState === '已完成').length,
-    [today],
+    () => historyRecords.filter((record) => record.date === today && record.processingState === '已完成').length,
+    [historyRecords, today],
   )
   const statLabels = [
     [t.pendingSamples, t.todayPending, t.pending],
@@ -42,7 +47,13 @@ export function DashboardPage() {
           <MetricCard
             key={stat.label}
             label={statLabels[index][0]}
-            value={index === 3 ? String(todayCompletedCount) : stat.value}
+            value={
+              index === 2
+                ? String(pendingReviewCount)
+                : index === 3
+                  ? String(todayCompletedCount)
+                  : stat.value
+            }
             detail={statLabels[index][1]}
             status={statLabels[index][2]}
             tone={stat.tone}
