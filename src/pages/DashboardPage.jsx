@@ -21,7 +21,6 @@ export function DashboardPage() {
   )
   const statLabels = [
     [t.pendingSamples, t.todayPending, t.pending],
-    [t.analyzing, t.cloudAnalyzing, t.analyzing],
     [t.reviewResult, t.manualReview, t.attention],
     [t.completed, t.todayClosed, t.normal],
   ]
@@ -48,9 +47,9 @@ export function DashboardPage() {
             key={stat.label}
             label={statLabels[index][0]}
             value={
-              index === 2
+              index === 1
                 ? String(pendingReviewCount)
-                : index === 3
+                : index === 2
                   ? String(todayCompletedCount)
                   : stat.value
             }
@@ -58,9 +57,9 @@ export function DashboardPage() {
             status={statLabels[index][2]}
             tone={stat.tone}
             onClick={
-              index === 2
+              index === 1
                 ? () => navigate('/history?filter=pending-review')
-                : index === 3
+                : index === 2
                   ? () => navigate(`/history?filter=completed&startDate=${today}&endDate=${today}`)
                   : undefined
             }

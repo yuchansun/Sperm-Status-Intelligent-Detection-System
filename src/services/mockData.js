@@ -21,7 +21,6 @@ export const mockResult = {
 
 export const dashboardStats = [
   { label: '待檢驗', value: '8', detail: '今日待處理', status: '待辦', tone: 'blue' },
-  { label: 'AI 分析中', value: '2', detail: '雲端辨識中', status: '進行中', tone: 'purple' },
   { label: '待複核', value: '3', detail: '待人工確認', status: '需關注', tone: 'warning' },
   { label: '已完成', value: '21', detail: '今日已結案', status: '正常', tone: 'green' },
 ]
