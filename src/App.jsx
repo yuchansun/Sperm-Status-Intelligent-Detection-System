@@ -16,7 +16,9 @@ import { LoginPage } from './pages/LoginPage.jsx'
 import './App.css'
 
 function AppLayout() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isLoading, authError } = useAuth()
+
+  if (isLoading) return <p role="status">正在確認登入狀態…</p>
 
   if (!isAuthenticated) return <Navigate to="/login" replace />
 
@@ -24,6 +26,7 @@ function AppLayout() {
     <div className="app-shell">
       <Sidebar />
       <main className="main-panel">
+        {authError && <p role="alert" className="form-banner error">{authError}</p>}
         <Navbar />
         <Routes>
           <Route path="/" element={<DashboardPage />} />
@@ -40,17 +43,22 @@ function AppLayout() {
   )
 }
 
+function SessionRoutes() {
+  const { user } = useAuth()
+  return <ExaminationSessionProvider key={user?.id ?? 'signed-out'}>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="*" element={<AppLayout />} />
+    </Routes>
+  </ExaminationSessionProvider>
+}
+
 function App() {
   return (
     <BrowserRouter>
       <LanguageProvider>
         <AuthProvider>
-          <ExaminationSessionProvider>
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="*" element={<AppLayout />} />
-            </Routes>
-          </ExaminationSessionProvider>
+          <SessionRoutes />
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>

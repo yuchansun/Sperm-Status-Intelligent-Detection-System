@@ -2,11 +2,13 @@
 import React from 'react'
 import { useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getHistoryRecords } from '../services/historyStorage.js'
+import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { useLanguage } from '../context/language.js'
 
 function translateStatus(status, t) {
   if (status === '正常') return t.normal
+  if (status === '示範資料') return '示範資料'
+  if (status === '未判讀') return '未判讀'
   return t.followUp
 }
 
@@ -14,7 +16,8 @@ function translateProcessingState(state, t) {
   if (state === '已完成') return t.completed
   if (state === '待分析') return t.pending
   if (state === 'AI分析中') return t.analyzing
-  return t.reviewResult
+  if (state === '待複核') return t.reviewResult
+  return state
 }
 
 export function HistoryPage() {
@@ -29,7 +32,7 @@ export function HistoryPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [startDate, setStartDate] = useState(initialStartDate)
   const [endDate, setEndDate] = useState(initialEndDate)
-  const [records] = useState(getHistoryRecords)
+  const { records, loading, error, reload } = useCloudHistory()
 
   const filteredRecords = useMemo(() => {
     const term = searchTerm.trim().toLowerCase()
@@ -96,6 +99,8 @@ export function HistoryPage() {
 
   return (
     <div className="page-shell history-page">
+      {loading && <p role="status">雲端紀錄載入中…</p>}
+      {error && <p role="alert">{error} <button onClick={reload}>重試</button></p>}
       <section className="table-card">
         <div className="panel-header history-header">
           <h3>{t.historyList}</h3>

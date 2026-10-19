@@ -9,15 +9,15 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import image from '../assets/image.png'
-import { getHistoryRecords } from '../services/historyStorage.js'
+import { PrivateImage } from '../components/analysis/PrivateImage.jsx'
+import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { useLanguage } from '../context/language.js'
 
 export function PatientDetailPage() {
   const { recordId } = useParams()
   const navigate = useNavigate()
   const { t } = useLanguage()
-  const records = useMemo(() => getHistoryRecords(), [])
+  const { records, loading, error, reload } = useCloudHistory()
   const record = records.find((historyRecord) => historyRecord.id === recordId)
   const [metric, setMetric] = useState('density')
   const patientKey = record?.patient?.id ?? record?.patient?.name
@@ -29,8 +29,10 @@ export function PatientDetailPage() {
   )
   const chartData = trendRecords.map((historyRecord) => ({
     date: historyRecord.date,
-    value: Number.parseFloat(historyRecord[metric]),
+    value: Number.isFinite(Number.parseFloat(historyRecord[metric])) ? Number.parseFloat(historyRecord[metric]) : null,
   }))
+
+  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || '雲端紀錄載入中…'}</p>{error && <button onClick={reload}>重試</button>}</div>
 
   if (!record) {
     return (
@@ -45,7 +47,7 @@ export function PatientDetailPage() {
     )
   }
 
-  const translateStatus = record.status === '正常' ? t.normal : t.followUp
+  const translateStatus = record.status === '正常' ? t.normal : record.status === '示範資料' ? '示範資料' : record.status === '未判讀' ? '未判讀' : t.followUp
   const translateProcessingState = record.processingState === '已完成' ? t.completed : t.reviewResult
 
   return (
@@ -92,12 +94,12 @@ export function PatientDetailPage() {
         <div className="detail-content-grid">
           <div className="detail-card-box">
             <h4>{t.imageYolo}</h4>
-            <img className="history-detail-image" src={image} alt={t.imageYolo} />
+            <PrivateImage path={record.imagePath} isDemo={record.isDemo} />
           </div>
 
           <div className="detail-card-box">
             <h4>{t.testSummary}</h4>
-            <p>{record.summary}</p>
+            <p>{record.isDemo && <strong>【示範分析】</strong>}{record.summary}</p>
             <ul className="summary-list compact-list">
               <li><span>{t.precision}</span><strong>{record.aiResult.precision}</strong></li>
               <li><span>{t.confidence}</span><strong>{record.aiResult.confidence}</strong></li>

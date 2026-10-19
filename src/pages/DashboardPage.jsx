@@ -1,16 +1,18 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { dashboardStats, getWorkQueue, recentResults, updateWorkQueueItem } from '../services/mockData.js'
-import { getHistoryRecords } from '../services/historyStorage.js'
+import { useCloudHistory } from '../hooks/useCloudHistory.js'
+import { localDate } from '../services/cloudApi.js'
 import { MetricCard } from '../components/common/MetricCard.jsx'
 import { useLanguage } from '../context/language.js'
 
 export function DashboardPage() {
   const { t } = useLanguage()
   const navigate = useNavigate()
-  const [queue, setQueue] = useState(getWorkQueue)
-  const today = new Date().toISOString().slice(0, 10)
-  const historyRecords = useMemo(() => getHistoryRecords(), [today])
+  const { records: historyRecords, loading, error, reload } = useCloudHistory()
+  const today = localDate()
+  const queue = historyRecords.filter(r => r.processingState !== '已完成').map(r => ({ id: r.sampleId, recordId: r.id, time: r.date, status: r.processingState, action: '複核結果' }))
+  const recentResults = historyRecords.slice(0, 5).map(r => ({ ...r, recordId: r.id, result: r.status }))
+  const dashboardStats = [{ label: '待檢驗', value: String(historyRecords.filter(r => r.processingState === '待分析').length), tone: 'blue' }, { label: '待複核', tone: 'warning' }, { label: '已完成', tone: 'green' }]
   const pendingReviewCount = useMemo(
     () => historyRecords.filter((record) => record.processingState === '待複核').length,
     [historyRecords],
@@ -27,6 +29,8 @@ export function DashboardPage() {
 
   return (
     <div className="page-shell dashboard-page">
+      {loading && <p role="status">雲端紀錄載入中…</p>}
+      {error && <p role="alert">{error} <button onClick={reload}>重試</button></p>}
       <header className="page-header compact-header">
         <div>
           <p className="eyebrow">{t.dashboardEyebrow}</p>
@@ -83,28 +87,15 @@ export function DashboardPage() {
 
           {queue.map((item) => (
             <div className="queue-row" key={item.id}>
-              <span>{item.id}</span>
+              <span>{item.sampleId ?? item.id}</span>
               <span>{item.time}</span>
               <span className={`status-pill ${item.status === '待分析' ? 'warning' : item.status === 'AI分析中' ? 'neutral-badge' : 'success'}`}>
-                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : t.reviewResult}
+                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : item.status}
               </span>
               <button
                 type="button"
                 className="secondary-btn small"
-                onClick={() => {
-                  if (item.action === '開始分析') {
-                    setQueue(updateWorkQueueItem(item.id, { status: 'AI分析中', action: '查看' }))
-                    navigate('/analysis')
-                    return
-                  }
-
-                  if (item.action === '複核結果') {
-                    navigate('/history')
-                    return
-                  }
-
-                  navigate('/analysis/result')
-                }}
+                onClick={() => navigate(`/history/${item.recordId}`)}
               >
                 {item.action === '開始分析' ? t.startAnalysis : item.action === '複核結果' ? t.reviewResult : t.view}
               </button>
@@ -131,12 +122,12 @@ export function DashboardPage() {
 
           {recentResults.map((item) => (
             <div className="recent-row" key={item.id}>
-              <span>{item.id}</span>
+              <span>{item.sampleId ?? item.id}</span>
               <span>{item.density}</span>
               <span>{item.motility}</span>
               <span>{item.morphology}</span>
-              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : t.followUp}</span>
-              <button type="button" className="secondary-btn small">
+              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? '示範資料' : item.result}</span>
+              <button type="button" className="secondary-btn small" onClick={() => navigate(`/history/${item.recordId}`)}>
                 {t.view}
               </button>
             </div>

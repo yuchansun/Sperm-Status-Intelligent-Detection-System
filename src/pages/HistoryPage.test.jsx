@@ -1,9 +1,14 @@
 import React, { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { MemoryRouter } from 'react-router-dom'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { HistoryPage } from './HistoryPage.jsx'
 import { LanguageProvider } from '../context/LanguageContext.jsx'
+
+vi.mock('../hooks/useCloudHistory.js', async () => {
+  const { historyRecords } = await import('../services/mockData.js')
+  return { useCloudHistory: () => ({ records: historyRecords, loading: false, error: '', reload: vi.fn() }) }
+})
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 

@@ -4,9 +4,10 @@ import { useAuth } from '../context/auth.js'
 import { languageOptions, useLanguage } from '../context/language.js'
 
 export function LoginPage() {
-  const { isAuthenticated, login } = useAuth()
+  const { isAuthenticated, isLoading, authError, login } = useAuth()
   const { language, setLanguage, t } = useLanguage()
   const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [hasError, setHasError] = useState(false)
@@ -14,9 +15,12 @@ export function LoginPage() {
 
   if (isAuthenticated) return <Navigate to="/" replace />
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    const didLogin = login(username.trim(), password)
+    if (isSubmitting || isLoading) return
+    setIsSubmitting(true)
+    const didLogin = await login(username.trim(), password)
+    setIsSubmitting(false)
     if (!didLogin) {
       setHasError(true)
       return
@@ -75,18 +79,18 @@ export function LoginPage() {
           <p>{t.loginDescription}</p>
         </div>
 
-        <form className="login-form" onSubmit={handleSubmit} noValidate>
+        <form className="login-form" onSubmit={handleSubmit} >
           <label>
-            <span>{t.username}</span>
+            <span>Email</span>
             <input
-              type="text"
+              type="email"
               value={username}
               onChange={(event) => {
                 setUsername(event.target.value)
                 setHasError(false)
               }}
               autoComplete="username"
-              placeholder={t.usernamePlaceholder}
+              placeholder="you@example.com"
               required
             />
           </label>
@@ -106,10 +110,10 @@ export function LoginPage() {
             />
           </label>
 
-          {hasError && <p className="login-error" role="alert">{t.invalidCredentials}</p>}
+          {(hasError || authError) && <p className="login-error" role="alert">{authError || t.invalidCredentials}</p>}
 
-          <button type="submit" className="primary-btn login-submit">
-            {t.login}
+          <button type="submit" className="primary-btn login-submit" disabled={isSubmitting || isLoading}>
+            {isSubmitting ? '登入中…' : t.login}
           </button>
         </form>
       </section>

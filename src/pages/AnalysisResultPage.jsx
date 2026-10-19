@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { mockResult } from '../services/mockData.js'
+import { useCloudHistory } from '../hooks/useCloudHistory.js'
+import { PrivateImage } from '../components/analysis/PrivateImage.jsx'
 import { useExaminationSession } from '../context/examinationSession.js'
-import image from '../assets/image.png'
 import { useLanguage } from '../context/language.js'
 
 export function AnalysisResultPage() {
@@ -13,22 +14,28 @@ export function AnalysisResultPage() {
   const { t } = useLanguage()
   const navigate = useNavigate()
   const { activeExamination } = useExaminationSession()
-  const result = mockResult
-  const sampleId = activeExamination?.sampleId ?? 'SP-20260901-01'
-  const imageSource = activeExamination?.image?.dataUrl || image
+  const [params] = useSearchParams()
+  const { records, loading, error, reload } = useCloudHistory()
+  const recordId = params.get('record') || activeExamination?.historyRecordId
+  const record = records.find(r => r.id === recordId)
+  const result = { ...mockResult, boxes: record?.boxes || [], summary: record?.aiResult || {} }
+  const sampleId = record?.sampleId ?? '—'
   const chartData = [
-    { name: '正常型態', value: 4, color: '#35b779' },
-    { name: '異常型態', value: 6, color: '#f59e0b' },
+    { name: '正常型態', value: Number.parseFloat(record?.morphology) || 0, color: '#35b779' },
+    { name: '異常型態', value: 100 - (Number.parseFloat(record?.morphology) || 0), color: '#f59e0b' },
   ]
 
   const handleSendEducation = () => {
     if (!email.trim()) return
-    window.localStorage.setItem('sperm-ai-last-email', JSON.stringify({ email, sampleId, sentAt: new Date().toISOString() }))
-    setMailStatus(`已將結果與衛教內容寄送至 ${email}`)
+    setMailStatus('示範功能：尚未寄出任何郵件。')
   }
+
+  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || '雲端紀錄載入中…'}</p>{error && <button onClick={reload}>重試</button>}</div>
+  if (!record) return <div className="page-shell"><p>找不到此分析紀錄。</p><button onClick={() => navigate('/history')}>查看紀錄</button></div>
 
   return (
     <div className="page-shell result-page">
+      <p className="form-banner" role="note">示範分析：目前使用固定範例數值與標註，並非實際影像分析，不可作為臨床判讀依據。病患與紀錄已儲存於雲端。</p>
       <header className="page-header">
         <div>
           <p className="eyebrow">{t.analysisResult}</p>
@@ -52,7 +59,7 @@ export function AnalysisResultPage() {
         <div className="result-card highlight">
           <span className="metric-label">{t.spermCountLabel}</span>
           <div className="value-line">
-            <strong>48</strong>
+            <strong>{record.density}</strong>
             <span>Million/mL</span>
           </div>
           <div className="status-inline success">{t.whoPass}</div>
@@ -61,7 +68,7 @@ export function AnalysisResultPage() {
         <div className="result-card">
           <span className="metric-label">{t.headBodyRatio}</span>
           <div className="value-line">
-            <strong>4%</strong>
+            <strong>{record.morphology}</strong>
             <span>{t.normalMorphology}</span>
           </div>
           <div className="status-inline warning">{t.lowFollowUp}</div>
@@ -70,7 +77,7 @@ export function AnalysisResultPage() {
         <div className="result-card">
           <span className="metric-label">{t.motilityEstimateLabel}</span>
           <div className="value-line">
-            <strong>32%</strong>
+            <strong>{record.motility}</strong>
             <span>{t.progressive}</span>
           </div>
           <div className="status-inline neutral">{t.moderateMotility}</div>
@@ -100,7 +107,7 @@ export function AnalysisResultPage() {
           </div>
 
           <div className="visual-box">
-            <img src={imageSource} alt={t.imageYolo} />
+            <PrivateImage path={record.imagePath} isDemo={record.isDemo} />
             {viewMode === 'yolo' ? (
               <div className="result-box-overlay" aria-label={t.yoloView}>
                 {result.boxes.map((box) => (
@@ -136,16 +143,16 @@ export function AnalysisResultPage() {
               <h3>{t.testSummary}</h3>
             </div>
             <ul className="summary-list">
-              <li><span>{t.concentration}</span><strong>48 M/mL</strong></li>
-              <li><span>{t.normalMorphology}</span><strong>4%</strong></li>
-              <li><span>{t.motility}</span><strong>32%</strong></li>
+              <li><span>{t.concentration}</span><strong>{record.density} M/mL</strong></li>
+              <li><span>{t.normalMorphology}</span><strong>{record.morphology}</strong></li>
+              <li><span>{t.motility}</span><strong>{record.motility}</strong></li>
             </ul>
           </div>
 
           <div className="info-block chart-block">
             <div className="panel-header">
               <h3>{t.morphologyAnalysis}</h3>
-              <span className="chart-percent">正常率 40%</span>
+              <span className="chart-percent">正常率 {record.morphology}</span>
             </div>
             <div className="chart-wrap">
               <ResponsiveContainer width="100%" height={190}>
@@ -158,16 +165,16 @@ export function AnalysisResultPage() {
               </ResponsiveContainer>
             </div>
             <div className="chart-legend">
-              {chartData.map((entry) => <span key={entry.name}><i style={{ background: entry.color }} />{entry.name} {entry.value * 10}%</span>)}
+              {chartData.map((entry) => <span key={entry.name}><i style={{ background: entry.color }} />{entry.name} {entry.value}%</span>)}
             </div>
           </div>
 
           <div className="info-block signal-block">
             <div className="panel-header"><h3>{t.healthSignal}</h3></div>
             <div className="signal-list">
-              <div><span className="signal-dot signal-green" />{t.spermCountLabel}<strong>48 M/mL</strong></div>
-              <div><span className="signal-dot signal-yellow" />{t.normalMorphology}<strong>4%</strong></div>
-              <div><span className="signal-dot signal-yellow" />{t.motility}<strong>32%</strong></div>
+              <div><span className="signal-dot signal-green" />{t.spermCountLabel}<strong>{record.density} M/mL</strong></div>
+              <div><span className="signal-dot signal-yellow" />{t.normalMorphology}<strong>{record.morphology}</strong></div>
+              <div><span className="signal-dot signal-yellow" />{t.motility}<strong>{record.motility}</strong></div>
             </div>
           </div>
 
@@ -183,9 +190,9 @@ export function AnalysisResultPage() {
               <h3>{t.testInfo}</h3>
             </div>
             <ul className="summary-list compact-list">
-              <li><span>{t.patientCode}</span><strong>SMP-2026-001</strong></li>
+              <li><span>{t.patientCode}</span><strong>{sampleId}</strong></li>
               <li><span>{t.testItems}</span><strong>{t.spermCountLabel} + {t.morphology}</strong></li>
-              <li><span>{t.collectionTime}</span><strong>2026/09/02 14:30</strong></li>
+              <li><span>{t.collectionTime}</span><strong>{record.date}</strong></li>
             </ul>
           </div>
 

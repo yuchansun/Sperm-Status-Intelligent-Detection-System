@@ -9,9 +9,9 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import image from '../assets/image.png'
-import { getHistoryRecords, updateHistoryRecord } from '../services/historyStorage.js'
-import { getPatientNote, savePatientNote } from '../services/patientNotesStorage.js'
+import { PrivateImage } from '../components/analysis/PrivateImage.jsx'
+import { useCloudHistory } from '../hooks/useCloudHistory.js'
+import { saveCloudNote, completeCloudRecord } from '../services/cloudApi.js'
 import { isEmailJsConfigured, sendHistoryEmail } from '../services/emailService.js'
 import { useLanguage } from '../context/language.js'
 
@@ -21,9 +21,11 @@ export function PatientHistoryPage() {
   const { t } = useLanguage()
   const [metric, setMetric] = useState('density')
   const [expandedRecordId, setExpandedRecordId] = useState(null)
-  const [doctorComment, setDoctorComment] = useState(() => getPatientNote(patientId))
+  const [doctorComment, setDoctorComment] = useState(null)
+  const [saveError, setSaveError] = useState('')
+  const [saving, setSaving] = useState(false)
   const [isCommentSaved, setIsCommentSaved] = useState(false)
-  const [records, setRecords] = useState(getHistoryRecords)
+  const { records, loading, error, reload } = useCloudHistory()
   const [email, setEmail] = useState('')
   const [emailNotice, setEmailNotice] = useState('')
   const patientRecords = useMemo(
@@ -37,8 +39,9 @@ export function PatientHistoryPage() {
   const averages = useMemo(() => {
     const average = (field) => {
       if (!patientRecords.length) return 0
-      const total = patientRecords.reduce((sum, record) => sum + Number.parseFloat(record[field]), 0)
-      return (total / patientRecords.length).toFixed(1)
+      const values = patientRecords.map(record => Number.parseFloat(record[field])).filter(Number.isFinite)
+      if (!values.length) return '—'
+      return (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1)
     }
 
     return {
@@ -49,7 +52,7 @@ export function PatientHistoryPage() {
   }, [patientRecords])
   const chartData = patientRecords.map((record) => ({
     date: record.date,
-    value: Number.parseFloat(record[metric]),
+    value: Number.isFinite(Number.parseFloat(record[metric])) ? Number.parseFloat(record[metric]) : null,
   }))
 
   const getEmailContent = () => {
@@ -57,7 +60,7 @@ export function PatientHistoryPage() {
     const latest = sortedRecords[0]
     const educationText = t.emailEducationDetailed ?? '1. 維持規律睡眠與作息，避免長期熬夜與過度疲勞。\n2. 避免長時間處於高溫環境，並保持適度運動與健康體重。\n3. 維持均衡飲食，避免抽菸、過量飲酒與不必要的藥物。\n4. 管理壓力並依醫師建議安排複檢。'
     const reportLines = sortedRecords.flatMap((record, index) => [
-      `第 ${index + 1} 筆檢驗`,
+      `第 ${index + 1} 筆檢驗${record.isDemo ? '【示範分析，非實際判讀】' : ''}`,
       `檢驗日期：${record.date}`,
       `檢體編號：${record.sampleId}`,
       `處理狀態：${record.processingState}`,
@@ -74,7 +77,7 @@ export function PatientHistoryPage() {
     const subject = `${t.historyEmailSubject} - ${patient.name}`
     const body = [
       '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-      '精蟲 AI 智慧輔助檢驗報告',
+      '精蟲檢測資料整理（含明確標示之示範資料）',
       '歷史檢驗資料與個人化衛教資訊',
       '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
       '',
@@ -182,6 +185,8 @@ export function PatientHistoryPage() {
     }
   }
 
+  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || '雲端紀錄載入中…'}</p>{error && <button onClick={reload}>重試</button>}</div>
+
   if (!patient) {
     return (
       <div className="page-shell">
@@ -198,6 +203,7 @@ export function PatientHistoryPage() {
   return (
     <div className="page-shell history-page detail-mode">
       <section className="detail-card">
+        {saveError && <p role="alert" className="form-banner error">{saveError}</p>}
         <div className="history-detail-header">
           <button type="button" className="back-btn" onClick={() => navigate('/history')}>
             ← {t.previousPage}
@@ -230,7 +236,7 @@ export function PatientHistoryPage() {
             <div className="patient-current-status">
               <span>{t.status}</span>
               <strong className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
-                {latestRecord.status === '正常' ? t.normal : t.followUp}
+                {latestRecord.status === '正常' ? t.normal : latestRecord.status === '示範資料' ? '示範資料' : t.followUp}
               </strong>
             </div>
           </div>
@@ -267,13 +273,13 @@ export function PatientHistoryPage() {
         <div className="detail-card-box doctor-comment-box">
           <div className="panel-header">
             <h4>{t.doctorComment}</h4>
-            {isCommentSaved && <span className="status-pill success">{t.commentSaved}</span>}
+            {isCommentSaved === patientId && <span className="status-pill success">{t.commentSaved}</span>}
           </div>
           <textarea
-            value={doctorComment}
+            value={doctorComment?.patientId === patientId ? doctorComment.value : patient.note ?? ''}
             placeholder={t.doctorCommentPlaceholder}
             onChange={(event) => {
-              setDoctorComment(event.target.value)
+              setDoctorComment({ patientId, value: event.target.value })
               setIsCommentSaved(false)
             }}
             rows="4"
@@ -281,9 +287,16 @@ export function PatientHistoryPage() {
           <button
             type="button"
             className="primary-btn small doctor-comment-save"
-            onClick={() => {
-              savePatientNote(patientId, doctorComment.trim())
-              setIsCommentSaved(true)
+            disabled={saving}
+            onClick={async () => {
+              setSaving(true)
+              setSaveError('')
+              try {
+                await saveCloudNote(patientId, (doctorComment?.patientId === patientId ? doctorComment.value : patient.note ?? '').trim())
+                setIsCommentSaved(patientId)
+                reload()
+              } catch (error) { setSaveError(error.message) }
+              finally { setSaving(false) }
             }}
           >
             {t.saveComment}
@@ -361,13 +374,13 @@ export function PatientHistoryPage() {
                         </div>
                         <div className="detail-card-box">
                           <h4>{t.imageYolo}</h4>
-                          <img className="history-detail-image" src={image} alt={t.imageYolo} />
+                          <PrivateImage path={record.imagePath} isDemo={record.isDemo} />
                         </div>
                       </div>
                       <div className="patient-record-detail-grid">
                         <div className="detail-card-box">
                           <h4>{t.testSummary}</h4>
-                          <p>{record.summary}</p>
+                          <p>{record.isDemo && <strong>【示範分析】</strong>}{record.summary}</p>
                           <ul className="summary-list compact-list">
                             <li><span>{t.precision}</span><strong>{record.aiResult.precision}</strong></li>
                             <li><span>{t.confidence}</span><strong>{record.aiResult.confidence}</strong></li>
@@ -378,7 +391,7 @@ export function PatientHistoryPage() {
                           <p>{record.patient.note}</p>
                         </div>
                       </div>
-                      {record.processingState !== '已完成' ? (
+                      {record.processingState === '待複核' ? (
                         <div className="doctor-review-action">
                           <div>
                             <strong>{t.confirmReview}</strong>
@@ -387,9 +400,13 @@ export function PatientHistoryPage() {
                           <button
                             type="button"
                             className="primary-btn small"
-                            onClick={() => {
-                              updateHistoryRecord(record.id, { processingState: '已完成', status: '需追蹤' })
-                              setRecords(getHistoryRecords())
+                            disabled={saving}
+                            onClick={async () => {
+                              setSaving(true)
+                              setSaveError('')
+                              try { await completeCloudRecord(record.id); reload() }
+                              catch (error) { setSaveError(error.message) }
+                              finally { setSaving(false) }
                             }}
                           >
                             {t.confirmReview}

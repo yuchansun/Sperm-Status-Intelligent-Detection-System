@@ -4,9 +4,8 @@ import { PatientBasicInfoSection } from '../components/analysis/PatientBasicInfo
 import { LoadingOverlay } from '../components/common/LoadingOverlay.jsx'
 import { useExaminationSession } from '../context/examinationSession.js'
 import { useLanguage } from '../context/language.js'
-import { createExamination } from '../services/examinationApi.js'
+import { newSubmission, submitDemoExamination, validateImage } from '../services/cloudApi.js'
 import { getHealthCardReader } from '../services/healthCard/getHealthCardReader.ts'
-import { createDemoHistoryRecord, saveHistoryRecord } from '../services/historyStorage.js'
 import { createEmptyPatientDraft } from '../utils/patientDraft.js'
 import { validatePatientDraft } from '../utils/patientValidation.ts'
 
@@ -27,6 +26,8 @@ export function AnalysisUploadPage() {
   const [patientFieldErrors, setPatientFieldErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [selectedImage, setSelectedImage] = useState(null)
+  const submissionRef = useRef(null)
+  const [selectedFile, setSelectedFile] = useState(null)
   const fileInputRef = useRef(null)
   const navigate = useNavigate()
   const { setActiveExamination } = useExaminationSession()
@@ -36,7 +37,8 @@ export function AnalysisUploadPage() {
     return Object.keys(validatePatientDraft(patientDraft)).length === 0 && sampleId.trim().length > 0
   }, [patientDraft, sampleId])
 
-  const handleStartAnalysis = () => {
+  const handleStartAnalysis = async () => {
+    if (isLoading) return
     const patientErrors = validatePatientDraft(patientDraft)
     setPatientFieldErrors(patientErrors)
 
@@ -45,47 +47,40 @@ export function AnalysisUploadPage() {
       return
     }
 
-    const result = createExamination({
-      patientDraft,
-      specimen: {
-        sampleId,
-        includeMotility,
-        templateLabel: selectedTemplate,
-      },
-    })
-
-    if ('errors' in result) {
-      setPatientFieldErrors((prev) => ({ ...prev, ...result.errors }))
-      setFormError('資料驗證未通過，請修正後再試')
-      return
-    }
-
-    setFormError('')
-    const historyRecord = createDemoHistoryRecord({
-      sampleId,
-      patientId: result.patient.patientId,
-      examinationId: result.examination.examinationId,
-    })
-    setActiveExamination({
-      examination: result.examination,
-      patient: result.patient,
-      historyRecordId: historyRecord.id,
-      sampleId,
-      image: selectedImage,
-    })
-
-    saveHistoryRecord(historyRecord)
-
     setIsLoading(true)
-    window.setTimeout(() => {
-      navigate('/analysis/result')
-    }, 1500)
+    setFormError('')
+    submissionRef.current ??= newSubmission()
+    try {
+      const result = await submitDemoExamination({
+        patientDraft, specimen: { sampleId, includeMotility, templateLabel: selectedTemplate },
+        file: selectedFile, operation: submissionRef.current,
+      })
+      if ('errors' in result) {
+        setPatientFieldErrors(result.errors)
+        setFormError('資料驗證未通過，請修正後再試')
+        return
+      }
+      setActiveExamination({ examination: result.examination, patient: result.patient,
+        historyRecordId: result.recordId, sampleId, image: selectedImage, includeMotility })
+      navigate(`/analysis/result?record=${result.recordId}`)
+    } catch (error) {
+      setFormError(`${error.message} 若部分資料已儲存，重試將沿用同一檢測，不會刪除已有資料。`)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleImageSelected = (event) => {
     const file = event.target.files?.[0]
     if (!file) return
 
+    try { validateImage(file) } catch (error) {
+      setFormError(error.message)
+      event.target.value = ''
+      return
+    }
+    setSelectedFile(file)
+    setFormError('')
     const reader = new FileReader()
     reader.onload = () => setSelectedImage({ name: file.name, dataUrl: reader.result })
     reader.readAsDataURL(file)
@@ -95,6 +90,7 @@ export function AnalysisUploadPage() {
     <div className="page-shell upload-page">
       <LoadingOverlay isOpen={isLoading} />
 
+      <p className="form-banner" role="note">示範分析：目前使用固定範例數值與標註，並非實際影像分析，不可作為臨床判讀依據。按下開始後，會儲存病患、檢測與示範結果至雲端，並上傳本次選取的影像至私有空間。</p>
       <header className="page-header">
         <div>
           <p className="eyebrow">{t.uploadSettings}</p>
@@ -102,6 +98,7 @@ export function AnalysisUploadPage() {
         </div>
       </header>
 
+      <fieldset disabled={isLoading} style={{ display: 'contents' }}>
       <PatientBasicInfoSection
         draft={patientDraft}
         onDraftChange={setPatientDraft}
@@ -141,6 +138,7 @@ export function AnalysisUploadPage() {
               <button
                 type="button"
                 className={includeMotility ? 'switch switch-on' : 'switch'}
+                disabled={isLoading}
                 onClick={() => setIncludeMotility((prev) => !prev)}
                 aria-label={t.toggleMotility}
               >
@@ -184,7 +182,7 @@ export function AnalysisUploadPage() {
                   ref={fileInputRef}
                   className="visually-hidden"
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/webp"
                   capture="environment"
                   onChange={handleImageSelected}
                 />
@@ -203,7 +201,7 @@ export function AnalysisUploadPage() {
               <h4>{t.videoExtract}</h4>
               <div className="upload-box">
                 <span>{t.videoMode}</span>
-                <button type="button" className="secondary-btn small">
+                <button type="button" className="secondary-btn small" disabled>
                   {t.uploadVideo}
                 </button>
               </div>
@@ -212,6 +210,7 @@ export function AnalysisUploadPage() {
         </div>
       </section>
 
+      </fieldset>
       {formError ? <p className="form-banner error">{formError}</p> : null}
 
       <button
