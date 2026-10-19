@@ -5,6 +5,7 @@ export function createEmptyPatientDraft() {
     birthDate: '',
     sex: 'UNKNOWN',
     phone: '',
+    email: '',
     healthCardNumber: '',
     identityStatus: '',
     patientDataSource: 'manual',

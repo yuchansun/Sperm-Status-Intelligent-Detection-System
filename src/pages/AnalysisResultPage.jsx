@@ -107,8 +107,8 @@ export function AnalysisResultPage() {
           </div>
 
           <div className="visual-box">
-            <PrivateImage path={record.imagePath} isDemo={record.isDemo} />
-            {viewMode === 'yolo' ? (
+            <PrivateImage path={viewMode === 'yolo' && record.analyzedImagePath ? record.analyzedImagePath : record.imagePath} isDemo={record.isDemo} />
+            {viewMode === 'yolo' && !record.analyzedImagePath ? (
               <div className="result-box-overlay" aria-label={t.yoloView}>
                 {result.boxes.map((box) => (
                   <span

@@ -1,0 +1,170 @@
+erDiagram
+    patients ||--o{ examinations : patient_id
+    patients ||--o| patient_notes : patient_id
+    examinations ||--o{ analysis_records : examination_id
+    analysis_records ||--o| reports : analysis_record_id
+    reports ||--o{ report_versions : report_id
+    report_versions ||--o| report_reviews : report_version_id
+    report_versions ||--o{ report_exports : report_version_id
+    patients ||--o{ email_drafts : patient_id
+    report_versions o|--o{ email_drafts : report_version_id
+    email_drafts ||--o{ email_deliveries : draft_id
+    patients ||--o{ email_deliveries : patient_id
+    report_versions o|--o{ email_deliveries : report_version_id
+    report_exports o|--o{ email_deliveries : report_export_id
+    email_deliveries ||--o{ email_delivery_events : delivery_id
+    patients {
+        uuid id PK
+        text patient_code
+        text patient_name
+        text national_id
+        date birth_date
+        text sex
+        text phone
+        text health_card_number
+        text patient_data_source
+        text identity_status
+        uuid created_by
+        timestamptz created_at
+        timestamptz updated_at
+        text email
+    }
+    examinations {
+        uuid id PK
+        text examination_code
+        uuid patient_id
+        text sample_id
+        boolean include_motility
+        text template_label
+        uuid created_by
+        timestamptz created_at
+        timestamptz collected_at
+    }
+    analysis_records {
+        uuid id PK
+        uuid examination_id
+        text sample_id
+        date exam_date
+        text clinical_status
+        text processing_state
+        numeric density
+        numeric motility
+        numeric morphology
+        text summary
+        jsonb ai_result
+        jsonb boxes
+        text original_image_path
+        text analyzed_image_path
+        uuid created_by
+        timestamptz created_at
+        timestamptz updated_at
+        numeric amount
+        text amount_unit
+        text color
+        text appearance
+        numeric ph
+        numeric count_of_spermatozoa
+        text count_unit
+        text count_definition
+        text density_unit
+        text motility_type
+        jsonb measurement_status
+        jsonb interpretation
+        text interpretation_version
+        jsonb legacy_metrics
+        uuid reviewed_by
+        timestamptz reviewed_at
+        text review_note
+    }
+    patient_notes {
+        uuid patient_id PK
+        text note
+        uuid updated_by
+        timestamptz updated_at
+    }
+    reports {
+        uuid id PK
+        uuid analysis_record_id
+        uuid created_by
+        timestamptz created_at
+    }
+    report_versions {
+        uuid id PK
+        uuid report_id
+        integer version
+        text title
+        text summary
+        text conclusion
+        text recommendations
+        jsonb patient_snapshot
+        jsonb measurements_snapshot
+        jsonb interpretation_snapshot
+        text language
+        text change_note
+        uuid created_by
+        timestamptz created_at
+    }
+    report_reviews {
+        uuid id PK
+        uuid report_version_id
+        uuid reviewed_by
+        timestamptz reviewed_at
+        text note
+    }
+    report_exports {
+        uuid id PK
+        uuid report_version_id
+        text file_path
+        text file_sha256
+        uuid created_by
+        timestamptz created_at
+    }
+    email_drafts {
+        uuid id PK
+        uuid patient_id
+        uuid report_version_id
+        text to_email
+        text subject
+        text body
+        text language
+        integer revision
+        uuid created_by
+        uuid updated_by
+        timestamptz created_at
+        timestamptz updated_at
+    }
+    email_deliveries {
+        uuid id PK
+        uuid draft_id
+        integer draft_revision
+        uuid patient_id
+        uuid report_version_id
+        text to_email
+        text subject
+        text body
+        text language
+        boolean attach_report
+        uuid report_export_id
+        uuid idempotency_key
+        text status
+        text provider
+        text provider_message_id
+        integer attempt_count
+        uuid requested_by
+        timestamptz requested_at
+        timestamptz accepted_at
+        timestamptz delivered_at
+        timestamptz last_attempt_at
+        text error_code
+        timestamptz updated_at
+    }
+    email_delivery_events {
+        uuid id PK
+        uuid delivery_id
+        text provider
+        text provider_event_id
+        text event_type
+        timestamptz occurred_at
+        timestamptz received_at
+        jsonb details
+    }

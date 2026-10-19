@@ -8,6 +8,7 @@ export type PatientRecord = {
   nationalId: string
   birthDate: string
   sex: HealthCardSex
+  email?: string
   phone?: string
   healthCardNumber?: string
   patientDataSource: PatientDataSource
@@ -33,6 +34,7 @@ export type PatientInputDraft = {
   nationalId: string
   birthDate: string
   sex: HealthCardSex
+  email?: string
   phone: string
   healthCardNumber: string
   identityStatus: string

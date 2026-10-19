@@ -1,3 +1,5 @@
+> 新版欄位更新：請優先閱讀 `supabase/README.md`。新版前端須在執行 v2 SQL 後使用；下文為第一階段串接紀錄。
+
 # Supabase 串接接手狀態
 
 已保留既有 package.json / package-lock.json 修改；原先只加入 Supabase 套件，沒有遠端資料存取實作。

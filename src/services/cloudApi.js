@@ -42,6 +42,7 @@ export async function submitDemoExamination({ patientDraft: d, specimen, file, o
     sex: d.sex, phone: d.phone.trim() || null, health_card_number: d.healthCardNumber.trim() || null,
     patient_data_source: d.patientDataSource, identity_status: d.identityStatus.trim() || null,
     updated_at: new Date().toISOString(),
+    ...(typeof d.email === 'string' ? { email: d.email.trim() || null } : {}),
   }
   let patient
   if (matches[0]) {
@@ -63,7 +64,9 @@ export async function submitDemoExamination({ patientDraft: d, specimen, file, o
   const record = {
     id: operation.recordId, examination_id: examination.id, sample_id: examination.sample_id,
     exam_date: localDate(), clinical_status: '示範資料', processing_state: file ? '影像待上傳' : '待複核',
-    density: '48', motility: specimen.includeMotility ? '32%' : null, morphology: '4%',
+    density: 48, density_unit: 'million/mL', motility: specimen.includeMotility ? 32 : null, morphology: 4,
+    amount: null, amount_unit: null, color: null, appearance: null, ph: null,
+    count_of_spermatozoa: null, count_unit: null, count_definition: null, motility_type: null,
     summary: '示範分析：固定範例數值，非實際影像判讀，不可作為臨床依據。',
     ai_result: { isDemo: true, ...mockResult.summary, precision: '示範', confidence: '示範', processingTime: '示範', density: '48', normalRate: '4%', motility: specimen.includeMotility ? '32%' : '未分析' },
     boxes: mockResult.boxes, created_by: uid, updated_at: new Date().toISOString(),
@@ -82,6 +85,11 @@ export async function submitDemoExamination({ patientDraft: d, specimen, file, o
   }
   return { patient: { patientId: patient.id, patientName: patient.patient_name }, examination: { examinationId: examination.id }, recordId: record.id }
 }
+function percentage(value) {
+  if (value === null || value === undefined || value === '') return '—'
+  return `${String(value).replace(/%$/, '')}%`
+}
+
 export function mapRecord(row) {
   const exam = row.examinations
   const p = exam?.patients
@@ -93,10 +101,15 @@ export function mapRecord(row) {
   return {
     id: row.id, examinationId: exam.id, patientId: p.id, sampleId: row.sample_id,
     date: row.exam_date, status: row.clinical_status || '未判讀', processingState: row.processing_state,
-    density: row.density ?? '—', motility: row.motility ?? '—', morphology: row.morphology ?? '—',
+    density: row.density ?? '—', motility: percentage(row.motility), morphology: percentage(row.morphology),
     score: row.density ?? '—', summary: row.summary ?? '', aiResult: row.ai_result || {},
-    isDemo: row.ai_result?.isDemo === true, boxes: row.boxes || [], imagePath: row.original_image_path,
-    patient: { id: p.id, code: p.patient_code, name: p.patient_name, sex: { M: '男', F: '女', UNKNOWN: '未知' }[p.sex], age, phone: p.phone || '—', doctor: '—', note: p.patient_notes?.note || '' },
+    isDemo: row.ai_result?.isDemo === true, boxes: row.boxes || [], imagePath: row.original_image_path, analyzedImagePath: row.analyzed_image_path,
+    measurements: { amount: row.amount ?? null, amountUnit: row.amount_unit ?? null, color: row.color ?? null,
+      appearance: row.appearance ?? null, ph: row.ph ?? null, morphology: row.morphology ?? null, motility: row.motility ?? null,
+      countOfSpermatozoa: row.count_of_spermatozoa ?? null, countUnit: row.count_unit ?? null,
+      countDefinition: row.count_definition ?? null, density: row.density ?? null, densityUnit: row.density_unit ?? null,
+      motilityType: row.motility_type ?? null },
+    patient: { id: p.id, code: p.patient_code, name: p.patient_name, email: p.email ?? '', sex: { M: '男', F: '女', UNKNOWN: '未知' }[p.sex], age, phone: p.phone || '—', doctor: '—', note: p.patient_notes?.note || '' },
   }
 }
 export async function getCloudHistory() {

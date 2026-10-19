@@ -207,6 +207,13 @@ export function PatientBasicInfoSection({
             </label>
           ) : null}
 
+          <label className={fieldErrors.email ? 'field-error' : undefined}>
+            <span>Email（選填）</span>
+            <input type="email" value={draft.email ?? ''}
+              onChange={(event) => patchDraft({ email: event.target.value })} autoComplete="email" />
+            {fieldErrors.email && <p className="field-message error">{fieldErrors.email}</p>}
+          </label>
+
           <label className={fieldErrors.phone ? 'field-error' : undefined}>
             <span>聯絡電話（選填）</span>
             <input

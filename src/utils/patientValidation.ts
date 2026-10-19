@@ -58,6 +58,10 @@ export function validatePatientDraft(draft: PatientInputDraft): PatientFieldErro
     errors.phone = '聯絡電話格式不正確'
   }
 
+  if (draft.email?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.email.trim())) {
+    errors.email = 'Email 格式不正確'
+  }
+
   return errors
 }
 

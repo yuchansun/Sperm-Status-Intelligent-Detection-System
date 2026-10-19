@@ -46,6 +46,10 @@ describe('cloud data boundary', () => {
     const analysis = calls[3].steps.find(s => s[0] === 'upsert')[1]
     expect(analysis.ai_result.isDemo).toBe(true)
     expect(analysis.motility).toBeNull()
+    expect(analysis.density).toBe(48)
+    expect(analysis.morphology).toBe(4)
+    expect(analysis.ph).toBeNull()
+    expect(analysis.count_of_spermatozoa).toBeNull()
     expect(analysis.examination_id).toBe('exam-1')
     expect(upload).not.toHaveBeenCalled()
     expect(localStorage.getItem('sperm-ai-patients')).toBe('original')
@@ -95,6 +99,16 @@ describe('cloud data boundary', () => {
     expect(mapped.motility).toBe('—')
     expect(mapped.patient.note).toBe('雲端備註')
     expect(mapped.isDemo).toBe(false)
+  })
+  it('formats numeric percentages and exposes both image paths without turning null into zero', () => {
+    const mapped = mapRecord({ id: 'record', motility: 0, morphology: 4,
+      original_image_path: 'original.png', analyzed_image_path: 'analyzed.png', amount: null,
+      examinations: { id: 'exam', patients: { id: 'patient', birth_date: '1990-01-01', sex: 'M', email: 'patient@example.com' } } })
+    expect(mapped.motility).toBe('0%')
+    expect(mapped.morphology).toBe('4%')
+    expect(mapped.measurements.amount).toBeNull()
+    expect(mapped.analyzedImagePath).toBe('analyzed.png')
+    expect(mapped.patient.email).toBe('patient@example.com')
   })
   it('uses short-lived signed URLs', async () => {
     signed.mockResolvedValue(ok({ signedUrl: 'https://example.test/signed' }))
