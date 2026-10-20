@@ -2422,10 +2422,10 @@
 
 .progress-bar-fill {
   display: block;
-  width: 68%;
+  width: 0;
   height: 100%;
   background: linear-gradient(90deg, #4eb2ff, #5d5ef8);
-  animation: pulse 1.2s ease-in-out infinite alternate;
+  transition: width 0.15s linear;
 }
 
 .bottom-nav {
@@ -2796,3 +2796,62 @@
     text-align: center;
   }
 }
+
+/* Patient selection and one-file private media flow. */
+.patient-selection { display: grid; gap: 20px; }
+.patient-search-form { margin-top: 18px; }
+.patient-search-form > div { display: flex; gap: 12px; margin-top: 8px; }
+.patient-search-form input { flex: 1; min-width: 0; }
+.patient-search-results, .patient-preview-records { padding: 0; list-style: none; }
+.patient-search-results li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid #e5edf9; }
+.patient-search-results small { display: block; overflow-wrap: anywhere; }
+.patient-preview-records li { padding: 14px 0; border-bottom: 1px solid #e5edf9; }
+.patient-preview-records span { display: block; margin-top: 4px; }
+.patient-note-preview { white-space: pre-wrap; }
+.patient-confirmed p, .patient-history-preview p { overflow-wrap: anywhere; }
+.private-video video, .selected-media-preview video, .selected-media-preview img { width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px; }
+@media (max-width: 640px) {
+ .patient-search-results li { flex-direction: column; align-items: stretch; }
+ .patient-search-form > div { flex-direction: column; }
+}
+
+.patient-record-heading {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 14px;
+}
+.patient-record-heading .patient-record-summary {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+}
+.record-icon-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.record-icon-btn {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dce8fa;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #3778cf;
+  cursor: pointer;
+}
+.record-icon-btn:hover { background: #dceaff; }
+.record-icon-delete { color: #b44c56; background: #fff5f5; border-color: #f4dfe1; }
+.record-icon-delete:hover { background: #ffe6e8; }
+.record-icon-btn:focus-visible { outline: 2px solid #3778cf; outline-offset: 2px; }
+.record-icon-btn:disabled { opacity: .5; cursor: wait; }
+@media (max-width: 600px) {
+  .patient-record-heading { padding-right: 8px; gap: 0; }
+  .patient-record-heading .patient-record-summary { padding: 12px 8px; gap: 6px; }
+  .record-icon-actions { gap: 4px; }
+  .record-icon-btn { width: 32px; height: 32px; }
+}
+
+.specimen-number-display { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; margin-bottom: 24px; }
+.specimen-number-display > span { color: #587495; font-weight: 600; }
+.specimen-number-display > strong { color: #1b3d66; font-size: 1.2rem; letter-spacing: .04em; overflow-wrap: anywhere; }
+.specimen-number-display > p { flex-basis: 100%; }

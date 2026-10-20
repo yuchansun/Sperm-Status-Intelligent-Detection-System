@@ -1,3 +1,4 @@
+import { translateText as tr } from '../i18n/translate.js'
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { useState } from 'react'
@@ -48,9 +49,9 @@ export function SettingsPage() {
     if (serviceCheck.status === 'checking') return { label: t.healthCardStatusChecking, tone: 'neutral' }
     if (serviceCheck.status === 'error') return { label: t.healthCardStatusConnection, tone: 'error' }
     const health = serviceCheck.health
-    if (key === 'service') return health.service === 'old_version' ? { label: t.healthCardStatusOldVersion ?? '版本過舊', tone: 'warning' } : { label: health.service === 'ready' ? (t.healthCardStatusReady ?? '正常') : (t.healthCardStatusConnection ?? '無法連線本機讀卡服務'), tone: health.service === 'ready' ? 'success' : 'error' }
+    if (key === 'service') return health.service === 'old_version' ? { label: t.healthCardStatusOldVersion ?? tr("版本過舊"), tone: 'warning' } : { label: health.service === 'ready' ? (t.healthCardStatusReady ?? tr("正常")) : (t.healthCardStatusConnection ?? tr("無法連線本機讀卡服務")), tone: health.service === 'ready' ? 'success' : 'error' }
     if (key === 'version') return { label: health.versionSupported ? health.version : t.healthCardStatusOldVersion, tone: health.versionSupported ? 'success' : 'warning' }
-    if (key === 'pcsc') return { label: health.pcsc === 'ready' ? (t.healthCardStatusReady ?? '正常') : health.pcsc === 'unavailable' ? (t.healthCardStatusPcscUnavailable ?? '智慧卡服務無法使用') : (t.healthCardStatusUnknown ?? '狀態未知'), tone: health.pcsc === 'ready' ? 'success' : health.pcsc === 'unavailable' ? 'error' : 'neutral' }
+    if (key === 'pcsc') return { label: health.pcsc === 'ready' ? (t.healthCardStatusReady ?? tr("正常")) : health.pcsc === 'unavailable' ? (t.healthCardStatusPcscUnavailable ?? tr("智慧卡服務無法使用")) : (t.healthCardStatusUnknown ?? tr("狀態未知")), tone: health.pcsc === 'ready' ? 'success' : health.pcsc === 'unavailable' ? 'error' : 'neutral' }
     if (key === 'reader') return { label: health.reader === 'connected' ? t.healthCardStatusReaderConnected : health.reader === 'not_found' ? t.healthCardStatusNoReader : health.reader === 'error' ? t.healthCardStatusReaderError : t.healthCardStatusUnknown, tone: health.reader === 'connected' ? 'success' : health.reader === 'error' ? 'error' : 'neutral' }
     if (health.card === 'ready') return { label: t.healthCardStatusCardReady, tone: 'success' }
     if (health.card === 'empty') return { label: t.healthCardStatusEmpty, tone: 'neutral' }
@@ -60,7 +61,7 @@ export function SettingsPage() {
     return { label: t.healthCardStatusUnknown, tone: 'neutral' }
   }
 
-  const statusRows = [['service', t.healthCardService ?? '讀卡服務'], ['version', t.healthCardProgramVersion ?? t.healthCardVersion ?? '程式版本'], ['pcsc', t.healthCardPcscLabel ?? '電腦智慧卡服務'], ['reader', t.healthCardReader ?? '讀卡機'], ['card', t.healthCardCard ?? '健保卡']]
+  const statusRows = [['service', t.healthCardService ?? tr("讀卡服務")], ['version', t.healthCardProgramVersion ?? t.healthCardVersion ?? tr("程式版本")], ['pcsc', t.healthCardPcscLabel ?? tr("電腦智慧卡服務")], ['reader', t.healthCardReader ?? tr("讀卡機")], ['card', t.healthCardCard ?? tr("健保卡")]]
 
   return (
     <div className="page-shell settings-page">
@@ -165,7 +166,7 @@ export function SettingsPage() {
           <div className="health-card-check-results" role="status">
             {statusRows.map(([key, label]) => {
               const result = statusLabel(key)
-              return <div className="health-card-status-row" key={key}><span>{label}{key === 'pcsc' ? <small>PC/SC</small> : null}</span><span className={`health-card-status-badge ${result.tone}`}>{result.label}</span></div>
+              return <div className="health-card-status-row" key={key}><span>{tr(label)}{key === 'pcsc' ? <small>PC/SC</small> : null}</span><span className={`health-card-status-badge ${result.tone}`}>{result.label}</span></div>
             })}
           </div>
         </div>

@@ -1,3 +1,15 @@
+> 檢體編號即時顯示：執行 `migrations/202610200007_reserve_specimen.sql`（依賴 003），詳見 `docs/specimen-reservation.md`。
+
+> 永久刪除與釋放雲端檔案空間：完成 001–005 後執行 `migrations/202610200006_permanent_delete.sql`。SQL 安裝不會自動刪除資料，詳見 `docs/permanent-deletion.md`。
+
+> 病患修改／刪除：完成 001–004 後執行 `migrations/202610200005_patient_management.sql`。詳見 `docs/patient-management.md`。
+
+> 修改／刪除檢測：完成 001–003 後執行 `migrations/202610200004_record_management.sql`。功能與保留資料方式見 `docs/record-management.md`。
+
+> 檢體自動流水號：完成 001、002 後，在 SQL Editor 執行 `migrations/202610190003_sample_serial.sql`；詳細說明見 `docs/specimen-number-and-demo.md`。
+
+> 新增單檔影片與病患選取功能：先套用本文件的 v2，再執行 `migrations/202610190002_exam_media.sql`。完整步驟與新增 exam_media 欄位見 `docs/patient-selection-and-video.md`。
+
 # Supabase v2 更新步驟
 
 此資料夾是可執行的更新方案，不代表遠端已套用。不要重新建專案，也不用刪除舊表。

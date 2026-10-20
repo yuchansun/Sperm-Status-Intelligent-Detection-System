@@ -1,3 +1,4 @@
+import { translateText as tr } from '../i18n/translate.js'
 import emailjs from '@emailjs/browser'
 
 const emailJsConfig = {
@@ -21,7 +22,7 @@ export async function sendHistoryEmail({ recipient, recipientName, subject, body
     {
       to_email: recipient,
       to_name: recipientName,
-      from_name: '精蟲 AI 智慧輔助檢驗平台',
+      from_name: tr('精蟲 AI 智慧輔助檢驗平台'),
       subject,
       body,
       message: body,

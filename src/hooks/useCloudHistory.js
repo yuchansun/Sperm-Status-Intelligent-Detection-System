@@ -11,8 +11,8 @@ export function useCloudHistory() {
     let active = true
     getCloudHistory().then(data => {
       if (active) { setRecords(data); setError(''); setLoading(false) }
-    }).catch(() => {
-      if (active) { setError('無法讀取雲端紀錄，請檢查登入、網路與資料表權限。'); setLoading(false) }
+    }).catch(error => {
+      if (active) { setError(error.message || '無法讀取雲端紀錄，請檢查登入、網路與資料表權限。'); setLoading(false) }
     })
     return () => { active = false }
   }, [version])

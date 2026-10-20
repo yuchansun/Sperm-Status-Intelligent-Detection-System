@@ -1,3 +1,4 @@
+import { translateText as tr } from '../i18n/translate.js'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCloudHistory } from '../hooks/useCloudHistory.js'
@@ -10,9 +11,9 @@ export function DashboardPage() {
   const navigate = useNavigate()
   const { records: historyRecords, loading, error, reload } = useCloudHistory()
   const today = localDate()
-  const queue = historyRecords.filter(r => r.processingState !== '已完成').map(r => ({ id: r.sampleId, recordId: r.id, time: r.date, status: r.processingState, action: '複核結果' }))
+  const queue = historyRecords.filter(r => r.processingState !== '已完成').map(r => ({ id: r.sampleId, recordId: r.id, time: r.date, status: r.processingState, action: tr("複核結果") }))
   const recentResults = historyRecords.slice(0, 5).map(r => ({ ...r, recordId: r.id, result: r.status }))
-  const dashboardStats = [{ label: '待檢驗', value: String(historyRecords.filter(r => r.processingState === '待分析').length), tone: 'blue' }, { label: '待複核', tone: 'warning' }, { label: '已完成', tone: 'green' }]
+  const dashboardStats = [{ label: tr("待檢驗"), value: String(historyRecords.filter(r => r.processingState === '待分析').length), tone: 'blue' }, { label: tr("待複核"), tone: 'warning' }, { label: tr("已完成"), tone: 'green' }]
   const pendingReviewCount = useMemo(
     () => historyRecords.filter((record) => record.processingState === '待複核').length,
     [historyRecords],
@@ -29,8 +30,8 @@ export function DashboardPage() {
 
   return (
     <div className="page-shell dashboard-page">
-      {loading && <p role="status">雲端紀錄載入中…</p>}
-      {error && <p role="alert">{error} <button onClick={reload}>重試</button></p>}
+      {loading && <p role="status">{tr("雲端紀錄載入中…")}</p>}
+      {error && <p role="alert">{tr(error)} <button onClick={reload}>{tr("重試")}</button></p>}
       <header className="page-header compact-header">
         <div>
           <p className="eyebrow">{t.dashboardEyebrow}</p>
@@ -81,7 +82,7 @@ export function DashboardPage() {
           <div className="queue-row queue-head">
             <span>{t.sampleId}</span>
             <span>{t.receivedAt}</span>
-            <span>{t.status}</span>
+            <span>{tr(t.status)}</span>
             <span>{t.action}</span>
           </div>
 
@@ -126,7 +127,7 @@ export function DashboardPage() {
               <span>{item.density}</span>
               <span>{item.motility}</span>
               <span>{item.morphology}</span>
-              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? '示範資料' : item.result}</span>
+              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? tr("示範資料") : item.result}</span>
               <button type="button" className="secondary-btn small" onClick={() => navigate(`/history/${item.recordId}`)}>
                 {t.view}
               </button>

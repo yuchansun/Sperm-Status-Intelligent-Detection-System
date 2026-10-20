@@ -1,3 +1,4 @@
+import { translateText as tr } from '../../i18n/translate.js'
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLanguage } from '../../context/language.js'
@@ -71,7 +72,7 @@ export function Navbar() {
         <nav className="drawer-nav">
           {navItems.map(({ label, path }) => (
             <NavLink
-              key={label}
+              key={tr(label)}
               to={path}
               end={path === '/'}
               className={({ isActive }) =>
@@ -80,7 +81,7 @@ export function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               <span className="drawer-nav-dot" />
-              {label}
+              {tr(label)}
             </NavLink>
           ))}
           <button

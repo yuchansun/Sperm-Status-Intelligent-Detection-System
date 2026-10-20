@@ -1,3 +1,4 @@
+import { translateText as tr } from '../i18n/translate.js'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/auth.js'
@@ -81,16 +82,16 @@ export function LoginPage() {
 
         <form className="login-form" onSubmit={handleSubmit} >
           <label>
-            <span>Email</span>
+            <span>{t.username}</span>
             <input
-              type="email"
+              type="text"
               value={username}
               onChange={(event) => {
                 setUsername(event.target.value)
                 setHasError(false)
               }}
               autoComplete="username"
-              placeholder="you@example.com"
+              placeholder={t.usernamePlaceholder}
               required
             />
           </label>
@@ -110,10 +111,10 @@ export function LoginPage() {
             />
           </label>
 
-          {(hasError || authError) && <p className="login-error" role="alert">{authError || t.invalidCredentials}</p>}
+          {(hasError || authError) && <p className="login-error" role="alert">{tr(authError || t.invalidCredentials)}</p>}
 
           <button type="submit" className="primary-btn login-submit" disabled={isSubmitting || isLoading}>
-            {isSubmitting ? '登入中…' : t.login}
+            {isSubmitting ? tr("登入中…") : t.login}
           </button>
         </form>
       </section>

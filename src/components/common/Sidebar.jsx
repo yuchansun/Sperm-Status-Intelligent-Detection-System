@@ -1,3 +1,4 @@
+import { translateText as tr } from '../../i18n/translate.js'
 import { NavLink } from 'react-router-dom'
 import { useLanguage } from '../../context/language.js'
 import { useAuth } from '../../context/auth.js'
@@ -25,7 +26,7 @@ export function Sidebar() {
       <nav className="side-nav" aria-label={t.mainNavigation}>
         {navItems.map(({ label, path }) => (
           <NavLink
-            key={label}
+            key={tr(label)}
             to={path}
             end={path === '/'}
             className={({ isActive }) =>
@@ -33,7 +34,7 @@ export function Sidebar() {
             }
           >
             <span className="nav-dot" />
-            {label}
+            {tr(label)}
           </NavLink>
         ))}
       </nav>

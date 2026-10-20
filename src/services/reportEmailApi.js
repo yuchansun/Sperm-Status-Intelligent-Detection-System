@@ -1,3 +1,4 @@
+import { currentLanguage } from '../i18n/translate.js'
 // Schema v2 helpers for the report/email UI. Queueing is not provider delivery.
 import { supabase, supabaseConfigError } from './supabase.js'
 function db() {
@@ -8,7 +9,7 @@ function unwrap({ data, error }) {
   if (error) throw new Error(`儲存失敗：${error.message || error.code}。請確認資料庫已更新，或重新載入最新版本。`)
   return data
 }
-export async function saveReportVersion({ analysisRecordId, expectedVersion = 0, title, summary = '', conclusion = '', recommendations = '', language = 'zh', changeNote = '' }) {
+export async function saveReportVersion({ analysisRecordId, expectedVersion = 0, title, summary = '', conclusion = '', recommendations = '', language = currentLanguage(), changeNote = '' }) {
   return unwrap(await db().rpc('save_report_version', {
     p_analysis_record_id: analysisRecordId, p_expected_version: expectedVersion,
     p_title: title, p_summary: summary, p_conclusion: conclusion,
@@ -20,7 +21,7 @@ export async function getReportVersions(analysisRecordId) {
   if (!report) return []
   return unwrap(await db().from('report_versions').select('*').eq('report_id', report.id).order('version', { ascending: false }))
 }
-export async function saveEmailDraft({ id, revision, patientId, reportVersionId = null, toEmail, subject, body, language = 'zh' }) {
+export async function saveEmailDraft({ id, revision, patientId, reportVersionId = null, toEmail, subject, body, language = currentLanguage() }) {
   const payload = { patient_id: patientId, report_version_id: reportVersionId, to_email: toEmail.trim(), subject, body, language }
   if (id) {
     if (!Number.isInteger(revision) || revision < 1) throw new Error('請先讀取 Email 草稿的最新版本。')

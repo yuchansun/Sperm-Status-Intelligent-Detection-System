@@ -39,6 +39,24 @@ describe('Supabase authentication', () => {
     expect(current.isAuthenticated).toBe(false)
     expect(current.authError).toContain('登入失敗')
   })
+  it('resolves each fixed account alias and still requires a real Supabase session', async () => {
+    render()
+    for (const name of ['admin', 'doctor', 'demo']) {
+      auth.signInWithPassword.mockResolvedValueOnce({ data: { session: { user: { id: name } } }, error: null })
+      let result
+      await act(async () => { result = await current.login(name, 'password-from-form') })
+      expect(result).toBe(true)
+      expect(auth.signInWithPassword).toHaveBeenLastCalledWith({ email: `${name}@sperm-demo.example.com`, password: 'password-from-form' })
+    }
+  })
+  it('rejects an unknown username without pretending to authenticate locally', async () => {
+    render()
+    let result
+    await act(async () => { result = await current.login('unknown', 'anything') })
+    expect(result).toBe(false)
+    expect(auth.signInWithPassword).not.toHaveBeenCalled()
+    expect(current.isAuthenticated).toBe(false)
+  })
   it('reports sign-out failure and retains the current session for retry', async () => {
     auth.signOut.mockResolvedValue({ error: new Error('offline') })
     render()

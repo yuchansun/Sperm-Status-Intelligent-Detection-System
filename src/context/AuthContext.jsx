@@ -1,3 +1,4 @@
+import { resolveLoginEmail } from '../services/loginAccounts.js'
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { useEffect, useMemo, useState } from 'react'
@@ -24,13 +25,15 @@ export function AuthProvider({ children }) {
     isLoading,
     authError,
     user: session?.user ?? null,
-    login: async (email, password) => {
+    login: async (account, password) => {
       if (!supabase) return false
       setAuthError('')
+      const email = resolveLoginEmail(account)
+      if (!email) { setAuthError('登入失敗，請確認帳號與密碼。'); return false }
       try {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password })
         if (error || !data.session) {
-          setAuthError('登入失敗，請確認 Email、密碼及網路連線。')
+          setAuthError('登入失敗，請確認帳號、密碼及網路連線。')
           return false
         }
         setSession(data.session)

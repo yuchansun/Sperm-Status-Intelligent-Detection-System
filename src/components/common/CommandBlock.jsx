@@ -1,3 +1,4 @@
+import { translateText as tr } from '../../i18n/translate.js'
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { Copy, Check } from 'lucide-react'
@@ -40,7 +41,7 @@ export function CommandBlock({ command, label, copyLabel, copiedLabel, copyError
   return (
     <div className="command-block">
       <div className="command-block-header">
-        <span>{label}</span>
+        <span>{tr(label)}</span>
         <button
           type="button"
           className="icon-button command-copy-button"

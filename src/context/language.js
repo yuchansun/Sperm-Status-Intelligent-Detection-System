@@ -1,3 +1,4 @@
+import { completeLocales } from '../i18n/completeLocales.js'
 import { createContext, useContext } from 'react'
 
 export const languageStorageKey = 'sperm-ai-language'
@@ -457,6 +458,8 @@ export const translations = {
     filter: '필터', startDate: '시작 날짜', endDate: '종료 날짜', clearFilters: '필터 지우기', resultCount: '개 기록', averageResults: '검사 평균 결과', averageConcentration: '평균 농도', averageMotility: '평균 운동성', averageMorphology: '평균 정상 형태', doctorComment: '의사 소견', doctorCommentPlaceholder: '의사 소견 또는 추적 관찰 권고를 입력하세요', saveComment: '소견 저장', commentSaved: '소견이 저장됨', expandRecord: '검사 상세 펼치기', collapseRecord: '검사 상세 접기',
   },
 }
+
+completeLocales(translations)
 
 export const LanguageContext = createContext(null)
 

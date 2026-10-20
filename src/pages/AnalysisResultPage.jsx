@@ -1,15 +1,20 @@
+import { translateText as tr } from '../i18n/translate.js'
+import { ResultEmail } from '../components/analysis/ResultEmail.jsx'
+import { RecordActions } from '../components/analysis/RecordActions.jsx'
+// eslint-disable-next-line no-unused-vars
+import React from 'react'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { mockResult } from '../services/mockData.js'
 import { useCloudHistory } from '../hooks/useCloudHistory.js'
+import { PrivateExamMedia } from '../components/analysis/PrivateExamMedia.jsx'
 import { PrivateImage } from '../components/analysis/PrivateImage.jsx'
 import { useExaminationSession } from '../context/examinationSession.js'
 import { useLanguage } from '../context/language.js'
 
 export function AnalysisResultPage() {
   const [viewMode, setViewMode] = useState('original')
-  const [email, setEmail] = useState('patient@example.com')
   const [mailStatus, setMailStatus] = useState('')
   const { t } = useLanguage()
   const navigate = useNavigate()
@@ -21,29 +26,24 @@ export function AnalysisResultPage() {
   const result = { ...mockResult, boxes: record?.boxes || [], summary: record?.aiResult || {} }
   const sampleId = record?.sampleId ?? '—'
   const chartData = [
-    { name: '正常型態', value: Number.parseFloat(record?.morphology) || 0, color: '#35b779' },
-    { name: '異常型態', value: 100 - (Number.parseFloat(record?.morphology) || 0), color: '#f59e0b' },
+    { name: tr("正常型態"), value: Number.parseFloat(record?.morphology) || 0, color: '#35b779' },
+    { name: tr("異常型態"), value: 100 - (Number.parseFloat(record?.morphology) || 0), color: '#f59e0b' },
   ]
 
-  const handleSendEducation = () => {
-    if (!email.trim()) return
-    setMailStatus('示範功能：尚未寄出任何郵件。')
-  }
-
-  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || '雲端紀錄載入中…'}</p>{error && <button onClick={reload}>重試</button>}</div>
-  if (!record) return <div className="page-shell"><p>找不到此分析紀錄。</p><button onClick={() => navigate('/history')}>查看紀錄</button></div>
+  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || tr("雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
+  if (!record) return <div className="page-shell"><p>{tr("找不到此分析紀錄。")}</p><button onClick={() => navigate('/history')}>{tr("查看紀錄")}</button></div>
 
   return (
     <div className="page-shell result-page">
-      <p className="form-banner" role="note">示範分析：目前使用固定範例數值與標註，並非實際影像分析，不可作為臨床判讀依據。病患與紀錄已儲存於雲端。</p>
+      {record.isDemo && <span className="chip neutral">Demo</span>}
       <header className="page-header">
         <div>
           <p className="eyebrow">{t.analysisResult}</p>
-          <h2>檢體編號 #{sampleId}</h2>
+          <h2>{tr("檢體編號 #")}{sampleId}</h2>
         </div>
         <div className="header-actions">
           <button type="button" className="secondary-btn" onClick={() => navigate('/analysis')}>{t.retest}</button>
-          <button type="button" className="primary-btn" onClick={() => setMailStatus('PDF 模擬報告已準備下載')}>{t.downloadPdf}</button>
+          <button type="button" className="primary-btn" onClick={() => setMailStatus(tr("PDF 模擬報告已準備下載"))}>{t.downloadPdf}</button>
         </div>
       </header>
 
@@ -55,12 +55,13 @@ export function AnalysisResultPage() {
         </div>
       </section>
 
+      <RecordActions key={record.id} record={record} onSaved={reload} onDeleted={() => navigate(`/patients/${record.patientId}/history`)} />
       <section className="result-overview">
         <div className="result-card highlight">
           <span className="metric-label">{t.spermCountLabel}</span>
           <div className="value-line">
             <strong>{record.density}</strong>
-            <span>Million/mL</span>
+            <span>million/mL</span>
           </div>
           <div className="status-inline success">{t.whoPass}</div>
         </div>
@@ -107,7 +108,7 @@ export function AnalysisResultPage() {
           </div>
 
           <div className="visual-box">
-            <PrivateImage path={viewMode === 'yolo' && record.analyzedImagePath ? record.analyzedImagePath : record.imagePath} isDemo={record.isDemo} />
+            {record.media?.media_kind === 'video' && !(viewMode === 'yolo' && record.analyzedImagePath) ? <PrivateExamMedia record={record} /> : <PrivateImage path={viewMode === 'yolo' && record.analyzedImagePath ? record.analyzedImagePath : record.imagePath} isDemo={record.isDemo} />}
             {viewMode === 'yolo' && !record.analyzedImagePath ? (
               <div className="result-box-overlay" aria-label={t.yoloView}>
                 {result.boxes.map((box) => (
@@ -127,12 +128,12 @@ export function AnalysisResultPage() {
               <strong>{result.summary.detected}</strong>
             </div>
             <div>
-              <span>Precision</span>
-              <strong>{result.summary.precision}</strong>
+              <span>{t.precision}</span>
+              <strong>{tr(result.summary.precision)}</strong>
             </div>
             <div>
-              <span>Confidence</span>
-              <strong>{result.summary.confidence}</strong>
+              <span>{t.confidence}</span>
+              <strong>{tr(result.summary.confidence)}</strong>
             </div>
           </div>
         </div>
@@ -143,7 +144,7 @@ export function AnalysisResultPage() {
               <h3>{t.testSummary}</h3>
             </div>
             <ul className="summary-list">
-              <li><span>{t.concentration}</span><strong>{record.density} M/mL</strong></li>
+              <li><span>{t.concentration}</span><strong>{record.density} million/mL</strong></li>
               <li><span>{t.normalMorphology}</span><strong>{record.morphology}</strong></li>
               <li><span>{t.motility}</span><strong>{record.motility}</strong></li>
             </ul>
@@ -152,7 +153,7 @@ export function AnalysisResultPage() {
           <div className="info-block chart-block">
             <div className="panel-header">
               <h3>{t.morphologyAnalysis}</h3>
-              <span className="chart-percent">正常率 {record.morphology}</span>
+              <span className="chart-percent">{tr("正常率")}{record.morphology}</span>
             </div>
             <div className="chart-wrap">
               <ResponsiveContainer width="100%" height={190}>
@@ -172,7 +173,7 @@ export function AnalysisResultPage() {
           <div className="info-block signal-block">
             <div className="panel-header"><h3>{t.healthSignal}</h3></div>
             <div className="signal-list">
-              <div><span className="signal-dot signal-green" />{t.spermCountLabel}<strong>{record.density} M/mL</strong></div>
+              <div><span className="signal-dot signal-green" />{t.spermCountLabel}<strong>{record.density} million/mL</strong></div>
               <div><span className="signal-dot signal-yellow" />{t.normalMorphology}<strong>{record.morphology}</strong></div>
               <div><span className="signal-dot signal-yellow" />{t.motility}<strong>{record.motility}</strong></div>
             </div>
@@ -180,35 +181,22 @@ export function AnalysisResultPage() {
 
           <div className="info-block">
             <div className="panel-header">
-              <h3>{t.medicalBenefit}</h3>
-            </div>
-            <p>{t.benefitText}</p>
-          </div>
-
-          <div className="info-block">
-            <div className="panel-header">
               <h3>{t.testInfo}</h3>
             </div>
             <ul className="summary-list compact-list">
-              <li><span>{t.patientCode}</span><strong>{sampleId}</strong></li>
-              <li><span>{t.testItems}</span><strong>{t.spermCountLabel} + {t.morphology}</strong></li>
+              <li><span>{tr("姓名")}</span><strong>{record.patient?.name || '—'}</strong></li>
+              <li><span>{tr("身分證字號")}</span><strong>{record.patient?.nationalId || '—'}</strong></li>
+              <li><span>{tr("檢體編號")}</span><strong>{sampleId}</strong></li>
               <li><span>{t.collectionTime}</span><strong>{record.date}</strong></li>
             </ul>
           </div>
 
           <div className="action-block">
             <button type="button" className="primary-btn" onClick={() => navigate('/analysis')}>{t.retest}</button>
-            <button type="button" className="secondary-btn" onClick={() => navigate('/history')}>{t.viewPatientHistory}</button>
+            <button type="button" className="secondary-btn" onClick={() => navigate(`/patients/${encodeURIComponent(record.patientId || record.patient.id)}/history`)}>{t.viewPatientHistory}</button>
           </div>
-          <div className="education-block">
-            <div className="panel-header"><h3>{t.sendEducation}</h3></div>
-            <p>{t.educationText}</p>
-            <div className="email-row">
-              <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} aria-label={t.emailAddress} />
-              <button type="button" className="primary-btn small" onClick={handleSendEducation}>{t.sendEmail}</button>
-            </div>
-            {mailStatus ? <p className="form-banner success">{mailStatus}</p> : null}
-          </div>
+          <ResultEmail key={`${record.id}-${record.patient?.email || ''}`} record={record} />
+          {mailStatus ? <p className="form-banner success">{tr(mailStatus)}</p> : null}
         </div>
       </section>
     </div>

@@ -1,0 +1,1912 @@
+{
+  "檢體編號 #A001": {
+    "zh": "檢體編號 #A001",
+    "en": "Specimen no. #A001",
+    "ko": "검체 번호 #A001"
+  },
+  "● 穩定": {
+    "zh": "● 穩定",
+    "en": "● Stable",
+    "ko": "● 안정적"
+  },
+  "正常型態": {
+    "zh": "正常型態",
+    "en": "Normal morphology",
+    "ko": "정상 형태"
+  },
+  "異常型態": {
+    "zh": "異常型態",
+    "en": "Abnormal morphology",
+    "ko": "비정상 형태"
+  },
+  "雲端紀錄載入中…": {
+    "zh": "雲端紀錄載入中…",
+    "en": "Loading records…",
+    "ko": "기록을 불러오는 중…"
+  },
+  "重試": {
+    "zh": "重試",
+    "en": "Retry",
+    "ko": "다시 시도"
+  },
+  "找不到此分析紀錄。": {
+    "zh": "找不到此分析紀錄。",
+    "en": "Analysis record not found.",
+    "ko": "분석 기록을 찾을 수 없습니다."
+  },
+  "查看紀錄": {
+    "zh": "查看紀錄",
+    "en": "View records",
+    "ko": "기록 보기"
+  },
+  "檢體編號 #": {
+    "zh": "檢體編號 #",
+    "en": "Specimen no. #",
+    "ko": "검체 번호 #"
+  },
+  "PDF 模擬報告已準備下載": {
+    "zh": "PDF 模擬報告已準備下載",
+    "en": "Demo PDF preview is ready.",
+    "ko": "데모 PDF 미리보기가 준비되었습니다."
+  },
+  "正常率": {
+    "zh": "正常率",
+    "en": "Normal morphology",
+    "ko": "정상 형태 비율"
+  },
+  "姓名": {
+    "zh": "姓名",
+    "en": "Name",
+    "ko": "이름"
+  },
+  "身分證字號": {
+    "zh": "身分證字號",
+    "en": "National ID number",
+    "ko": "신분증 번호"
+  },
+  "檢體編號": {
+    "zh": "檢體編號",
+    "en": "Specimen number",
+    "ko": "검체 번호"
+  },
+  "範例檢體 A - 高濃度正常": {
+    "zh": "範例檢體 A - 高濃度正常",
+    "en": "Demo A — high concentration",
+    "ko": "데모 A — 높은 정자 농도"
+  },
+  "範例檢體 B - 型態異常案例": {
+    "zh": "範例檢體 B - 型態異常案例",
+    "en": "Demo B — abnormal morphology",
+    "ko": "데모 B — 형태 이상"
+  },
+  "範例檢體 C - 低濃度待追蹤": {
+    "zh": "範例檢體 C - 低濃度待追蹤",
+    "en": "Demo C — low concentration",
+    "ko": "데모 C — 낮은 정자 농도"
+  },
+  "請先確認病患。": {
+    "zh": "請先確認病患。",
+    "en": "Please confirm the patient first.",
+    "ko": "먼저 환자를 확인해 주세요."
+  },
+  "請完成病患基本資料後再開始分析": {
+    "zh": "請完成病患基本資料後再開始分析",
+    "en": "Complete the patient information before analysis.",
+    "ko": "환자 정보를 입력한 후 분석을 시작해 주세요."
+  },
+  "正在準備儲存": {
+    "zh": "正在準備儲存",
+    "en": "Preparing to save",
+    "ko": "저장 준비 중"
+  },
+  "正在上傳檔案": {
+    "zh": "正在上傳檔案",
+    "en": "Uploading file",
+    "ko": "파일 업로드 중"
+  },
+  "資料驗證未通過，請修正後再試": {
+    "zh": "資料驗證未通過，請修正後再試",
+    "en": "Please correct the information and try again.",
+    "ko": "정보를 수정한 후 다시 시도해 주세요."
+  },
+  "{{0}} 若部分資料已儲存，重試將沿用同一檢測，不會刪除已有資料。": {
+    "zh": "{{0}} 若部分資料已儲存，重試將沿用同一檢測，不會刪除已有資料。",
+    "en": "{{0}} Retry will continue the same examination and retain saved data.",
+    "ko": "{{0}} 다시 시도하면 저장된 데이터를 유지하며 같은 검사를 이어갑니다."
+  },
+  "正在儲存檢測與上傳檔案": {
+    "zh": "正在儲存檢測與上傳檔案",
+    "en": "Saving examination and uploading file",
+    "ko": "검사 저장 및 파일 업로드 중"
+  },
+  "產生中…": {
+    "zh": "產生中…",
+    "en": "Generating…",
+    "ko": "생성 중…"
+  },
+  "尚未取得編號": {
+    "zh": "尚未取得編號",
+    "en": "Number unavailable",
+    "ko": "번호를 가져오지 못했습니다"
+  },
+  "重新產生編號": {
+    "zh": "重新產生編號",
+    "en": "Retry number allocation",
+    "ko": "번호 생성 다시 시도"
+  },
+  "本機照片／影片": {
+    "zh": "本機照片／影片",
+    "en": "Local image / video",
+    "ko": "로컬 이미지 / 동영상"
+  },
+  "照片最多 10 MB，影片最多 50 MB": {
+    "zh": "照片最多 10 MB，影片最多 50 MB",
+    "en": "Images up to 10 MB; videos up to 50 MB",
+    "ko": "이미지 최대 10 MB, 동영상 최대 50 MB"
+  },
+  "選擇照片或影片": {
+    "zh": "選擇照片或影片",
+    "en": "Choose image or video",
+    "ko": "이미지 또는 동영상 선택"
+  },
+  "相機拍攝（照片）": {
+    "zh": "相機拍攝（照片）",
+    "en": "Camera (photo)",
+    "ko": "카메라 촬영(사진)"
+  },
+  "直接拍照，或使用上方入口選擇檔案": {
+    "zh": "直接拍照，或使用上方入口選擇檔案",
+    "en": "Take a photo, or choose a file above",
+    "ko": "사진을 촬영하거나 위에서 파일을 선택하세요"
+  },
+  "開啟相機": {
+    "zh": "開啟相機",
+    "en": "Open camera",
+    "ko": "카메라 열기"
+  },
+  "本次檔案": {
+    "zh": "本次檔案",
+    "en": "Selected file",
+    "ko": "선택한 파일"
+  },
+  "一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時使用示範範本。": {
+    "zh": "一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時使用示範範本。",
+    "en": "One file per examination: images up to 10 MB, videos up to 50 MB. A demo template is used if no file is selected.",
+    "ko": "검사당 파일 1개: 이미지 최대 10 MB, 동영상 최대 50 MB. 파일을 선택하지 않으면 데모 템플릿을 사용합니다."
+  },
+  "本次選取的照片預覽": {
+    "zh": "本次選取的照片預覽",
+    "en": "Selected image preview",
+    "ko": "선택한 이미지 미리보기"
+  },
+  "移除本次選取": {
+    "zh": "移除本次選取",
+    "en": "Remove selection",
+    "ko": "선택 취소"
+  },
+  "示範範本：": {
+    "zh": "示範範本：",
+    "en": "Demo template:",
+    "ko": "데모 템플릿:"
+  },
+  "部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。": {
+    "zh": "部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。",
+    "en": "Some data may already be saved. Patient and file selection are locked; retry here to continue the same examination.",
+    "ko": "일부 데이터가 저장되었을 수 있습니다. 환자 및 파일 선택이 잠겨 있습니다. 이 페이지에서 다시 시도해 같은 검사를 이어가세요."
+  },
+  "正在上傳與準備結果…": {
+    "zh": "正在上傳與準備結果…",
+    "en": "Uploading and preparing results…",
+    "ko": "업로드 및 결과 준비 중…"
+  },
+  "開始分析": {
+    "zh": "開始分析",
+    "en": "Start analysis",
+    "ko": "분석 시작"
+  },
+  "已完成": {
+    "zh": "已完成",
+    "en": "Completed",
+    "ko": "완료"
+  },
+  "複核結果": {
+    "zh": "複核結果",
+    "en": "Review results",
+    "ko": "결과 검토"
+  },
+  "待檢驗": {
+    "zh": "待檢驗",
+    "en": "Awaiting examination",
+    "ko": "검사 대기"
+  },
+  "待分析": {
+    "zh": "待分析",
+    "en": "Awaiting analysis",
+    "ko": "분석 대기"
+  },
+  "待複核": {
+    "zh": "待複核",
+    "en": "Awaiting review",
+    "ko": "검토 대기"
+  },
+  "AI分析中": {
+    "zh": "AI分析中",
+    "en": "Analysis in progress",
+    "ko": "분석 중"
+  },
+  "正常": {
+    "zh": "正常",
+    "en": "Within reference range",
+    "ko": "참고 범위 내"
+  },
+  "示範資料": {
+    "zh": "示範資料",
+    "en": "Demo",
+    "ko": "데모"
+  },
+  "未分析": {
+    "zh": "未分析",
+    "en": "Not analyzed",
+    "ko": "미분석"
+  },
+  "未判讀": {
+    "zh": "未判讀",
+    "en": "Not interpreted",
+    "ko": "미판독"
+  },
+  "登入中…": {
+    "zh": "登入中…",
+    "en": "Signing in…",
+    "ko": "로그인 중…"
+  },
+  "【示範分析】": {
+    "zh": "【示範分析】",
+    "en": "Demo ·",
+    "ko": "데모 ·"
+  },
+  "身分證／病歷識別碼": {
+    "zh": "身分證／病歷識別碼",
+    "en": "National ID / medical record ID",
+    "ko": "신분증 번호 / 의무기록 번호"
+  },
+  "版本過舊": {
+    "zh": "版本過舊",
+    "en": "Outdated version",
+    "ko": "이전 버전"
+  },
+  "無法連線本機讀卡服務": {
+    "zh": "無法連線本機讀卡服務",
+    "en": "Cannot connect to the local card reader service",
+    "ko": "로컬 카드 리더 서비스에 연결할 수 없습니다"
+  },
+  "智慧卡服務無法使用": {
+    "zh": "智慧卡服務無法使用",
+    "en": "Smart card service unavailable",
+    "ko": "스마트카드 서비스를 사용할 수 없습니다"
+  },
+  "狀態未知": {
+    "zh": "狀態未知",
+    "en": "Unknown status",
+    "ko": "상태 알 수 없음"
+  },
+  "讀卡服務": {
+    "zh": "讀卡服務",
+    "en": "Card reader service",
+    "ko": "카드 리더 서비스"
+  },
+  "程式版本": {
+    "zh": "程式版本",
+    "en": "Application version",
+    "ko": "프로그램 버전"
+  },
+  "電腦智慧卡服務": {
+    "zh": "電腦智慧卡服務",
+    "en": "Computer smart card service",
+    "ko": "컴퓨터 스마트카드 서비스"
+  },
+  "讀卡機": {
+    "zh": "讀卡機",
+    "en": "Card reader",
+    "ko": "카드 리더"
+  },
+  "健保卡": {
+    "zh": "健保卡",
+    "en": "Taiwan NHI card",
+    "ko": "대만 건강보험 카드"
+  },
+  "YOLO 辨識結果": {
+    "zh": "YOLO 辨識結果",
+    "en": "YOLO detection results",
+    "ko": "YOLO 검출 결과"
+  },
+  "原圖": {
+    "zh": "原圖",
+    "en": "Original image",
+    "ko": "원본 이미지"
+  },
+  "標註層": {
+    "zh": "標註層",
+    "en": "Annotations",
+    "ko": "주석 레이어"
+  },
+  "辨識精子": {
+    "zh": "辨識精蟲",
+    "en": "Detected spermatozoa",
+    "ko": "검출된 정자"
+  },
+  "密度": {
+    "zh": "密度",
+    "en": "Sperm concentration",
+    "ko": "정자 농도"
+  },
+  "已刪除項目": {
+    "zh": "已刪除項目",
+    "en": "Deleted items",
+    "ko": "삭제된 항목"
+  },
+  "清理先前隱藏的資料": {
+    "zh": "清理先前隱藏的資料",
+    "en": "Permanently remove archived data",
+    "ko": "보관된 데이터 영구 삭제"
+  },
+  "這些資料仍佔用空間。請逐筆確認永久刪除。": {
+    "zh": "這些資料仍佔用空間。請逐筆確認永久刪除。",
+    "en": "These items still use storage. Confirm permanent deletion individually.",
+    "ko": "이 항목들은 저장 공간을 사용 중입니다. 항목별로 영구 삭제를 확인해 주세요."
+  },
+  "病患": {
+    "zh": "病患",
+    "en": "Patient",
+    "ko": "환자"
+  },
+  "檢測": {
+    "zh": "檢測",
+    "en": "Examination",
+    "ko": "검사"
+  },
+  "永久刪除": {
+    "zh": "永久刪除",
+    "en": "Delete permanently",
+    "ko": "영구 삭제"
+  },
+  "沒有待清理項目。": {
+    "zh": "沒有待清理項目。",
+    "en": "No items to remove.",
+    "ko": "삭제할 항목이 없습니다."
+  },
+  "永久刪除確認": {
+    "zh": "永久刪除確認",
+    "en": "Confirm permanent deletion",
+    "ko": "영구 삭제 확인"
+  },
+  "永久刪除「": {
+    "zh": "永久刪除「",
+    "en": "Permanently delete “",
+    "ko": "영구 삭제 대상: “"
+  },
+  "」及其相關影像、影片、報告與寄送紀錄？": {
+    "zh": "」及其相關影像、影片、報告與寄送紀錄？",
+    "en": "” and its images, videos, reports and email tracking records?",
+    "ko": "” 및 관련 이미지, 동영상, 보고서와 이메일 발송 기록을 영구 삭제하시겠습니까?"
+  },
+  "也會刪除該病患所有檢測。": {
+    "zh": "也會刪除該病患所有檢測。",
+    "en": "All examinations for this patient will also be deleted.",
+    "ko": "이 환자의 모든 검사도 삭제됩니다."
+  },
+  "此操作無法復原。": {
+    "zh": "此操作無法復原。",
+    "en": "This cannot be undone.",
+    "ko": "이 작업은 되돌릴 수 없습니다."
+  },
+  "刪除中…": {
+    "zh": "刪除中…",
+    "en": "Deleting…",
+    "ko": "삭제 중…"
+  },
+  "確認永久刪除": {
+    "zh": "確認永久刪除",
+    "en": "Confirm permanent deletion",
+    "ko": "영구 삭제 확인"
+  },
+  "取消": {
+    "zh": "取消",
+    "en": "Cancel",
+    "ko": "취소"
+  },
+  "檢體影像來源": {
+    "zh": "檢體影像來源",
+    "en": "Specimen image source",
+    "ko": "검체 이미지 출처"
+  },
+  "拍照拍攝": {
+    "zh": "拍照拍攝",
+    "en": "Take photo",
+    "ko": "사진 촬영"
+  },
+  "本地相簿": {
+    "zh": "本地相簿",
+    "en": "Local album",
+    "ko": "로컬 앨범"
+  },
+  "雲端範例影像": {
+    "zh": "雲端範例影像",
+    "en": "Demo images",
+    "ko": "데모 이미지"
+  },
+  "病患代號": {
+    "zh": "病患代號",
+    "en": "Patient identifier",
+    "ko": "환자 식별자"
+  },
+  "檢體採集時間": {
+    "zh": "檢體採集時間",
+    "en": "Collection time",
+    "ko": "검체 채취 시간"
+  },
+  "禁慾天數": {
+    "zh": "禁慾天數",
+    "en": "Abstinence period (days)",
+    "ko": "금욕 기간(일)"
+  },
+  "3 天": {
+    "zh": "3 天",
+    "en": "3 days",
+    "ko": "3일"
+  },
+  "出生日期": {
+    "zh": "出生日期",
+    "en": "Date of birth",
+    "ko": "생년월일"
+  },
+  "電話": {
+    "zh": "電話",
+    "en": "Phone",
+    "ko": "전화번호"
+  },
+  "健保卡卡號": {
+    "zh": "健保卡卡號",
+    "en": "Taiwan NHI card number",
+    "ko": "대만 건강보험 카드 번호"
+  },
+  "修改病患資料": {
+    "zh": "修改病患資料",
+    "en": "Edit patient",
+    "ko": "환자 정보 수정"
+  },
+  "刪除病患": {
+    "zh": "刪除病患",
+    "en": "Delete patient",
+    "ko": "환자 삭제"
+  },
+  "刪除病患確認": {
+    "zh": "刪除病患確認",
+    "en": "Confirm patient deletion",
+    "ko": "환자 삭제 확인"
+  },
+  "確認刪除病患": {
+    "zh": "確認刪除病患",
+    "en": "Confirm patient deletion",
+    "ko": "환자 삭제 확인"
+  },
+  "確認永久刪除此病患？病患資料、備註、所有檢測、影像、影片、報告與寄送追蹤紀錄將一併刪除，無法復原。已寄出的 Email 不會撤回。": {
+    "zh": "確認永久刪除此病患？病患資料、備註、所有檢測、影像、影片、報告與寄送追蹤紀錄將一併刪除，無法復原。已寄出的 Email 不會撤回。",
+    "en": "Permanently delete this patient, notes, all examinations, images, videos, reports and email tracking records? This cannot be undone. Emails already sent cannot be recalled.",
+    "ko": "환자 정보, 메모, 모든 검사, 이미지, 동영상, 보고서 및 이메일 발송 기록을 영구 삭제하시겠습니까? 복구할 수 없으며 이미 보낸 이메일은 회수되지 않습니다."
+  },
+  "儲存中…": {
+    "zh": "儲存中…",
+    "en": "Saving…",
+    "ko": "저장 중…"
+  },
+  "儲存病患資料": {
+    "zh": "儲存病患資料",
+    "en": "Save patient",
+    "ko": "환자 정보 저장"
+  },
+  "隱藏": {
+    "zh": "隱藏",
+    "en": "Hide",
+    "ko": "숨기기"
+  },
+  "顯示": {
+    "zh": "顯示",
+    "en": "Show",
+    "ko": "표시"
+  },
+  "預覽：": {
+    "zh": "預覽：",
+    "en": "Preview:",
+    "ko": "미리보기:"
+  },
+  "卡片讀取中，請勿移動健保卡…": {
+    "zh": "卡片讀取中，請勿移動健保卡…",
+    "en": "Reading card. Please keep the card in place…",
+    "ko": "카드를 읽는 중입니다. 카드를 움직이지 마세요…"
+  },
+  "讀卡成功，請確認病人資料是否正確": {
+    "zh": "讀卡成功，請確認病患資料是否正確",
+    "en": "Card read successfully. Please confirm the patient information.",
+    "ko": "카드를 읽었습니다. 환자 정보를 확인해 주세요."
+  },
+  "讀卡失敗，請稍後再試或改用手動輸入": {
+    "zh": "讀卡失敗，請稍後再試或改用手動輸入",
+    "en": "Card reading failed. Try again or enter the information manually.",
+    "ko": "카드를 읽지 못했습니다. 다시 시도하거나 직접 입력해 주세요."
+  },
+  "已切換為手動輸入，先前資料仍保留供確認": {
+    "zh": "已切換為手動輸入，先前資料仍保留供確認",
+    "en": "Switched to manual entry. Previously entered information is retained.",
+    "ko": "직접 입력으로 전환했습니다. 기존 정보는 유지됩니다."
+  },
+  "病人基本資料": {
+    "zh": "病患基本資料",
+    "en": "Patient information",
+    "ko": "환자 기본 정보"
+  },
+  "必填未完成": {
+    "zh": "必填未完成",
+    "en": "Required information missing",
+    "ko": "필수 정보 미입력"
+  },
+  "讀取健保卡": {
+    "zh": "讀取健保卡",
+    "en": "Read Taiwan NHI card",
+    "ko": "대만 건강보험 카드 읽기"
+  },
+  "無健保卡／手動輸入": {
+    "zh": "無健保卡／手動輸入",
+    "en": "No card / manual entry",
+    "ko": "카드 없음 / 직접 입력"
+  },
+  "讀取中…": {
+    "zh": "讀取中…",
+    "en": "Reading…",
+    "ko": "읽는 중…"
+  },
+  "重新讀取": {
+    "zh": "重新讀取",
+    "en": "Read again",
+    "ko": "다시 읽기"
+  },
+  "改用手動輸入": {
+    "zh": "改用手動輸入",
+    "en": "Enter manually",
+    "ko": "직접 입력"
+  },
+  "姓名 *": {
+    "zh": "姓名 *",
+    "en": "Name *",
+    "ko": "이름 *"
+  },
+  "身分證字號／病歷識別碼": {
+    "zh": "身分證字號／病歷識別碼",
+    "en": "National ID / medical record ID",
+    "ko": "신분증 번호 / 의무기록 번호"
+  },
+  "出生日期 *": {
+    "zh": "出生日期 *",
+    "en": "Date of birth *",
+    "ko": "생년월일 *"
+  },
+  "身分註記": {
+    "zh": "身分註記",
+    "en": "Identity note",
+    "ko": "신분 관련 메모"
+  },
+  "Email（選填）": {
+    "zh": "Email（選填）",
+    "en": "Email (optional)",
+    "ko": "이메일(선택)"
+  },
+  "聯絡電話（選填）": {
+    "zh": "聯絡電話（選填）",
+    "en": "Phone (optional)",
+    "ko": "전화번호(선택)"
+  },
+  "已確認本次病患": {
+    "zh": "已確認本次病患",
+    "en": "Patient confirmed",
+    "ko": "환자 확인 완료"
+  },
+  "既有病患": {
+    "zh": "既有病患",
+    "en": "Existing patient",
+    "ko": "기존 환자"
+  },
+  "待新增病患": {
+    "zh": "待新增病患",
+    "en": "New patient",
+    "ko": "신규 환자"
+  },
+  "· 出生日期": {
+    "zh": "· 出生日期",
+    "en": "· Date of birth",
+    "ko": "· 생년월일"
+  },
+  "沿用病患主檔，開始本次檢測時不會覆寫基本資料。": {
+    "zh": "沿用病患主檔，開始本次檢測時不會覆寫基本資料。",
+    "en": "Existing patient information will be used without overwriting it.",
+    "ko": "기존 환자 정보를 덮어쓰지 않고 사용합니다."
+  },
+  "按下開始後才會建立病患與本次檢測。": {
+    "zh": "按下開始後才會建立病患與本次檢測。",
+    "en": "The patient and examination will be saved when you start.",
+    "ko": "시작 버튼을 누르면 환자와 검사가 저장됩니다."
+  },
+  "更換／重新確認病患": {
+    "zh": "更換／重新確認病患",
+    "en": "Change / reconfirm patient",
+    "ko": "환자 변경 / 재확인"
+  },
+  "選擇本次病患": {
+    "zh": "選擇本次病患",
+    "en": "Select patient",
+    "ko": "환자 선택"
+  },
+  "先確認病患，再設定檢測": {
+    "zh": "先確認病患，再設定檢測",
+    "en": "Confirm patient before examination setup",
+    "ko": "검사 설정 전 환자를 확인하세요"
+  },
+  "搜尋既有病患": {
+    "zh": "搜尋既有病患",
+    "en": "Find existing patient",
+    "ko": "기존 환자 검색"
+  },
+  "新增病患／讀取健保卡": {
+    "zh": "新增病患／讀取健保卡",
+    "en": "New patient / read card",
+    "ko": "환자 추가 / 카드 읽기"
+  },
+  "姓名或身分證／病歷識別碼（至少 2 字）": {
+    "zh": "姓名或身分證／病歷識別碼（至少 2 字）",
+    "en": "Name or national / medical record ID (at least 2 characters)",
+    "ko": "이름 또는 신분증 / 의무기록 번호(2자 이상)"
+  },
+  "搜尋": {
+    "zh": "搜尋",
+    "en": "Search",
+    "ko": "검색"
+  },
+  "搜尋中…": {
+    "zh": "搜尋中…",
+    "en": "Searching…",
+    "ko": "검색 중…"
+  },
+  "沒有符合的病患，可以切換至新增病患。": {
+    "zh": "沒有符合的病患，可以切換至新增病患。",
+    "en": "No matching patient. You can add a new patient.",
+    "ko": "일치하는 환자가 없습니다. 신규 환자를 추가할 수 있습니다."
+  },
+  "選擇並查看歷史": {
+    "zh": "選擇並查看歷史",
+    "en": "Select and view history",
+    "ko": "선택 후 기록 보기"
+  },
+  "載入更多病患": {
+    "zh": "載入更多病患",
+    "en": "Load more patients",
+    "ko": "환자 더 보기"
+  },
+  "正在比對病患與讀取歷史…": {
+    "zh": "正在比對病患與讀取歷史…",
+    "en": "Matching patient and loading history…",
+    "ko": "환자 확인 및 기록 조회 중…"
+  },
+  "請重新讀卡。": {
+    "zh": "請重新讀卡。",
+    "en": "Please read the card again.",
+    "ko": "카드를 다시 읽어 주세요."
+  },
+  "確認病患資料，繼續本次檢測": {
+    "zh": "確認病患資料，繼續本次檢測",
+    "en": "Confirm patient and continue",
+    "ko": "환자 확인 후 검사 진행"
+  },
+  "正在讀取病患歷史與備註…": {
+    "zh": "正在讀取病患歷史與備註…",
+    "en": "Loading patient history and notes…",
+    "ko": "환자 기록과 메모를 불러오는 중…"
+  },
+  "請重新選擇病患以重試。": {
+    "zh": "請重新選擇病患以重試。",
+    "en": "Select the patient again to retry.",
+    "ko": "환자를 다시 선택해 주세요."
+  },
+  "· 檢測前確認": {
+    "zh": "· 檢測前確認",
+    "en": "· Pre-examination review",
+    "ko": "· 검사 전 확인"
+  },
+  "歷史預覽": {
+    "zh": "歷史預覽",
+    "en": "History preview",
+    "ko": "이전 기록 미리보기"
+  },
+  "出生日期：": {
+    "zh": "出生日期：",
+    "en": "Date of birth:",
+    "ko": "생년월일:"
+  },
+  "未填寫": {
+    "zh": "未填寫",
+    "en": "Not provided",
+    "ko": "미입력"
+  },
+  "病患備註": {
+    "zh": "病患備註",
+    "en": "Patient notes",
+    "ko": "환자 메모"
+  },
+  "尚無備註": {
+    "zh": "尚無備註",
+    "en": "No notes",
+    "ko": "메모 없음"
+  },
+  "最近五筆檢測與摘要": {
+    "zh": "最近五筆檢測與摘要",
+    "en": "Five most recent examinations and summaries",
+    "ko": "최근 검사 5건 및 요약"
+  },
+  "此病患尚無過往分析紀錄；可以開始第一筆檢測。": {
+    "zh": "此病患尚無過往分析紀錄；可以開始第一筆檢測。",
+    "en": "No previous analysis records. You can start the first examination.",
+    "ko": "이전 분석 기록이 없습니다. 첫 검사를 시작할 수 있습니다."
+  },
+  " · 示範資料": {
+    "zh": " · 示範資料",
+    "en": " · Demo",
+    "ko": " · 데모"
+  },
+  "濃度": {
+    "zh": "濃度",
+    "en": "Sperm concentration",
+    "ko": "정자 농도"
+  },
+  "· 活動力": {
+    "zh": "· 活動力",
+    "en": "· Sperm motility",
+    "ko": "· 정자 운동성"
+  },
+  "· 正常型態": {
+    "zh": "· 正常型態",
+    "en": "· Normal morphology",
+    "ko": "· 정상 형태"
+  },
+  "尚無摘要": {
+    "zh": "尚無摘要",
+    "en": "No summary",
+    "ko": "요약 없음"
+  },
+  "此處僅列最近五筆；完整內容可至病患歷史頁查看。": {
+    "zh": "此處僅列最近五筆；完整內容可至病患歷史頁查看。",
+    "en": "Only the five most recent records are shown. View patient history for all records.",
+    "ko": "최근 5건만 표시합니다. 전체 기록은 환자 기록 페이지에서 확인하세요."
+  },
+  "確認此病患，繼續本次檢測": {
+    "zh": "確認此病患，繼續本次檢測",
+    "en": "Confirm patient and continue",
+    "ko": "환자 확인 후 검사 진행"
+  },
+  "影片讀取失敗，請確認連線後重新開啟。": {
+    "zh": "影片讀取失敗，請確認連線後重新開啟。",
+    "en": "Unable to load the video. Check your connection and reopen it.",
+    "ko": "동영상을 불러오지 못했습니다. 연결을 확인한 후 다시 열어 주세요."
+  },
+  "檔案尚未上傳完成。": {
+    "zh": "檔案尚未上傳完成。",
+    "en": "File upload is incomplete.",
+    "ko": "파일 업로드가 완료되지 않았습니다."
+  },
+  "正在載入私有影片…": {
+    "zh": "正在載入私有影片…",
+    "en": "Loading private video…",
+    "ko": "비공개 동영상을 불러오는 중…"
+  },
+  "瀏覽器無法播放此格式或編碼；檔案仍已保存，可下載後以相容播放器開啟。": {
+    "zh": "瀏覽器無法播放此格式或編碼；檔案仍已保存，可下載後以相容播放器開啟。",
+    "en": "Your browser cannot play this format or codec. The file is saved; download it and use a compatible player.",
+    "ko": "브라우저가 이 형식 또는 코덱을 재생할 수 없습니다. 저장된 파일을 내려받아 호환 플레이어로 열어 주세요."
+  },
+  "開啟／下載原始影片（短效連結）": {
+    "zh": "開啟／下載原始影片（短效連結）",
+    "en": "Open / download original video (temporary link)",
+    "ko": "원본 동영상 열기 / 다운로드(임시 링크)"
+  },
+  "影像讀取失敗，請確認登入、網路與影像權限。": {
+    "zh": "影像讀取失敗，請確認登入、網路與影像權限。",
+    "en": "Unable to load the image. Check your sign-in, connection and image permissions.",
+    "ko": "이미지를 불러오지 못했습니다. 로그인, 연결 및 이미지 권한을 확인해 주세요."
+  },
+  "示範影像": {
+    "zh": "示範影像",
+    "en": "Demo image",
+    "ko": "데모 이미지"
+  },
+  "未附影像": {
+    "zh": "未附影像",
+    "en": "No image attached",
+    "ko": "첨부 이미지 없음"
+  },
+  "影像載入中…": {
+    "zh": "影像載入中…",
+    "en": "Loading image…",
+    "ko": "이미지를 불러오는 중…"
+  },
+  "檢測原始影像": {
+    "zh": "檢測原始影像",
+    "en": "Original examination image",
+    "ko": "검사 원본 이미지"
+  },
+  "濃度（million/mL）": {
+    "zh": "濃度（million/mL）",
+    "en": "Sperm concentration (million/mL)",
+    "ko": "정자 농도(million/mL)"
+  },
+  "活動力（%）": {
+    "zh": "活動力（%）",
+    "en": "Sperm motility (%)",
+    "ko": "정자 운동성(%)"
+  },
+  "正常型態（%）": {
+    "zh": "正常型態（%）",
+    "en": "Normal morphology (%)",
+    "ko": "정상 형태 비율(%)"
+  },
+  "精液量（mL）": {
+    "zh": "精液量（mL）",
+    "en": "Semen volume (mL)",
+    "ko": "정액량(mL)"
+  },
+  "總精蟲數（沿用原紀錄單位）": {
+    "zh": "總精蟲數（沿用原紀錄單位）",
+    "en": "Total sperm number (recorded unit)",
+    "ko": "총 정자 수(기록된 단위)"
+  },
+  "數值必須為零或正數。": {
+    "zh": "數值必須為零或正數。",
+    "en": "Values must be zero or positive numbers.",
+    "ko": "값은 0 이상의 숫자여야 합니다."
+  },
+  "百分比須介於 0–100，pH 須介於 0–14。": {
+    "zh": "百分比須介於 0–100，pH 須介於 0–14。",
+    "en": "Percentages must be 0–100 and pH must be 0–14.",
+    "ko": "백분율은 0–100, pH는 0–14여야 합니다."
+  },
+  "請填寫檢測日期。": {
+    "zh": "請填寫檢測日期。",
+    "en": "Please enter the examination date.",
+    "ko": "검사 날짜를 입력해 주세요."
+  },
+  "修改檢測": {
+    "zh": "修改檢測",
+    "en": "Edit examination",
+    "ko": "검사 수정"
+  },
+  "刪除檢測": {
+    "zh": "刪除檢測",
+    "en": "Delete examination",
+    "ko": "검사 삭제"
+  },
+  "刪除檢測確認": {
+    "zh": "刪除檢測確認",
+    "en": "Confirm examination deletion",
+    "ko": "검사 삭제 확인"
+  },
+  "確認刪除": {
+    "zh": "確認刪除",
+    "en": "Confirm deletion",
+    "ko": "삭제 확인"
+  },
+  "檢測日期": {
+    "zh": "檢測日期",
+    "en": "Examination date",
+    "ko": "검사 날짜"
+  },
+  "顏色": {
+    "zh": "顏色",
+    "en": "Color",
+    "ko": "색상"
+  },
+  "外觀": {
+    "zh": "外觀",
+    "en": "Appearance",
+    "ko": "외관"
+  },
+  "檢測摘要": {
+    "zh": "檢測摘要",
+    "en": "Examination summary",
+    "ko": "검사 요약"
+  },
+  "留白代表未量測。儲存修改後需重新複核；已建立的報告版本保留原內容。": {
+    "zh": "留白代表未量測。儲存修改後需重新複核；已建立的報告版本保留原內容。",
+    "en": "Leave blank if unmeasured. Changes require a new review; saved report versions retain their original content.",
+    "ko": "미측정 값은 비워 두세요. 수정 후 재검토가 필요하며 기존 보고서 버전은 원본 내용을 유지합니다."
+  },
+  "儲存修改": {
+    "zh": "儲存修改",
+    "en": "Save changes",
+    "ko": "변경 사항 저장"
+  },
+  "確定永久刪除此筆檢測？原始與分析後影像、影片、報告版本及寄送追蹤紀錄將一併刪除，無法復原。病患與其他檢測會保留。已寄出的 Email 不會撤回。": {
+    "zh": "確定永久刪除此筆檢測？原始與分析後影像、影片、報告版本及寄送追蹤紀錄將一併刪除，無法復原。病患與其他檢測會保留。已寄出的 Email 不會撤回。",
+    "en": "Permanently delete this examination, original and annotated images, videos, report versions and email tracking records? This cannot be undone. The patient and other examinations will remain. Sent emails cannot be recalled.",
+    "ko": "이 검사와 원본·분석 이미지, 동영상, 보고서 버전 및 이메일 발송 기록을 영구 삭제하시겠습니까? 복구할 수 없습니다. 환자 정보와 다른 검사는 유지되며 이미 보낸 이메일은 회수되지 않습니다."
+  },
+  "檢驗結果摘要": {
+    "zh": "檢驗結果摘要",
+    "en": "Examination summary",
+    "ko": "검사 결과 요약"
+  },
+  "需追蹤": {
+    "zh": "需追蹤",
+    "en": "Follow-up required",
+    "ko": "추적 관찰 필요"
+  },
+  "AI 分析結果顯示精子密度接近參考下限，建議由專業人員進一步確認，並以臨床症狀與後續追蹤結果綜合判定。": {
+    "zh": "AI 分析結果顯示精蟲密度接近參考下限，建議由專業人員進一步確認，並以臨床症狀與後續追蹤結果綜合判定。",
+    "en": "The analysis indicates sperm concentration near the lower reference limit. A clinician should review it alongside clinical findings and follow-up results.",
+    "ko": "분석에서 정자 농도가 참고 하한에 가까운 것으로 나타났습니다. 의료진이 임상 소견 및 추적 검사 결과와 함께 검토해야 합니다."
+  },
+  "精子濃度：14.8 M/mL，接近 WHO 參考下限": {
+    "zh": "精蟲濃度：14.8 M/mL，接近 WHO 參考下限",
+    "en": "Sperm concentration: 14.8 million/mL, near the WHO lower reference limit",
+    "ko": "정자 농도: 14.8 million/mL, WHO 참고 하한에 근접"
+  },
+  "正常形態：6.4%，符合目前參考值": {
+    "zh": "正常型態：6.4%，符合目前參考值",
+    "en": "Normal morphology: 6.4%, within the current reference range",
+    "ko": "정상 형태 비율: 6.4%, 현재 참고 범위 내"
+  },
+  "活動力：62%，目前表現穩定": {
+    "zh": "活動力：62%，目前表現穩定",
+    "en": "Sperm motility: 62%, stable",
+    "ko": "정자 운동성: 62%, 안정적"
+  },
+  "下載 PDF": {
+    "zh": "下載 PDF",
+    "en": "Download PDF",
+    "ko": "PDF 다운로드"
+  },
+  "同步醫療系統": {
+    "zh": "同步醫療系統",
+    "en": "Sync with medical system",
+    "ko": "의료 시스템과 동기화"
+  },
+  "請填寫有效的 Email 地址；若病患資料中的地址有誤，請先修改病患資料。": {
+    "zh": "請填寫有效的 Email 地址；若病患資料中的地址有誤，請先修改病患資料。",
+    "en": "Enter a valid email address. If the saved address is incorrect, edit the patient information first.",
+    "ko": "유효한 이메일 주소를 입력하세요. 저장된 주소가 잘못된 경우 먼저 환자 정보를 수정해 주세요."
+  },
+  "尚未設定 EmailJS，請確認 .env.local 的 EmailJS 設定。": {
+    "zh": "尚未設定 EmailJS，請確認 .env.local 的 EmailJS 設定。",
+    "en": "EmailJS is not configured. Check the EmailJS settings in .env.local.",
+    "ko": "EmailJS가 설정되지 않았습니다. .env.local의 EmailJS 설정을 확인하세요."
+  },
+  "{{0}} 您好：": {
+    "zh": "{{0}} 您好：",
+    "en": "Hello {{0}},",
+    "ko": "{{0}} 님께,"
+  },
+  "Demo 分析結果（示範數值）": {
+    "zh": "Demo 分析結果（示範數值）",
+    "en": "Demo analysis results (simulated measurements)",
+    "ko": "데모 분석 결과(모의 측정값)"
+  },
+  "本次檢測結果": {
+    "zh": "本次檢測結果",
+    "en": "Examination results",
+    "ko": "검사 결과"
+  },
+  "檢測日期：{{0}}": {
+    "zh": "檢測日期：{{0}}",
+    "en": "Examination date: {{0}}",
+    "ko": "검사 날짜: {{0}}"
+  },
+  "濃度：{{0}} million/mL": {
+    "zh": "濃度：{{0}} million/mL",
+    "en": "Sperm concentration: {{0}} million/mL",
+    "ko": "정자 농도: {{0}} million/mL"
+  },
+  "如需進一步了解結果與相關衛教，請洽詢醫療人員。": {
+    "zh": "如需進一步了解結果與相關衛教，請洽詢醫療人員。",
+    "en": "Please contact your healthcare professional for guidance about these results.",
+    "ko": "결과 및 건강 교육에 관한 안내는 의료진에게 문의해 주세요."
+  },
+  "{{0}}檢測結果與衛教 · {{1}}": {
+    "zh": "{{0}}檢測結果與衛教 · {{1}}",
+    "en": "{{0}}Examination results and patient education · {{1}}",
+    "ko": "{{0}}검사 결과 및 건강 교육 · {{1}}"
+  },
+  "已提交寄送至 {{0}}。": {
+    "zh": "已提交寄送至 {{0}}。",
+    "en": "Submitted for sending to {{0}}.",
+    "ko": "{{0}}(으)로 발송 요청을 제출했습니다."
+  },
+  "寄送失敗，請確認 EmailJS 服務、範本及收件地址後再試。": {
+    "zh": "寄送失敗，請確認 EmailJS 服務、範本及收件地址後再試。",
+    "en": "Sending failed. Check the EmailJS service, template and recipient, then try again.",
+    "ko": "발송하지 못했습니다. EmailJS 서비스, 템플릿 및 수신 주소를 확인한 후 다시 시도해 주세요."
+  },
+  "收件地址：": {
+    "zh": "收件地址：",
+    "en": "Recipient:",
+    "ko": "수신 주소:"
+  },
+  "Email 地址": {
+    "zh": "Email 地址",
+    "en": "Email address",
+    "ko": "이메일 주소"
+  },
+  "請填寫收件 Email": {
+    "zh": "請填寫收件 Email",
+    "en": "Enter recipient email",
+    "ko": "수신 이메일 입력"
+  },
+  "寄送中…": {
+    "zh": "寄送中…",
+    "en": "Sending…",
+    "ko": "발송 중…"
+  },
+  "寄送 Email": {
+    "zh": "寄送 Email",
+    "en": "Send email",
+    "ko": "이메일 보내기"
+  },
+  "檔案傳送進度": {
+    "zh": "檔案傳送進度",
+    "en": "File upload progress",
+    "ko": "파일 업로드 진행률"
+  },
+  "MB 已傳送": {
+    "zh": "MB 已傳送",
+    "en": "MB uploaded",
+    "ko": "MB 업로드됨"
+  },
+  "傳送完畢，等待伺服器確認；尚未宣告儲存完成。": {
+    "zh": "傳送完畢，等待伺服器確認；尚未宣告儲存完成。",
+    "en": "Upload transferred. Waiting for server confirmation.",
+    "ko": "업로드 전송을 마쳤습니다. 서버 확인을 기다리는 중입니다."
+  },
+  "已等待": {
+    "zh": "已等待",
+    "en": "Elapsed",
+    "ko": "경과 시간"
+  },
+  "秒": {
+    "zh": "秒",
+    "en": "seconds",
+    "ko": "초"
+  },
+  "取消，保留資料以便重試": {
+    "zh": "取消，保留資料以便重試",
+    "en": "Cancel and keep data for retry",
+    "ko": "취소하고 재시도를 위해 데이터 유지"
+  },
+  "濃度 {{0}} million/mL · 活動力 {{1}} · 正常型態 {{2}}": {
+    "zh": "濃度 {{0}} million/mL · 活動力 {{1}} · 正常型態 {{2}}",
+    "en": "Sperm concentration {{0}} million/mL · Sperm motility {{1}} · Normal morphology {{2}}",
+    "ko": "정자 농도 {{0}} million/mL · 정자 운동성 {{1}} · 정상 형태 비율 {{2}}"
+  },
+  "檢驗日期：{{0}}": {
+    "zh": "檢驗日期：{{0}}",
+    "en": "Examination date: {{0}}",
+    "ko": "검사 날짜: {{0}}"
+  },
+  "檢體編號：{{0}}": {
+    "zh": "檢體編號：{{0}}",
+    "en": "Specimen number: {{0}}",
+    "ko": "검체 번호: {{0}}"
+  },
+  "活動力：{{0}}": {
+    "zh": "活動力：{{0}}",
+    "en": "Sperm motility: {{0}}",
+    "ko": "정자 운동성: {{0}}"
+  },
+  "正常型態：{{0}}": {
+    "zh": "正常型態：{{0}}",
+    "en": "Normal morphology: {{0}}",
+    "ko": "정상 형태 비율: {{0}}"
+  },
+  "處理狀態：{{0}}": {
+    "zh": "處理狀態：{{0}}",
+    "en": "Processing status: {{0}}",
+    "ko": "처리 상태: {{0}}"
+  },
+  "檢驗摘要：{{0}}": {
+    "zh": "檢驗摘要：{{0}}",
+    "en": "Examination summary: {{0}}",
+    "ko": "검사 요약: {{0}}"
+  },
+  "醫師備註：{{0}}": {
+    "zh": "醫師備註：{{0}}",
+    "en": "Clinician notes: {{0}}",
+    "ko": "의료진 메모: {{0}}"
+  },
+  "精蟲檢驗歷史與衛教": {
+    "zh": "精蟲檢驗歷史與衛教",
+    "en": "Examination history and patient education",
+    "ko": "검사 이력 및 건강 교육"
+  },
+  "歷史檢測報告": {
+    "zh": "歷史檢測報告",
+    "en": "Examination history report",
+    "ko": "검사 이력 보고서"
+  },
+  "病患姓名：{{0}}": {
+    "zh": "病患姓名：{{0}}",
+    "en": "Patient name: {{0}}",
+    "ko": "환자 이름: {{0}}"
+  },
+  "年齡：{{0}}": {
+    "zh": "年齡：{{0}}",
+    "en": "Age: {{0}}",
+    "ko": "나이: {{0}}"
+  },
+  "聯絡電話：{{0}}": {
+    "zh": "聯絡電話：{{0}}",
+    "en": "Phone: {{0}}",
+    "ko": "전화번호: {{0}}"
+  },
+  "檢驗紀錄筆數：{{0}} 筆": {
+    "zh": "檢驗紀錄筆數：{{0}} 筆",
+    "en": "Examinations: {{0}}",
+    "ko": "검사 건수: {{0}}"
+  },
+  "第 {{0}} 筆檢驗": {
+    "zh": "第 {{0}} 筆檢驗",
+    "en": "Examination {{0}}",
+    "ko": "검사 {{0}}"
+  },
+  "無備註": {
+    "zh": "無備註",
+    "en": "No notes",
+    "ko": "메모 없음"
+  },
+  "主旨：{{0}}\\n\\n{{1}}": {
+    "zh": "主旨：{{0}}\\n\\n{{1}}",
+    "en": "Subject: {{0}}\\n\\n{{1}}",
+    "ko": "제목: {{0}}\\n\\n{{1}}"
+  },
+  "精蟲 AI 智慧輔助檢驗平台": {
+    "zh": "精蟲 AI 智慧輔助檢驗平台",
+    "en": "Sperm AI Assisted Examination Platform",
+    "ko": "정자 AI 보조 검사 플랫폼"
+  },
+  "男": {
+    "zh": "男",
+    "en": "Male",
+    "ko": "남성"
+  },
+  "女": {
+    "zh": "女",
+    "en": "Female",
+    "ko": "여성"
+  },
+  "未知": {
+    "zh": "未知",
+    "en": "Unknown",
+    "ko": "알 수 없음"
+  },
+  "示範": {
+    "zh": "示範",
+    "en": "Demo",
+    "ko": "데모"
+  },
+  "灰白色": {
+    "zh": "灰白色",
+    "en": "Grayish white",
+    "ko": "회백색"
+  },
+  "乳白色": {
+    "zh": "乳白色",
+    "en": "Milky white",
+    "ko": "유백색"
+  },
+  "均勻混濁": {
+    "zh": "均勻混濁",
+    "en": "Uniformly cloudy",
+    "ko": "균일한 혼탁"
+  },
+  "尚未設定 EmailJS，請先建立 .env.local。": {
+    "zh": "尚未設定 EmailJS，請先建立 .env.local。",
+    "en": "EmailJS is not configured. Please set up .env.local.",
+    "ko": "EmailJS가 설정되지 않았습니다. .env.local을 설정하세요."
+  },
+  "EmailJS 已送出完整檢驗報告與衛教內容。": {
+    "zh": "EmailJS 已送出完整檢驗報告與衛教內容。",
+    "en": "Email content submitted for sending through EmailJS.",
+    "ko": "EmailJS에 이메일 발송 요청을 제출했습니다."
+  },
+  "EmailJS 寄送失敗，請檢查服務、範本與收件地址。": {
+    "zh": "EmailJS 寄送失敗，請檢查服務、範本與收件地址。",
+    "en": "EmailJS sending failed. Check the service, template and recipient.",
+    "ko": "EmailJS 발송에 실패했습니다. 서비스, 템플릿 및 수신 주소를 확인하세요."
+  },
+  "資料庫欄位尚未更新完成：請依序執行 004 檢測管理與 005 病患管理 SQL，再按重試。": {
+    "zh": "資料庫欄位尚未更新完成：請依序執行 004 檢測管理與 005 病患管理 SQL，再按重試。",
+    "en": "Database setup is incomplete. Run migrations 004 and 005 in order, then retry.",
+    "ko": "데이터베이스 설정이 완료되지 않았습니다. SQL 004, 005를 순서대로 실행한 후 다시 시도하세요."
+  },
+  "資料庫找不到檢體流水號功能，請先執行 202610190003_sample_serial.sql 並更新 Supabase 函式快取，再於本頁重試。": {
+    "zh": "資料庫找不到檢體流水號功能，請先執行 202610190003_sample_serial.sql 並更新 Supabase 函式快取，再於本頁重試。",
+    "en": "Specimen numbering is unavailable. Run 202610190003_sample_serial.sql and reload the Supabase schema cache, then retry here.",
+    "ko": "검체 번호 생성 기능이 없습니다. 202610190003_sample_serial.sql을 실행하고 Supabase 스키마 캐시를 갱신한 후 다시 시도하세요."
+  },
+  "資料操作失敗（{{0}}），請確認權限、資料內容與網路後重試。": {
+    "zh": "資料操作失敗（{{0}}），請確認權限、資料內容與網路後重試。",
+    "en": "Data operation failed ({{0}}). Check permissions, data and your connection, then retry.",
+    "ko": "데이터 작업에 실패했습니다({{0}}). 권한, 데이터 및 연결을 확인한 후 다시 시도하세요."
+  },
+  "連線錯誤": {
+    "zh": "連線錯誤",
+    "en": "Connection error",
+    "ko": "연결 오류"
+  },
+  "登入已失效，請重新登入。": {
+    "zh": "登入已失效，請重新登入。",
+    "en": "Your session has expired. Please sign in again.",
+    "ko": "로그인이 만료되었습니다. 다시 로그인하세요."
+  },
+  "影像僅支援 JPEG、PNG、WebP。": {
+    "zh": "影像僅支援 JPEG、PNG、WebP。",
+    "en": "Images must be JPEG, PNG or WebP.",
+    "ko": "이미지는 JPEG, PNG 또는 WebP여야 합니다."
+  },
+  "影像須大於 0 且不超過 10 MB。": {
+    "zh": "影像須大於 0 且不超過 10 MB。",
+    "en": "Images must be larger than 0 and no larger than 10 MB.",
+    "ko": "이미지는 0보다 크고 10 MB 이하여야 합니다."
+  },
+  "正在確認登入狀態": {
+    "zh": "正在確認登入狀態",
+    "en": "Checking sign-in",
+    "ko": "로그인 상태 확인 중"
+  },
+  "正在查詢病患": {
+    "zh": "正在查詢病患",
+    "en": "Finding patient",
+    "ko": "환자 조회 중"
+  },
+  "此病患已存在，請改用搜尋並選擇既有病患，不會覆寫原資料。": {
+    "zh": "此病患已存在，請改用搜尋並選擇既有病患，不會覆寫原資料。",
+    "en": "This patient already exists. Search and select the existing patient to preserve their information.",
+    "ko": "이미 등록된 환자입니다. 기존 환자를 검색하여 선택해 주세요."
+  },
+  "此身分證號有多筆病患資料，請先由管理者確認，避免覆寫。": {
+    "zh": "此身分證號有多筆病患資料，請先由管理者確認，避免覆寫。",
+    "en": "Multiple patients have this ID. Ask the administrator to review them before continuing.",
+    "ko": "이 식별 번호로 여러 환자가 등록되어 있습니다. 관리자 확인이 필요합니다."
+  },
+  "正在讀取病患資料": {
+    "zh": "正在讀取病患資料",
+    "en": "Loading patient information",
+    "ko": "환자 정보 조회 중"
+  },
+  "正在儲存病患資料": {
+    "zh": "正在儲存病患資料",
+    "en": "Saving patient information",
+    "ko": "환자 정보 저장 중"
+  },
+  "正在建立病患": {
+    "zh": "正在建立病患",
+    "en": "Creating patient",
+    "ko": "환자 등록 중"
+  },
+  "此識別碼已有病患資料（可能已刪除），請搜尋既有病患或請管理者確認。": {
+    "zh": "此識別碼已有病患資料（可能已刪除），請搜尋既有病患或請管理者確認。",
+    "en": "This ID already has a patient record, possibly archived. Search existing patients or contact the administrator.",
+    "ko": "이 식별 번호의 환자 기록이 이미 있거나 보관되어 있습니다. 기존 환자를 검색하거나 관리자에게 문의하세요."
+  },
+  "正在確認病患": {
+    "zh": "正在確認病患",
+    "en": "Verifying patient",
+    "ko": "환자 확인 중"
+  },
+  "正在儲存本次檢測": {
+    "zh": "正在儲存本次檢測",
+    "en": "Saving examination",
+    "ko": "검사 저장 중"
+  },
+  "影像待上傳": {
+    "zh": "影像待上傳",
+    "en": "Awaiting upload",
+    "ko": "업로드 대기"
+  },
+  "正在儲存檢測紀錄": {
+    "zh": "正在儲存檢測紀錄",
+    "en": "Saving examination record",
+    "ko": "검사 기록 저장 중"
+  },
+  "正在準備檔案上傳": {
+    "zh": "正在準備檔案上傳",
+    "en": "Preparing upload",
+    "ko": "업로드 준비 중"
+  },
+  "檔案已傳完，正在確認儲存": {
+    "zh": "檔案已傳完，正在確認儲存",
+    "en": "Upload complete; confirming storage",
+    "ko": "업로드 완료, 저장 확인 중"
+  },
+  "正在完成檢測紀錄": {
+    "zh": "正在完成檢測紀錄",
+    "en": "Finalizing examination",
+    "ko": "검사 기록 완료 처리 중"
+  },
+  "紀錄缺少可讀取的病患資料，請檢查外鍵及查詢權限。": {
+    "zh": "紀錄缺少可讀取的病患資料，請檢查外鍵及查詢權限。",
+    "en": "Patient information is unavailable for this record. Check database relationships and permissions.",
+    "ko": "이 기록의 환자 정보를 조회할 수 없습니다. 데이터베이스 관계 및 권한을 확인하세요."
+  },
+  "不支援的媒體儲存空間。": {
+    "zh": "不支援的媒體儲存空間。",
+    "en": "Unsupported media bucket.",
+    "ko": "지원하지 않는 미디어 저장소입니다."
+  },
+  "請先在 Supabase 執行 202610200004_record_management.sql。": {
+    "zh": "請先在 Supabase 執行 202610200004_record_management.sql。",
+    "en": "Run 202610200004_record_management.sql in Supabase first.",
+    "ko": "먼저 Supabase에서 202610200004_record_management.sql을 실행하세요."
+  },
+  "儲存失敗，紀錄可能已被其他人修改或刪除。請重新整理後再試。": {
+    "zh": "儲存失敗，紀錄可能已被其他人修改或刪除。請重新整理後再試。",
+    "en": "Saving failed. The record may have changed or been deleted. Refresh and try again.",
+    "ko": "저장하지 못했습니다. 기록이 수정되거나 삭제되었을 수 있습니다. 새로고침 후 다시 시도하세요."
+  },
+  "產生檢體編號": {
+    "zh": "產生檢體編號",
+    "en": "Allocating specimen number",
+    "ko": "검체 번호 생성 중"
+  },
+  "請先執行 202610200007_reserve_specimen.sql，再重新產生檢體編號。": {
+    "zh": "請先執行 202610200007_reserve_specimen.sql，再重新產生檢體編號。",
+    "en": "Run 202610200007_reserve_specimen.sql, then retry number allocation.",
+    "ko": "202610200007_reserve_specimen.sql 실행 후 번호 생성을 다시 시도하세요."
+  },
+  "無法產生檢體編號，請重試。": {
+    "zh": "無法產生檢體編號，請重試。",
+    "en": "Unable to allocate a specimen number. Please retry.",
+    "ko": "검체 번호를 생성하지 못했습니다. 다시 시도하세요."
+  },
+  "請輸入檢體編號": {
+    "zh": "請輸入檢體編號",
+    "en": "Enter a specimen number.",
+    "ko": "검체 번호를 입력하세요."
+  },
+  "未命名病患": {
+    "zh": "未命名病患",
+    "en": "Unnamed patient",
+    "ko": "이름 없는 환자"
+  },
+  "待追蹤": {
+    "zh": "待追蹤",
+    "en": "Follow-up required",
+    "ko": "추적 관찰 필요"
+  },
+  "照片支援 JPEG、PNG、WebP；影片支援 video 類型與常見影片副檔名。無法辨識的檔案請先轉成 MP4。": {
+    "zh": "照片支援 JPEG、PNG、WebP；影片支援 video 類型與常見影片副檔名。無法辨識的檔案請先轉成 MP4。",
+    "en": "Supported images: JPEG, PNG and WebP. Videos accept video MIME types and common video extensions. Convert unrecognized files to MP4.",
+    "ko": "이미지는 JPEG, PNG, WebP를 지원합니다. 동영상은 video MIME 유형과 일반적인 확장자를 지원합니다. 인식되지 않는 파일은 MP4로 변환하세요."
+  },
+  "{{0}}須大於 0 且不超過 {{1}} MB。": {
+    "zh": "{{0}}須大於 0 且不超過 {{1}} MB。",
+    "en": "{{0}} must be larger than 0 and no larger than {{1}} MB.",
+    "ko": "{{0}} 파일은 0보다 크고 {{1}} MB 이하여야 합니다."
+  },
+  "影片": {
+    "zh": "影片",
+    "en": "Video",
+    "ko": "동영상"
+  },
+  "照片": {
+    "zh": "照片",
+    "en": "Image",
+    "ko": "이미지"
+  },
+  "病患管理欄位尚未更新，請先執行 202610200005_patient_management.sql，再重試。": {
+    "zh": "病患管理欄位尚未更新，請先執行 202610200005_patient_management.sql，再重試。",
+    "en": "Patient fields are not updated. Run 202610200005_patient_management.sql, then retry.",
+    "ko": "환자 필드가 갱신되지 않았습니다. 202610200005_patient_management.sql을 실행한 후 다시 시도하세요."
+  },
+  "無法讀取病患資料，請確認登入、連線及查詢權限後重試。": {
+    "zh": "無法讀取病患資料，請確認登入、連線及查詢權限後重試。",
+    "en": "Unable to load patient information. Check your sign-in, connection and read permissions.",
+    "ko": "환자 정보를 불러오지 못했습니다. 로그인, 연결 및 조회 권한을 확인하세요."
+  },
+  "請輸入至少兩個字搜尋姓名、病患代碼或身分證／病歷識別碼。": {
+    "zh": "請輸入至少兩個字搜尋姓名、病患代碼或身分證／病歷識別碼。",
+    "en": "Enter at least two characters of a name or national / medical record ID.",
+    "ko": "이름 또는 신분증 / 의무기록 번호를 2자 이상 입력하세요."
+  },
+  "健保卡缺少身分證字號，請重新讀卡。": {
+    "zh": "健保卡缺少身分證字號，請重新讀卡。",
+    "en": "The card has no national ID. Please read it again.",
+    "ko": "카드에 신분증 번호가 없습니다. 다시 읽어 주세요."
+  },
+  "此身分證字號有多筆病患資料，請由管理者確認。": {
+    "zh": "此身分證字號有多筆病患資料，請由管理者確認。",
+    "en": "Multiple patients have this national ID. Contact the administrator.",
+    "ko": "같은 신분증 번호의 환자가 여러 명입니다. 관리자에게 문의하세요."
+  },
+  "請先在 Supabase 執行 202610200005_patient_management.sql。": {
+    "zh": "請先在 Supabase 執行 202610200005_patient_management.sql。",
+    "en": "Run 202610200005_patient_management.sql in Supabase first.",
+    "ko": "먼저 Supabase에서 202610200005_patient_management.sql을 실행하세요."
+  },
+  "此身分證／病歷識別碼已有其他病患使用，請確認後再試。": {
+    "zh": "此身分證／病歷識別碼已有其他病患使用，請確認後再試。",
+    "en": "Another patient uses this national / medical record ID. Please check it.",
+    "ko": "다른 환자가 이 신분증 / 의무기록 번호를 사용 중입니다. 확인해 주세요."
+  },
+  "儲存失敗，資料可能已被修改或刪除，請重新整理後再試。": {
+    "zh": "儲存失敗，資料可能已被修改或刪除，請重新整理後再試。",
+    "en": "Saving failed. The information may have changed or been deleted. Refresh and retry.",
+    "ko": "저장하지 못했습니다. 정보가 수정되거나 삭제되었을 수 있습니다. 새로고침 후 다시 시도하세요."
+  },
+  "請先在 Supabase 執行 202610200006_permanent_delete.sql，再重試。": {
+    "zh": "請先在 Supabase 執行 202610200006_permanent_delete.sql，再重試。",
+    "en": "Run 202610200006_permanent_delete.sql in Supabase, then retry.",
+    "ko": "Supabase에서 202610200006_permanent_delete.sql 실행 후 다시 시도하세요."
+  },
+  "刪除尚未完成，資料可能已變更。請保留此頁重試；若仍失敗請重新整理已刪除項目。": {
+    "zh": "刪除尚未完成，資料可能已變更。請保留此頁重試；若仍失敗請重新整理已刪除項目。",
+    "en": "Deletion is incomplete; data may have changed. Retry here, or refresh Deleted items if it still fails.",
+    "ko": "삭제가 완료되지 않았습니다. 데이터가 변경되었을 수 있습니다. 이 페이지에서 다시 시도하거나 삭제된 항목을 새로고침하세요."
+  },
+  "雲端檔案尚未完全刪除。請在本頁重試，會接續清理；資料庫紀錄暫時保留。": {
+    "zh": "雲端檔案尚未完全刪除。請在本頁重試，會接續清理；資料庫紀錄暫時保留。",
+    "en": "Some cloud files remain. Retry here to continue cleanup; database records are retained for now.",
+    "ko": "일부 클라우드 파일이 남아 있습니다. 이 페이지에서 다시 시도하세요. 데이터베이스 기록은 임시로 유지됩니다."
+  },
+  "刪除尚未確認完成，請重試。": {
+    "zh": "刪除尚未確認完成，請重試。",
+    "en": "Deletion has not been confirmed. Please retry.",
+    "ko": "삭제 완료를 확인하지 못했습니다. 다시 시도하세요."
+  },
+  "儲存失敗：{{0}}。請確認資料庫已更新，或重新載入最新版本。": {
+    "zh": "儲存失敗：{{0}}。請確認資料庫已更新，或重新載入最新版本。",
+    "en": "Saving failed: {{0}}. Check database updates or reload the latest version.",
+    "ko": "저장 실패: {{0}}. 데이터베이스 갱신을 확인하거나 최신 버전을 다시 불러오세요."
+  },
+  "請先讀取 Email 草稿的最新版本。": {
+    "zh": "請先讀取 Email 草稿的最新版本。",
+    "en": "Load the latest email draft before editing.",
+    "ko": "먼저 이메일 초안의 최신 버전을 불러오세요."
+  },
+  "請為本次寄送建立固定的請求識別碼，重試時沿用。": {
+    "zh": "請為本次寄送建立固定的請求識別碼，重試時沿用。",
+    "en": "Create a request identifier for this send and reuse it on retries.",
+    "ko": "발송 요청 식별자를 생성하고 재시도 시 같은 값을 사용하세요."
+  },
+  "已取消本次操作；已保存的資料不會刪除，可在本頁重試。": {
+    "zh": "已取消本次操作；已保存的資料不會刪除，可在本頁重試。",
+    "en": "Operation canceled. Saved data is retained; retry on this page.",
+    "ko": "작업을 취소했습니다. 저장된 데이터는 유지됩니다. 이 페이지에서 다시 시도하세요."
+  },
+  "連線": {
+    "zh": "連線",
+    "en": "Connection",
+    "ko": "연결"
+  },
+  "{{0}}超過 {{1}} 秒未完成，請檢查連線並在本頁重試。": {
+    "zh": "{{0}}超過 {{1}} 秒未完成，請檢查連線並在本頁重試。",
+    "en": "{{0}} did not finish within {{1}} seconds. Check your connection and retry here.",
+    "ko": "{{0}} 작업이 {{1}}초 내에 완료되지 않았습니다. 연결을 확인한 후 다시 시도하세요."
+  },
+  "請先在 .env.local 填入 VITE_SUPABASE_URL 與 VITE_SUPABASE_PUBLISHABLE_KEY，然後重新啟動開發伺服器。": {
+    "zh": "請先在 .env.local 填入 VITE_SUPABASE_URL 與 VITE_SUPABASE_PUBLISHABLE_KEY，然後重新啟動開發伺服器。",
+    "en": "Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in .env.local, then restart the development server.",
+    "ko": ".env.local에 VITE_SUPABASE_URL과 VITE_SUPABASE_PUBLISHABLE_KEY를 입력한 후 개발 서버를 다시 시작하세요."
+  },
+  "Supabase 網址必須使用 HTTPS。": {
+    "zh": "Supabase 網址必須使用 HTTPS。",
+    "en": "The Supabase URL must use HTTPS.",
+    "ko": "Supabase URL은 HTTPS를 사용해야 합니다."
+  },
+  "Supabase 網址格式不正確。": {
+    "zh": "Supabase 網址格式不正確。",
+    "en": "Invalid Supabase URL.",
+    "ko": "Supabase URL 형식이 올바르지 않습니다."
+  },
+  "不可在前端使用 Supabase secret key，請改用 publishable 或 anon key。": {
+    "zh": "不可在前端使用 Supabase secret key，請改用 publishable 或 anon key。",
+    "en": "Use a publishable or anon key in the frontend, never a secret key.",
+    "ko": "프런트엔드에서는 secret key 대신 publishable 또는 anon key를 사용하세요."
+  },
+  "前端只允許 publishable 或 anon key，禁止使用管理金鑰。": {
+    "zh": "前端只允許 publishable 或 anon key，禁止使用管理金鑰。",
+    "en": "The frontend accepts only publishable or anon keys, not admin keys.",
+    "ko": "프런트엔드에서는 publishable 또는 anon key만 허용하며 관리자 키는 사용할 수 없습니다."
+  },
+  "Supabase 公開金鑰格式不正確。": {
+    "zh": "Supabase 公開金鑰格式不正確。",
+    "en": "Invalid Supabase public key format.",
+    "ko": "Supabase 공개 키 형식이 올바르지 않습니다."
+  },
+  "取得上傳登入資訊": {
+    "zh": "取得上傳登入資訊",
+    "en": "Checking upload session",
+    "ko": "업로드 로그인 정보 확인 중"
+  },
+  "登入已失效，請重新登入後再試。": {
+    "zh": "登入已失效，請重新登入後再試。",
+    "en": "Your session expired. Sign in again and retry.",
+    "ko": "로그인이 만료되었습니다. 다시 로그인한 후 시도하세요."
+  },
+  "上傳已超過 90 秒沒有進度。請確認網路並在本頁重試續傳。": {
+    "zh": "上傳已超過 90 秒沒有進度。請確認網路並在本頁重試續傳。",
+    "en": "Upload has stalled for 90 seconds. Check your connection and retry here to resume.",
+    "ko": "90초 동안 업로드가 진행되지 않았습니다. 연결을 확인한 후 이 페이지에서 재개하세요."
+  },
+  "超過 Supabase 檔案限制，請確認全域與影片 bucket 均允許 50 MB。": {
+    "zh": "超過 Supabase 檔案限制，請確認全域與影片 bucket 均允許 50 MB。",
+    "en": "Supabase file limit exceeded. Check that global and video bucket limits both allow 50 MB.",
+    "ko": "Supabase 파일 제한을 초과했습니다. 전역 및 동영상 저장소 제한이 모두 50 MB를 허용하는지 확인하세요."
+  },
+  "影片上傳權限或登入已失效，請確認登入與 Storage 權限。": {
+    "zh": "影片上傳權限或登入已失效，請確認登入與 Storage 權限。",
+    "en": "Upload session or permission expired. Check sign-in and Storage permissions.",
+    "ko": "업로드 로그인 또는 권한이 만료되었습니다. 로그인 및 Storage 권한을 확인하세요."
+  },
+  "檔案上傳失敗{{0}}，請在本頁重試續傳。": {
+    "zh": "檔案上傳失敗{{0}}，請在本頁重試續傳。",
+    "en": "File upload failed{{0}}. Retry here to resume.",
+    "ko": "파일 업로드에 실패했습니다{{0}}. 이 페이지에서 다시 시도하여 재개하세요."
+  },
+  "上傳已達 30 分鐘，請檢查連線並在本頁重試續傳。": {
+    "zh": "上傳已達 30 分鐘，請檢查連線並在本頁重試續傳。",
+    "en": "Upload exceeded 30 minutes. Check your connection and retry here to resume.",
+    "ko": "업로드가 30분을 초과했습니다. 연결을 확인한 후 다시 시도하여 재개하세요."
+  },
+  "無法開始上傳，請確認瀏覽器及網路後重試。": {
+    "zh": "無法開始上傳，請確認瀏覽器及網路後重試。",
+    "en": "Unable to start upload. Check your browser and connection, then retry.",
+    "ko": "업로드를 시작하지 못했습니다. 브라우저와 연결을 확인한 후 다시 시도하세요."
+  },
+  "未知讀卡錯誤": {
+    "zh": "未知讀卡錯誤",
+    "en": "Unknown card reader error",
+    "ko": "알 수 없는 카드 리더 오류"
+  },
+  "讀取健保卡逾時，請確認讀卡機與控制軟體狀態": {
+    "zh": "讀取健保卡逾時，請確認讀卡機與控制軟體狀態",
+    "en": "Card reading timed out. Check the reader and its service.",
+    "ko": "카드 읽기 시간이 초과되었습니다. 리더와 서비스를 확인하세요."
+  },
+  "無法連線健保卡控制軟體，請確認是否已安裝並啟動": {
+    "zh": "無法連線健保卡控制軟體，請確認是否已安裝並啟動",
+    "en": "Cannot connect to the card reader service. Check that it is installed and running.",
+    "ko": "카드 리더 서비스에 연결할 수 없습니다. 설치 및 실행 상태를 확인하세요."
+  },
+  "健保卡控制軟體連線失敗": {
+    "zh": "健保卡控制軟體連線失敗",
+    "en": "Card reader service connection failed",
+    "ko": "카드 리더 서비스 연결 실패"
+  },
+  "讀卡機狀態查詢逾時": {
+    "zh": "讀卡機狀態查詢逾時",
+    "en": "Reader status query timed out",
+    "ko": "리더 상태 조회 시간 초과"
+  },
+  "無法取得讀卡機狀態": {
+    "zh": "無法取得讀卡機狀態",
+    "en": "Cannot read card reader status",
+    "ko": "리더 상태를 조회할 수 없습니다"
+  },
+  "找不到讀卡機，請確認裝置連線": {
+    "zh": "找不到讀卡機，請確認裝置連線",
+    "en": "Card reader not found. Check the connection.",
+    "ko": "카드 리더를 찾을 수 없습니다. 연결을 확인하세요."
+  },
+  "健保卡狀態查詢逾時": {
+    "zh": "健保卡狀態查詢逾時",
+    "en": "Card status query timed out",
+    "ko": "카드 상태 조회 시간 초과"
+  },
+  "無法取得健保卡狀態": {
+    "zh": "無法取得健保卡狀態",
+    "en": "Cannot read card status",
+    "ko": "카드 상태를 조회할 수 없습니다"
+  },
+  "尚未插入健保卡，請插入後再試": {
+    "zh": "尚未插入健保卡，請插入後再試",
+    "en": "Insert the card and try again.",
+    "ko": "카드를 삽입한 후 다시 시도하세요."
+  },
+  "讀取健保卡資料逾時": {
+    "zh": "讀取健保卡資料逾時",
+    "en": "Card data reading timed out",
+    "ko": "카드 정보 읽기 시간 초과"
+  },
+  "讀卡連線失敗，請確認憑證或 CORS 設定": {
+    "zh": "讀卡連線失敗，請確認憑證或 CORS 設定",
+    "en": "Card connection failed. Check certificate or CORS settings.",
+    "ko": "카드 연결에 실패했습니다. 인증서 또는 CORS 설정을 확인하세요."
+  },
+  "健保卡資料讀取失敗，請重新插卡後再試": {
+    "zh": "健保卡資料讀取失敗，請重新插卡後再試",
+    "en": "Cannot read card data. Reinsert the card and retry.",
+    "ko": "카드 정보를 읽지 못했습니다. 카드를 다시 삽입한 후 시도하세요."
+  },
+  "{{0}}格式無法轉換": {
+    "zh": "{{0}}格式無法轉換",
+    "en": "Cannot convert {{0}} format",
+    "ko": "{{0}} 형식을 변환할 수 없습니다"
+  },
+  "健保卡基本資料不完整": {
+    "zh": "健保卡基本資料不完整",
+    "en": "Card information is incomplete",
+    "ko": "카드 기본 정보가 불완전합니다"
+  },
+  "健保卡出生日期缺失": {
+    "zh": "健保卡出生日期缺失",
+    "en": "Date of birth missing from card",
+    "ko": "카드에 생년월일이 없습니다"
+  },
+  "發卡日期": {
+    "zh": "發卡日期",
+    "en": "Card issue date",
+    "ko": "카드 발급일"
+  },
+  "無法連線本機健保卡服務，請確認 v0.3.0 tw-nhi-icc-service 是否已啟動": {
+    "zh": "無法連線本機健保卡服務，請確認 v0.3.0 tw-nhi-icc-service 是否已啟動",
+    "en": "Cannot connect to the local card service. Check that tw-nhi-icc-service v0.3.0 is running.",
+    "ko": "로컬 카드 서비스에 연결할 수 없습니다. tw-nhi-icc-service v0.3.0 실행 여부를 확인하세요."
+  },
+  "尚未讀到健保卡，請確認讀卡機連線並插入卡片": {
+    "zh": "尚未讀到健保卡，請確認讀卡機連線並插入卡片",
+    "en": "Card not detected. Check the reader connection and insert the card.",
+    "ko": "카드를 감지하지 못했습니다. 리더 연결을 확인하고 카드를 삽입하세요."
+  },
+  "讀取健保卡逾時": {
+    "zh": "讀取健保卡逾時",
+    "en": "Card reading timed out",
+    "ko": "카드 읽기 시간 초과"
+  },
+  "健保卡服務連線失敗": {
+    "zh": "健保卡服務連線失敗",
+    "en": "Card service connection failed",
+    "ko": "카드 서비스 연결 실패"
+  },
+  "出生日期缺失": {
+    "zh": "出生日期缺失",
+    "en": "Date of birth is missing",
+    "ko": "생년월일이 없습니다"
+  },
+  "出生日期格式無法轉換": {
+    "zh": "出生日期格式無法轉換",
+    "en": "Cannot convert date of birth format",
+    "ko": "생년월일 형식을 변환할 수 없습니다"
+  },
+  "無法讀取雲端紀錄，請檢查登入、網路與資料表權限。": {
+    "zh": "無法讀取雲端紀錄，請檢查登入、網路與資料表權限。",
+    "en": "Cannot load cloud records. Check sign-in, connection and database permissions.",
+    "ko": "클라우드 기록을 불러오지 못했습니다. 로그인, 연결 및 데이터베이스 권한을 확인하세요."
+  },
+  "請輸入姓名": {
+    "zh": "請輸入姓名",
+    "en": "Enter a name.",
+    "ko": "이름을 입력하세요."
+  },
+  "請輸入身分證字號或病歷識別碼": {
+    "zh": "請輸入身分證字號或病歷識別碼",
+    "en": "Enter a national ID or medical record ID.",
+    "ko": "신분증 번호 또는 의무기록 번호를 입력하세요."
+  },
+  "身分證字號或病歷識別碼格式不正確": {
+    "zh": "身分證字號或病歷識別碼格式不正確",
+    "en": "Invalid national ID or medical record ID format.",
+    "ko": "신분증 번호 또는 의무기록 번호 형식이 올바르지 않습니다."
+  },
+  "請選擇出生日期": {
+    "zh": "請選擇出生日期",
+    "en": "Select a date of birth.",
+    "ko": "생년월일을 선택하세요."
+  },
+  "出生日期格式不正確": {
+    "zh": "出生日期格式不正確",
+    "en": "Invalid date of birth format.",
+    "ko": "생년월일 형식이 올바르지 않습니다."
+  },
+  "聯絡電話格式不正確": {
+    "zh": "聯絡電話格式不正確",
+    "en": "Invalid phone number format.",
+    "ko": "전화번호 형식이 올바르지 않습니다."
+  },
+  "Email 格式不正確": {
+    "zh": "Email 格式不正確",
+    "en": "Invalid email address.",
+    "ko": "이메일 주소가 올바르지 않습니다."
+  },
+  "日期不可為空": {
+    "zh": "日期不可為空",
+    "en": "Date is required.",
+    "ko": "날짜를 입력해야 합니다."
+  },
+  "無法辨識的日期格式": {
+    "zh": "無法辨識的日期格式",
+    "en": "Unrecognized date format.",
+    "ko": "인식할 수 없는 날짜 형식입니다."
+  },
+  "日期無效": {
+    "zh": "日期無效",
+    "en": "Invalid date.",
+    "ko": "유효하지 않은 날짜입니다."
+  },
+  "登入失敗，請確認帳號與密碼。": {
+    "zh": "登入失敗，請確認帳號與密碼。",
+    "en": "Sign-in failed. Check your username and password.",
+    "ko": "로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요."
+  },
+  "登入失敗，請確認帳號、密碼及網路連線。": {
+    "zh": "登入失敗，請確認帳號、密碼及網路連線。",
+    "en": "Sign-in failed. Check your username, password and connection.",
+    "ko": "로그인에 실패했습니다. 아이디, 비밀번호 및 연결을 확인하세요."
+  },
+  "無法連線至登入服務，請稍後再試。": {
+    "zh": "無法連線至登入服務，請稍後再試。",
+    "en": "Cannot connect to the sign-in service. Please try again later.",
+    "ko": "로그인 서비스에 연결할 수 없습니다. 잠시 후 다시 시도하세요."
+  },
+  "登出失敗，請檢查連線並重試。": {
+    "zh": "登出失敗，請檢查連線並重試。",
+    "en": "Sign-out failed. Check your connection and retry.",
+    "ko": "로그아웃에 실패했습니다. 연결을 확인한 후 다시 시도하세요."
+  },
+  "{{0}}：{{1}}": {
+    "zh": "{{0}}：{{1}}",
+    "en": "{{0}}: {{1}}",
+    "ko": "{{0}}: {{1}}"
+  },
+  "主旨：{{0}}\n\n{{1}}": {
+    "zh": "主旨：{{0}}\n\n{{1}}",
+    "en": "Subject: {{0}}\n\n{{1}}",
+    "ko": "제목: {{0}}\n\n{{1}}"
+  },
+  "主治醫師：{{0}}": {
+    "zh": "主治醫師：{{0}}",
+    "en": "Attending clinician: {{0}}",
+    "ko": "담당 의료진: {{0}}"
+  },
+  "AI 辨識精確度：{{0}}": {
+    "zh": "AI 辨識精確度：{{0}}",
+    "en": "Detection precision: {{0}}",
+    "ko": "검출 정밀도: {{0}}"
+  },
+  "AI 辨識信心度：{{0}}": {
+    "zh": "AI 辨識信心度：{{0}}",
+    "en": "Detection confidence score: {{0}}",
+    "ko": "검출 신뢰도 점수: {{0}}"
+  },
+  "AI 分析耗時：{{0}}": {
+    "zh": "AI 分析耗時：{{0}}",
+    "en": "Analysis time: {{0}}",
+    "ko": "분석 소요 시간: {{0}}"
+  },
+  "【一、病患與報告資訊】": {
+    "zh": "【一、病患與報告資訊】",
+    "en": "1. Patient and report information",
+    "ko": "1. 환자 및 보고서 정보"
+  },
+  "【二、歷史檢驗結果】": {
+    "zh": "【二、歷史檢驗結果】",
+    "en": "2. Examination history",
+    "ko": "2. 검사 이력"
+  },
+  "【三、目前結果判讀】": {
+    "zh": "【三、目前結果判讀】",
+    "en": "3. Latest results",
+    "ko": "3. 최근 결과"
+  },
+  "【四、紅綠燈指標說明】": {
+    "zh": "【四、紅綠燈指標說明】",
+    "en": "4. Reference range indicators",
+    "ko": "4. 참고 범위 표시 안내"
+  },
+  "【五、生活與健康衛教】": {
+    "zh": "【五、生活與健康衛教】",
+    "en": "5. Patient education",
+    "ko": "5. 건강 교육"
+  },
+  "【六、後續檢查建議】": {
+    "zh": "【六、後續檢查建議】",
+    "en": "6. Follow-up guidance",
+    "ko": "6. 후속 검사 안내"
+  },
+  "【重要提醒】": {
+    "zh": "【重要提醒】",
+    "en": "Important information",
+    "ko": "중요 안내"
+  },
+  "最新檢驗日期：{{0}}": {
+    "zh": "最新檢驗日期：{{0}}",
+    "en": "Latest examination date: {{0}}",
+    "ko": "최근 검사 날짜: {{0}}"
+  },
+  "最新檢體編號：{{0}}": {
+    "zh": "最新檢體編號：{{0}}",
+    "en": "Latest specimen number: {{0}}",
+    "ko": "최근 검체 번호: {{0}}"
+  },
+  "目前濃度：{{0}} M/mL": {
+    "zh": "目前濃度：{{0}} M/mL",
+    "en": "Latest sperm concentration: {{0}} million/mL",
+    "ko": "최근 정자 농도: {{0}} million/mL"
+  },
+  "目前活動力：{{0}}": {
+    "zh": "目前活動力：{{0}}",
+    "en": "Latest sperm motility: {{0}}",
+    "ko": "최근 정자 운동성: {{0}}"
+  },
+  "目前正常型態：{{0}}": {
+    "zh": "目前正常型態：{{0}}",
+    "en": "Latest normal morphology: {{0}}",
+    "ko": "최근 정상 형태 비율: {{0}}"
+  },
+  "判讀摘要：{{0}}": {
+    "zh": "判讀摘要：{{0}}",
+    "en": "Interpretation summary: {{0}}",
+    "ko": "판독 요약: {{0}}"
+  },
+  "● 綠燈：代表該項數值目前達到系統參考標準。": {
+    "zh": "● 綠燈：代表該項數值目前達到系統參考標準。",
+    "en": "Green: the value is within the system reference range.",
+    "ko": "녹색: 해당 수치가 시스템의 참고 범위 내에 있습니다."
+  },
+  "● 黃燈：代表數值接近下限或需要持續追蹤，請配合醫師建議複檢。": {
+    "zh": "● 黃燈：代表數值接近下限或需要持續追蹤，請配合醫師建議複檢。",
+    "en": "Yellow: the value is near the lower limit or needs follow-up. Follow your clinician's advice on repeat testing.",
+    "ko": "황색: 수치가 하한에 가깝거나 추적 관찰이 필요합니다. 재검사는 의료진의 안내를 따르세요."
+  },
+  "● 紅燈：代表數值明顯異常，建議儘早回診並由專業醫師進一步評估。": {
+    "zh": "● 紅燈：代表數值明顯異常，建議儘早回診並由專業醫師進一步評估。",
+    "en": "Red: the value is outside the reference range. Consult your clinician for further assessment.",
+    "ko": "적색: 수치가 참고 범위를 벗어났습니다. 추가 평가를 위해 의료진과 상담하세요."
+  },
+  "本報告中的燈號為 AI 輔助提示，不代表單獨的醫療診斷。": {
+    "zh": "本報告中的燈號為 AI 輔助提示，不代表單獨的醫療診斷。",
+    "en": "The indicators are AI-assisted prompts, not standalone medical diagnoses.",
+    "ko": "이 표시는 AI 보조 안내이며 단독 의학적 진단이 아닙니다."
+  },
+  "1. 若本次結果為待追蹤或異常，請依醫師安排於適當時間複檢。": {
+    "zh": "1. 若本次結果為待追蹤或異常，請依醫師安排於適當時間複檢。",
+    "en": "1. If follow-up is required or results are outside the reference range, repeat testing as advised by your clinician.",
+    "ko": "1. 추적 관찰이 필요하거나 결과가 참고 범위를 벗어난 경우 의료진의 안내에 따라 재검사하세요."
+  },
+  "2. 複檢前請依醫療人員指示維持適當禁慾天數，避免自行比較不同檢驗條件下的數值。": {
+    "zh": "2. 複檢前請依醫療人員指示維持適當禁慾天數，避免自行比較不同檢驗條件下的數值。",
+    "en": "2. Follow the advised abstinence period before repeat testing. Results obtained under different conditions may not be directly comparable.",
+    "ko": "2. 재검사 전 의료진이 안내한 금욕 기간을 따르세요. 검사 조건이 다른 수치는 직접 비교하기 어려울 수 있습니다."
+  },
+  "3. 若有備孕需求、持續數值異常或其他不適，請攜帶本報告與歷史趨勢諮詢泌尿科或生殖醫學科。": {
+    "zh": "3. 若有備孕需求、持續數值異常或其他不適，請攜帶本報告與歷史趨勢諮詢泌尿科或生殖醫學科。",
+    "en": "3. For fertility planning, persistently abnormal results or symptoms, take this report and your history to a urology or reproductive medicine consultation.",
+    "ko": "3. 임신 계획, 지속적인 수치 이상 또는 증상이 있다면 이 보고서와 이전 기록을 지참하여 비뇨의학과 또는 생식의학 진료를 받으세요."
+  },
+  "本信件內容為檢驗資料整理與一般性衛教資訊，不能取代醫師問診、身體檢查或正式醫療診斷。若您有任何疑問，請直接諮詢您的主治醫師。": {
+    "zh": "本信件內容為檢驗資料整理與一般性衛教資訊，不能取代醫師問診、身體檢查或正式醫療診斷。若您有任何疑問，請直接諮詢您的主治醫師。",
+    "en": "This email summarizes examination data and general patient education. It does not replace a medical consultation, examination or diagnosis. Contact your clinician with questions.",
+    "ko": "이 이메일은 검사 데이터와 일반 건강 교육을 요약한 자료입니다. 의료 상담, 신체 검사 또는 정식 진단을 대체하지 않습니다. 궁금한 사항은 담당 의료진에게 문의하세요."
+  },
+  "本報告由精蟲 AI 智慧輔助檢驗平台產生。請勿將本報告轉寄給非相關人員，以保護個人健康資料。": {
+    "zh": "本報告由精蟲 AI 智慧輔助檢驗平台產生。請勿將本報告轉寄給非相關人員，以保護個人健康資料。",
+    "en": "Generated by the Sperm AI Assisted Examination Platform. Protect personal health information by sharing this report only with relevant people.",
+    "ko": "정자 AI 보조 검사 플랫폼에서 생성한 보고서입니다. 개인 건강 정보 보호를 위해 관련자에게만 공유하세요."
+  },
+  "精子濃度：14.8 million/mL，接近 WHO 參考下限": {
+    "zh": "精蟲濃度：14.8 million/mL，接近 WHO 參考下限",
+    "en": "Sperm concentration: 14.8 million/mL, near the WHO lower reference limit",
+    "ko": "정자 농도: 14.8 million/mL, WHO 참고 하한에 근접"
+  },
+  "目前濃度：{{0}} million/mL": {
+    "zh": "目前濃度：{{0}} million/mL",
+    "en": "Latest sperm concentration: {{0}} million/mL",
+    "ko": "최근 정자 농도: {{0}} million/mL"
+  },
+  "顯微鏡影像": {
+    "zh": "顯微鏡影像",
+    "en": "Microscopy image",
+    "ko": "현미경 이미지"
+  }
+}

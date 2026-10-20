@@ -1,3 +1,5 @@
+import { translateText as tr } from '../i18n/translate.js'
+import { DeletedItems } from '../components/analysis/DeletedItems.jsx'
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { useMemo, useState } from 'react'
@@ -7,8 +9,9 @@ import { useLanguage } from '../context/language.js'
 
 function translateStatus(status, t) {
   if (status === '正常') return t.normal
-  if (status === '示範資料') return '示範資料'
-  if (status === '未判讀') return '未判讀'
+  if (status === '示範資料') return 'Demo'
+  if (status === '未分析') return tr("未分析")
+  if (status === '未判讀') return tr("未判讀")
   return t.followUp
 }
 
@@ -99,8 +102,9 @@ export function HistoryPage() {
 
   return (
     <div className="page-shell history-page">
-      {loading && <p role="status">雲端紀錄載入中…</p>}
-      {error && <p role="alert">{error} <button onClick={reload}>重試</button></p>}
+      <DeletedItems onChanged={reload} />
+      {loading && <p role="status">{tr("雲端紀錄載入中…")}</p>}
+      {error && <p role="alert">{tr(error)} <button onClick={reload}>{tr("重試")}</button></p>}
       <section className="table-card">
         <div className="panel-header history-header">
           <h3>{t.historyList}</h3>
@@ -161,8 +165,8 @@ export function HistoryPage() {
                 key={patient.id ?? patient.name}
               >
                 <div aria-label={`${t.patientName}: ${patient.name}`}>
-                  <strong>{patient.name}</strong>
-                  <small>{patient.id}</small>
+                  <strong>{patient.name}</strong><small>{patient.identity}</small>
+
                   <small>{count} {t.recordCount}</small>
                 </div>
                 <div>

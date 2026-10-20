@@ -1,3 +1,4 @@
+import { translateText as tr } from '../i18n/translate.js'
 import { useState } from 'react'
 import { ImageUploader } from '../components/analysis/ImageUploader.jsx'
 import { BoundingBoxView } from '../components/analysis/BoundingBoxView.jsx'
@@ -31,7 +32,7 @@ export function AnalysisPage() {
       <header className="page-header analysis-header">
         <div>
           <p className="eyebrow">{t.analysisResult}</p>
-          <h2>檢體編號 #A001</h2>
+          <h2>{tr("檢體編號 #A001")}</h2>
         </div>
         <div className="header-actions">
           <button type="button" className="secondary-btn">{t.reanalyze}</button>
@@ -52,7 +53,7 @@ export function AnalysisPage() {
           <span className="metric-label">{t.concentration}</span>
           <div className="value-line">
             <strong>14.8</strong>
-            <span>M/mL</span>
+            <span>million/mL</span>
           </div>
           <div className="gauge">
             <span className="gauge-fill" style={{ width: '80%' }} />
@@ -77,7 +78,7 @@ export function AnalysisPage() {
             <strong>62</strong>
             <span>%</span>
           </div>
-          <div className="trend-positive">● 穩定</div>
+          <div className="trend-positive">{tr("● 穩定")}</div>
           <p>{t.moderateMotility}</p>
         </div>
       </section>
@@ -101,12 +102,12 @@ export function AnalysisPage() {
               <strong>{result.summary.detected}</strong>
             </div>
             <div>
-              <span>Precision</span>
-              <strong>{result.summary.precision}</strong>
+              <span>{t.precision}</span>
+              <strong>{tr(result.summary.precision)}</strong>
             </div>
             <div>
-              <span>Confidence</span>
-              <strong>{result.summary.confidence}</strong>
+              <span>{t.confidence}</span>
+              <strong>{tr(result.summary.confidence)}</strong>
             </div>
           </div>
         </div>
@@ -119,7 +120,7 @@ export function AnalysisPage() {
             <ul className="info-list">
               <li><span>{t.patientCode}</span><strong>A001</strong></li>
               <li><span>{t.collectionTime}</span><strong>2026/09/02 14:30</strong></li>
-              <li><span>{t.processingTime}</span><strong>3 days</strong></li>
+              <li><span>{tr(t.processingTime)}</span><strong>3 days</strong></li>
             </ul>
           </div>
 
