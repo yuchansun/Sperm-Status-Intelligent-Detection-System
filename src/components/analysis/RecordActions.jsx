@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { manageCloudRecord } from '../../services/cloudApi.js'
 
 const fields = [
- ['density', '濃度（million/mL）'], ['motility', '活動力（%）'], ['morphology', '正常型態（%）'],
+ ['density', '濃度（×10⁶/mL）'], ['motility', '活動力（%）'], ['morphology', '正常型態比例（%）'],
  ['amount', '精液量（mL）'], ['ph', 'pH'], ['count_of_spermatozoa', '總精蟲數（沿用原紀錄單位）'],
 ]
 function initial(record) {

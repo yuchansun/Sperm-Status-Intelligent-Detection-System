@@ -161,7 +161,7 @@ export function AnalysisUploadPage() {
           <div className="check-list">
             <label className="check-item">
               <input type="checkbox" checked readOnly />
-              <span>{t.spermCount}</span>
+              <span>{t.concentration} (×10⁶/mL)</span>
               <strong>{t.required}</strong>
             </label>
 
