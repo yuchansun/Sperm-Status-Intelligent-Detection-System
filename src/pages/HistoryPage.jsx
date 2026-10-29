@@ -173,8 +173,8 @@ export function HistoryPage() {
                   <strong>{latestRecord.date}</strong>
                   <small>{t.latestRecord}</small>
                 </div>
-                <span className={`status-pill ${latestRecord.isDemo ? 'neutral-badge' : latestRecord.status === '正常' ? 'success' : 'warning'}`}>
-                  {latestRecord.isDemo ? tr("示範資料") : translateStatus(latestRecord.status, t)}
+                <span className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
+                  {translateStatus(latestRecord.status, t)}
                 </span>
                 <div className={`processing-state ${latestRecord.processingState === '已完成' ? 'processing-complete' : 'processing-pending'}`}>
                   {latestRecord.processingState === '已完成' ? null : <span aria-hidden="true">!</span>}

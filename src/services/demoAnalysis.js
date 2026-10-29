@@ -16,11 +16,11 @@ export function generateDemoAnalysis(recordId, includeMotility) {
   const motility = includeMotility ? number(15, 80) : null
   const detected = number(80, 260, 0)
   return {
-    amount, amount_unit: 'mL', density, density_unit: '×10⁶/mL', morphology, motility,
+    amount, amount_unit: 'mL', density, density_unit: 'million/mL', morphology, motility,
     color: random() < 0.5 ? '灰白色' : '乳白色', appearance: '均勻混濁', ph: number(7.2, 8),
     count_of_spermatozoa: Number((amount * density).toFixed(2)), count_unit: 'million/ejaculate',
     count_definition: 'total_per_ejaculate', motility_type: includeMotility ? 'progressive' : null,
-    summary: `濃度 ${density} ×10⁶/mL，正常型態比例 ${morphology}%${motility === null ? '。' : `，活動力 ${motility}%。`}`,
+    summary: `濃度 ${density} M/mL，正常型態 ${morphology}%${motility === null ? '。' : `，活動力 ${motility}%。`}`,
     ai_result: {
       isDemo: true, generatorVersion: 1, density: String(density), normalRate: `${morphology}%`,
       motility: motility === null ? '—' : `${motility}%`, detected: String(detected),

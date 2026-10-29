@@ -2,7 +2,7 @@ import { translateText as tr, displayRecordSummary } from '../i18n/translate.js'
 import { buildHistoryEmail } from '../i18n/reportText.js'
 import { PatientActions } from '../components/analysis/PatientActions.jsx'
 import { RecordActions } from '../components/analysis/RecordActions.jsx'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   CartesianGrid,
@@ -22,7 +22,8 @@ import { useLanguage } from '../context/language.js'
 export function PatientHistoryPage() {
   const { patientId } = useParams()
   const navigate = useNavigate()
-  const { t, language } = useLanguage()
+  const { t } = useLanguage()
+  const [metric, setMetric] = useState('density')
   const [expandedRecordId, setExpandedRecordId] = useState(null)
   const [doctorComment, setDoctorComment] = useState(null)
   const [saveError, setSaveError] = useState('')
@@ -30,8 +31,6 @@ export function PatientHistoryPage() {
   const [isCommentSaved, setIsCommentSaved] = useState(false)
   const { records, loading, error, reload } = useCloudHistory()
   const [email, setEmail] = useState('')
-  const [emailSubject, setEmailSubject] = useState('')
-  const [emailBody, setEmailBody] = useState('')
   const [emailNotice, setEmailNotice] = useState('')
   const patientRecords = useMemo(
     () => records
@@ -41,14 +40,6 @@ export function PatientHistoryPage() {
   )
   const patient = patientRecords[0]?.patient
   const latestRecord = patientRecords.at(-1)
-  const defaultEmailContent = useMemo(
-    () => patient ? buildHistoryEmail(patient, patientRecords, language) : { subject: '', body: '' },
-    [language, patient, patientRecords],
-  )
-  useEffect(() => {
-    setEmailSubject(defaultEmailContent.subject)
-    setEmailBody(defaultEmailContent.body)
-  }, [defaultEmailContent])
   const averages = useMemo(() => {
     const average = (field) => {
       if (!patientRecords.length) return 0
@@ -63,33 +54,17 @@ export function PatientHistoryPage() {
       morphology: average('morphology'),
     }
   }, [patientRecords])
-  const chartData = patientRecords.map((record) => {
-    const toNumber = (value) => {
-      if (value === null || value === undefined || value === '' || value === '—') return null
-      const parsed = Number.parseFloat(value)
-      return Number.isFinite(parsed) ? parsed : null
-    }
-    return {
-      date: record.date,
-      concentration: toNumber(record.density),
-      motility: toNumber(record.motility),
-    }
-  })
+  const chartData = patientRecords.map((record) => ({
+    date: record.date,
+    value: Number.isFinite(Number.parseFloat(record[metric])) ? Number.parseFloat(record[metric]) : null,
+  }))
 
-  const getEmailContent = () => ({ subject: emailSubject, body: emailBody })
+  const getEmailContent = () => buildHistoryEmail(patient, patientRecords)
 
   const handleSendHistoryEmail = async () => {
     const recipient = email.trim()
     if (!recipient) {
       setEmailNotice(t.emailRequired)
-      return
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient)) {
-      setEmailNotice(tr("請填寫有效的 Email 地址。"))
-      return
-    }
-    if (!emailSubject.trim() || !emailBody.trim()) {
-      setEmailNotice(tr("請填寫 Email 主旨與內文。"))
       return
     }
 
@@ -190,15 +165,14 @@ export function PatientHistoryPage() {
           <div className="profile-block">
             <h4>{t.averageResults}</h4>
             <div className="average-result-grid">
-              <div><strong>{averages.density}</strong><span>×10⁶/mL</span><small>{t.averageConcentration}</small></div>
+              <div><strong>{averages.density}</strong><span>million/mL</span><small>{t.averageConcentration}</small></div>
               <div><strong>{averages.motility === '—' ? '—' : `${averages.motility}%`}</strong><small>{t.averageMotility}</small></div>
               <div><strong>{averages.morphology === '—' ? '—' : `${averages.morphology}%`}</strong><small>{t.averageMorphology}</small></div>
             </div>
-            {patientRecords.some((item) => item.isDemo) && <p className="demo-image-note">{tr("平均數值含有模擬資料。")}</p>}
             <div className="patient-current-status">
               <span>{tr(t.status)}</span>
-              <strong className={`status-pill ${latestRecord.isDemo ? 'neutral-badge' : latestRecord.status === '正常' ? 'success' : 'warning'}`}>
-                {latestRecord.isDemo ? tr("示範資料") : latestRecord.status === '正常' ? t.normal : latestRecord.status === '示範資料' ? tr("示範資料") : latestRecord.status === '未分析' ? tr("未分析") : t.followUp}
+              <strong className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
+                {latestRecord.status === '正常' ? t.normal : latestRecord.status === '示範資料' ? 'Demo' : latestRecord.status === '未分析' ? tr("未分析") : t.followUp}
               </strong>
             </div>
           </div>
@@ -208,27 +182,28 @@ export function PatientHistoryPage() {
           <div className="history-trend-header">
             <div>
               <h4>{t.trendChartTitle}</h4>
-              <p>{tr("左軸為濃度（×10⁶/mL），右軸為活動力（%）。")}</p>
+              <p>{t.trendChartDescription}</p>
             </div>
+            <label className="history-trend-select">
+              <span>{t.trendMetric}</span>
+              <select value={metric} onChange={(event) => setMetric(event.target.value)}>
+                <option value="density">{t.concentration}</option>
+                <option value="motility">{t.motility}</option>
+                <option value="morphology">{t.morphology}</option>
+              </select>
+            </label>
           </div>
           <div className="history-trend-chart" aria-label={t.trendChartTitle}>
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData} margin={{ top: 12, right: 18, left: 4, bottom: 22 }}>
+              <LineChart data={chartData} margin={{ top: 12, right: 12, left: 0, bottom: 4 }}>
                 <CartesianGrid stroke="#e5edf9" strokeDasharray="3 3" />
-                <XAxis dataKey="date" tick={{ fill: '#5b7290', fontSize: 11 }} label={{ value: tr("檢測日期"), position: 'insideBottom', offset: -8 }} />
-                <YAxis yAxisId="concentration" tick={{ fill: '#5b7290', fontSize: 11 }} />
-                <YAxis yAxisId="motility" orientation="right" unit="%" tick={{ fill: '#5b7290', fontSize: 11 }} />
-                <Tooltip formatter={(value, name) => [value === null ? '—' : value, name]} />
-                <Line yAxisId="concentration" type="monotone" dataKey="concentration" name={tr("精蟲濃度（×10⁶/mL）")} stroke="#3f82f6" strokeWidth={3} connectNulls={false} dot={{ r: 5, fill: '#3f82f6' }} activeDot={{ r: 7 }} />
-                <Line yAxisId="motility" type="monotone" dataKey="motility" name={tr("活動力（%）")} stroke="#e58b2a" strokeWidth={3} connectNulls={false} dot={{ r: 5, fill: '#e58b2a' }} activeDot={{ r: 7 }} />
+                <XAxis dataKey="date" tick={{ fill: '#5b7290', fontSize: 11 }} />
+                <YAxis tick={{ fill: '#5b7290', fontSize: 11 }} />
+                <Tooltip formatter={(value) => [value, t[metric]]} />
+                <Line type="monotone" dataKey="value" name={t[metric]} stroke="#3f82f6" strokeWidth={3} dot={{ r: 5, fill: '#3f82f6' }} activeDot={{ r: 7 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <div className="chart-legend">
-            <span><i style={{ background: '#3f82f6' }} />{tr("精蟲濃度（×10⁶/mL）")}</span>
-            <span><i style={{ background: '#e58b2a' }} />{tr("活動力（%）")}</span>
-          </div>
-          {patientRecords.some((item) => item.isDemo) && <p className="demo-image-note">{tr("此趨勢圖含有模擬資料。")}</p>}
         </div>
 
         <div className="detail-card-box doctor-comment-box">
@@ -274,28 +249,20 @@ export function PatientHistoryPage() {
               <strong>{t.sendHistoryEmail}</strong>
               <p>{t.historyEmailRecords}</p>
             </div>
-            <div className="email-preview-form history-email-preview">
-              <label className="email-preview-field">
-                <span>{tr("收件地址")}</span>
-                <input type="email" value={email} placeholder={t.historyEmailPlaceholder} aria-label={t.emailAddress}
-                  onChange={(event) => { setEmail(event.target.value); setEmailNotice('') }} />
-              </label>
-              <label className="email-preview-field">
-                <span>{tr("主旨")}</span>
-                <input type="text" value={emailSubject} onChange={(event) => setEmailSubject(event.target.value)} />
-              </label>
-              <label className="email-preview-field">
-                <span>{tr("內文")}</span>
-                <textarea rows={12} value={emailBody} onChange={(event) => setEmailBody(event.target.value)} />
-              </label>
-              <div className="email-preview-actions">
+            <div className="email-row">
+              <input
+                type="email"
+                value={email}
+                placeholder={t.historyEmailPlaceholder}
+                aria-label={t.emailAddress}
+                onChange={(event) => {
+                  setEmail(event.target.value)
+                  setEmailNotice('')
+                }}
+              />
               <button type="button" className="primary-btn small" onClick={handleSendHistoryEmail}>
                 {t.sendHistoryEmail}
               </button>
-                <button type="button" className="secondary-btn small" onClick={() => { setEmailSubject(defaultEmailContent.subject); setEmailBody(defaultEmailContent.body) }}>
-                  {tr("還原預設內容")}
-                </button>
-              </div>
             </div>
             <div className="email-tools">
               <button type="button" className="secondary-btn small" onClick={handleCopyHistoryEmail}>{t.emailCopy}</button>
@@ -322,7 +289,7 @@ export function PatientHistoryPage() {
                       <small>{record.sampleId}</small>
                     </span>
                     <span>
-                      <strong>{record.density ?? '—'} ×10⁶/mL</strong>
+                      <strong>{record.density} million/mL</strong>
                       <small>{t.concentration}</small>
                     </span>
                     <span className="status-pill neutral-badge">{tr(record.processingState)}</span>
@@ -335,10 +302,10 @@ export function PatientHistoryPage() {
                         <div className="detail-card-box">
                           <h4>{t.analysisResult}</h4>
                           <ul className="summary-list compact-list">
-                            <li><span>{t.concentration}</span><strong>{record.density ?? '—'} ×10⁶/mL</strong></li>
+                            <li><span>{t.concentration}</span><strong>{record.density} million/mL</strong></li>
                             <li><span>{t.motility}</span><strong>{record.motility}</strong></li>
                             <li><span>{t.morphology}</span><strong>{record.morphology}</strong></li>
-                            {!record.isDemo && <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>}
+                            <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>
                           </ul>
                         </div>
                         <div className="detail-card-box">
@@ -350,10 +317,10 @@ export function PatientHistoryPage() {
                         <div className="detail-card-box">
                           <h4>{t.testSummary}</h4>
                           <p>{record.isDemo && <strong>Demo · </strong>}{displayRecordSummary(record)}</p>
-                          {!record.isDemo && <ul className="summary-list compact-list">
+                          <ul className="summary-list compact-list">
                             <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>
                             <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>
-                          </ul>}
+                          </ul>
                         </div>
                         <div className="detail-card-box">
                           <h4>{t.notes}</h4>

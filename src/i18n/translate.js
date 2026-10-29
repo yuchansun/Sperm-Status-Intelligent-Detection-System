@@ -41,7 +41,7 @@ export function translateText(source, variables = [], language = currentLanguage
 // Database codes and patient-authored content are never translated or rewritten in storage.
 export function displayRecordSummary(record, language = currentLanguage()) {
   if (record?.isDemo && !record.aiResult?.manuallyEdited && (record.aiResult?.generatorVersion === 1 || /^(濃度 |示範分析[:：結])/.test(record.summary || ''))) {
-    return translateText('濃度 {{0}} ×10⁶/mL · 活動力 {{1}} · 正常型態比例 {{2}}', [record.density, record.motility, record.morphology], language)
+    return translateText('濃度 {{0}} million/mL · 活動力 {{1}} · 正常型態 {{2}}', [record.density, record.motility, record.morphology], language)
   }
   return record?.summary || ''
 }
