@@ -49,6 +49,126 @@
     "en": "Demo PDF preview is ready.",
     "ko": "데모 PDF 미리보기가 준비되었습니다."
   },
+  "左軸為濃度（×10⁶/mL），右軸為活動力（%）。": {
+    "zh": "左軸為濃度（×10⁶/mL），右軸為活動力（%）。",
+    "en": "Concentration (×10⁶/mL) is on the left axis; motility (%) is on the right.",
+    "ko": "왼쪽 축은 농도(×10⁶/mL), 오른쪽 축은 운동성(%)입니다."
+  },
+  "精蟲濃度（×10⁶/mL）": {
+    "zh": "精蟲濃度（×10⁶/mL）",
+    "en": "Sperm concentration (×10⁶/mL)",
+    "ko": "정자 농도(×10⁶/mL)"
+  },
+  "精蟲濃度": {
+    "zh": "精蟲濃度",
+    "en": "Sperm concentration",
+    "ko": "정자 농도"
+  },
+  "活動力（%）": {
+    "zh": "活動力（%）",
+    "en": "Motility (%)",
+    "ko": "운동성(%)"
+  },
+  "檢測日期": {
+    "zh": "檢測日期",
+    "en": "Test date",
+    "ko": "검사 날짜"
+  },
+  "此趨勢圖含有模擬資料。": {
+    "zh": "此趨勢圖含有模擬資料。",
+    "en": "This trend chart contains simulated data.",
+    "ko": "이 추이 차트에는 시뮬레이션 데이터가 포함되어 있습니다."
+  },
+  "平均數值含有模擬資料。": {
+    "zh": "平均數值含有模擬資料。",
+    "en": "The averages include simulated data.",
+    "ko": "평균값에는 시뮬레이션 데이터가 포함되어 있습니다."
+  },
+  "符合 Excel 參考範圍": {
+    "zh": "符合 Excel 參考範圍",
+    "en": "Within the Excel reference range",
+    "ko": "Excel 참고 범위 내"
+  },
+  "未達 Excel 參考範圍": {
+    "zh": "未達 Excel 參考範圍",
+    "en": "Outside the Excel reference range",
+    "ko": "Excel 참고 범위 미달"
+  },
+  "Excel 參考：20–120 ×10⁶/mL（等於界線視為未達）": {
+    "zh": "Excel 參考：20–120 ×10⁶/mL（等於界線視為未達）",
+    "en": "Excel reference: 20–120 ×10⁶/mL (boundary values count as below range)",
+    "ko": "Excel 참고: 20–120 ×10⁶/mL (경계값은 범위 미달로 처리)"
+  },
+  "Excel 參考：>50%": {
+    "zh": "Excel 參考：>50%",
+    "en": "Excel reference: >50%",
+    "ko": "Excel 참고: >50%"
+  },
+  "Excel 參考：>15%": {
+    "zh": "Excel 參考：>15%",
+    "en": "Excel reference: >15%",
+    "ko": "Excel 참고: >15%"
+  },
+  "示範分析結果": {
+    "zh": "示範分析結果",
+    "en": "Demo analysis result",
+    "ko": "데모 분석 결과"
+  },
+  "此頁數值與影像標記為模擬資料，未經實際分析；判讀僅依老師 Excel 規則示範。": {
+    "zh": "此頁數值與影像標記為模擬資料，未經實際分析；判讀僅依老師 Excel 規則示範。",
+    "en": "The values and image annotations on this page are simulated, not produced by actual analysis. The interpretation only demonstrates the rules in the teacher's spreadsheet.",
+    "ko": "이 페이지의 수치와 이미지 표시는 실제 분석 결과가 아닌 시뮬레이션입니다. 판독은 선생님 스프레드시트의 규칙을 보여 주기 위한 것입니다."
+  },
+  "目前只依老師 Excel 顯示參考範圍，未提供其他臨床判讀。": {
+    "zh": "目前只依老師 Excel 顯示參考範圍，未提供其他臨床判讀。",
+    "en": "Only the reference ranges from the teacher's spreadsheet are shown; no other clinical interpretation is provided.",
+    "ko": "현재는 선생님 스프레드시트의 참고 범위만 표시하며 다른 임상 판독은 제공하지 않습니다."
+  },
+  "型態比例沒有資料，暫不顯示圖表或判讀。": {
+    "zh": "型態比例沒有資料，暫不顯示圖表或判讀。",
+    "en": "No morphology percentage is available, so the chart and interpretation are hidden.",
+    "ko": "형태 비율 데이터가 없어 차트와 판독을 표시하지 않습니다."
+  },
+  "示範標記（疊加於原圖）": {
+    "zh": "示範標記（疊加於原圖）",
+    "en": "Demo annotations over the original image",
+    "ko": "원본 이미지 위에 표시한 데모 주석"
+  },
+  "框線為介面示範，非本次影像的實際辨識結果。": {
+    "zh": "框線為介面示範，非本次影像的實際辨識結果。",
+    "en": "The boxes demonstrate the interface; they are not detections from this image.",
+    "ko": "상자는 인터페이스 데모이며 이 이미지에서 실제로 검출된 결과가 아닙니다."
+  },
+  "寄送前預覽，可修改收件地址、主旨與內文。": {
+    "zh": "寄送前預覽，可修改收件地址、主旨與內文。",
+    "en": "Preview before sending. You can edit the recipient, subject, and message.",
+    "ko": "보내기 전에 미리 보고 받는 사람, 제목, 내용을 수정할 수 있습니다."
+  },
+  "收件地址": {
+    "zh": "收件地址",
+    "en": "Recipient",
+    "ko": "받는 사람"
+  },
+  "請填寫有效的 Email 地址。": {
+    "zh": "請填寫有效的 Email 地址。",
+    "en": "Enter a valid email address.",
+    "ko": "올바른 이메일 주소를 입력하세요."
+  },
+  "請填寫 Email 主旨與內文。": {
+    "zh": "請填寫 Email 主旨與內文。",
+    "en": "Enter an email subject and message.",
+    "ko": "이메일 제목과 내용을 입력하세요."
+  },
+  "主旨": {
+    "zh": "主旨",
+    "en": "Subject",
+    "ko": "제목"
+  },
+  "內文": {
+    "zh": "內文",
+    "en": "Message",
+    "ko": "내용"
+  },
   "正常率": {
     "zh": "正常率",
     "en": "Normal morphology",
@@ -1908,5 +2028,70 @@
     "zh": "顯微鏡影像",
     "en": "Microscopy image",
     "ko": "현미경 이미지"
+  },
+  "老師 Excel 參考範圍：濃度 20–120 ×10⁶/mL、活動力 >50%、正常型態比例 >15%；等於界線時視為未達。": {
+    "zh": "老師 Excel 參考範圍：濃度 20–120 ×10⁶/mL、活動力 >50%、正常型態比例 >15%；等於界線時視為未達。",
+    "en": "Teacher's spreadsheet ranges: concentration 20–120 ×10⁶/mL, motility >50%, and normal morphology >15%. Values equal to a cutoff are below the threshold.",
+    "ko": "선생님 스프레드시트 기준: 농도 20–120 ×10⁶/mL, 운동성 >50%, 정상 형태 비율 >15%입니다. 경계값과 같으면 기준 미달로 봅니다."
+  },
+  "第 {{0}} 筆檢測": {
+    "zh": "第 {{0}} 筆檢測",
+    "en": "Test {{0}}",
+    "ko": "{{0}}번째 검사"
+  },
+  "示範資料：以下數值為模擬值，並非實際分析結果。": {
+    "zh": "示範資料：以下數值為模擬值，並非實際分析結果。",
+    "en": "Demo data: the following values are simulated and are not results of actual analysis.",
+    "ko": "데모 데이터: 다음 수치는 시뮬레이션이며 실제 분석 결과가 아닙니다."
+  },
+  "檢測日期：{{0}}": {
+    "zh": "檢測日期：{{0}}",
+    "en": "Test date: {{0}}",
+    "ko": "검사 날짜: {{0}}"
+  },
+  "精蟲濃度：{{0}} ×10⁶/mL": {
+    "zh": "精蟲濃度：{{0}} ×10⁶/mL",
+    "en": "Sperm concentration: {{0}} ×10⁶/mL",
+    "ko": "정자 농도: {{0}} ×10⁶/mL"
+  },
+  "活動力：{{0}}": {
+    "zh": "活動力：{{0}}",
+    "en": "Motility: {{0}}",
+    "ko": "운동성: {{0}}"
+  },
+  "正常型態比例：{{0}}": {
+    "zh": "正常型態比例：{{0}}",
+    "en": "Normal morphology: {{0}}",
+    "ko": "정상 형태 비율: {{0}}"
+  },
+  "本次檢測結果": {
+    "zh": "本次檢測結果",
+    "en": "Current test results",
+    "ko": "이번 검사 결과"
+  },
+  "此信件僅整理檢測數值與 Excel 參考範圍，不提供診斷或治療建議。": {
+    "zh": "此信件僅整理檢測數值與 Excel 參考範圍，不提供診斷或治療建議。",
+    "en": "This email summarizes test values and the spreadsheet reference ranges only; it does not provide diagnosis or treatment advice.",
+    "ko": "이 이메일은 검사 수치와 스프레드시트 참고 범위만 정리하며 진단이나 치료 조언을 제공하지 않습니다."
+  },
+  "檢測歷史紀錄": {
+    "zh": "檢測歷史紀錄",
+    "en": "Test history",
+    "ko": "검사 기록"
+  },
+  "檢測紀錄筆數：{{0}} 筆": {
+    "zh": "檢測紀錄筆數：{{0}} 筆",
+    "en": "Number of test records: {{0}}",
+    "ko": "검사 기록 수: {{0}건"
+  },
+  "濃度 {{0}} ×10⁶/mL · 活動力 {{1}} · 正常型態比例 {{2}}": {
+    "zh": "濃度 {{0}} ×10⁶/mL · 活動力 {{1}} · 正常型態比例 {{2}}",
+    "en": "Concentration {{0}} ×10⁶/mL · Motility {{1}} · Normal morphology {{2}}",
+    "ko": "농도 {{0}} ×10⁶/mL · 운동성 {{1}} · 정상 형태 비율 {{2}}"
+  },
+  "還原預設內容": {
+    "zh": "還原預設內容",
+    "en": "Restore default content",
+    "ko": "기본 내용 복원"
   }
 }

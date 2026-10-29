@@ -1288,6 +1288,18 @@
   color: #4d5bd6;
 }
 
+.status-inline.danger {
+  background: rgba(232, 90, 90, 0.13);
+  color: #c83939;
+}
+
+.reference-range-note {
+  display: block;
+  margin: 8px 0;
+  color: #607b9a;
+  font-size: 0.72rem;
+}
+
 .visual-box {
   position: relative;
   min-height: 380px;
@@ -1398,6 +1410,43 @@
   border: 1px solid #dbe7fb;
   border-radius: 10px;
   background: #f7faff;
+}
+
+.email-preview-form {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.email-preview-field {
+  display: grid;
+  gap: 6px;
+  color: #526a85;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.email-preview-field input,
+.email-preview-field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #dbe7fb;
+  border-radius: 10px;
+  background: #fff;
+  color: #17375f;
+  font: inherit;
+  font-weight: 400;
+}
+
+.email-preview-field textarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.email-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .form-banner.success {
@@ -1558,6 +1607,36 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.image-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.comparison-image {
+  min-width: 0;
+}
+
+.comparison-image h4 {
+  margin: 0 0 8px;
+}
+
+.demo-image-note {
+  margin: 8px 2px 0;
+  color: #80611f;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 720px) {
+  .image-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-image .visual-box {
+    min-height: 260px;
+  }
 }
 
 .info-block {

@@ -12,7 +12,7 @@ export function DashboardPage() {
   const { records: historyRecords, loading, error, reload } = useCloudHistory()
   const today = localDate()
   const queue = historyRecords.filter(r => r.processingState !== '已完成').map(r => ({ id: r.sampleId, recordId: r.id, time: r.date, status: r.processingState, action: tr("複核結果") }))
-  const recentResults = historyRecords.slice(0, 5).map(r => ({ ...r, recordId: r.id, result: r.status }))
+  const recentResults = historyRecords.slice(0, 5).map(r => ({ ...r, recordId: r.id, result: r.isDemo ? '示範資料' : r.status }))
   const dashboardStats = [{ label: tr("待檢驗"), value: String(historyRecords.filter(r => r.processingState === '待分析').length), tone: 'blue' }, { label: tr("待複核"), tone: 'warning' }, { label: tr("已完成"), tone: 'green' }]
   const pendingReviewCount = useMemo(
     () => historyRecords.filter((record) => record.processingState === '待複核').length,
@@ -114,9 +114,9 @@ export function DashboardPage() {
         <div className="recent-table">
           <div className="recent-row recent-head">
             <span>{t.sampleId}</span>
-            <span>{t.concentration}</span>
-            <span>{t.motility}</span>
-            <span>{t.morphology}</span>
+            <span>{t.concentration} (×10⁶/mL)</span>
+            <span>{t.motility} (%)</span>
+            <span>{t.morphology} (%)</span>
             <span>{t.interpretation}</span>
             <span>{t.action}</span>
           </div>
@@ -127,7 +127,7 @@ export function DashboardPage() {
               <span>{item.density}</span>
               <span>{item.motility}</span>
               <span>{item.morphology}</span>
-              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? tr("示範資料") : item.result}</span>
+              <span className={`status-pill ${item.isDemo ? 'neutral-badge' : item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? tr("示範資料") : item.result}</span>
               <button type="button" className="secondary-btn small" onClick={() => navigate(`/history/${item.recordId}`)}>
                 {t.view}
               </button>

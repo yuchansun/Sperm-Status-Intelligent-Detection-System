@@ -2,17 +2,28 @@ import { translateText as tr } from '../../i18n/translate.js'
 import { buildResultEmail } from '../../i18n/reportText.js'
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLanguage } from '../../context/language.js'
 import { isEmailJsConfigured, sendHistoryEmail } from '../../services/emailService.js'
 
 export function ResultEmail({ record }) {
-  const { t } = useLanguage()
-  const [email, setEmail] = useState('')
+  const { t, language } = useLanguage()
+  const savedEmail = record.patient?.email?.trim() || ''
+  const defaults = buildResultEmail(record, language)
+  const [email, setEmail] = useState(savedEmail)
+  const [subject, setSubject] = useState(defaults.subject)
+  const [body, setBody] = useState(defaults.body)
+  const [edited, setEdited] = useState(false)
   const [sending, setSending] = useState(false)
   const [notice, setNotice] = useState(null)
-  const savedEmail = record.patient?.email?.trim() || ''
-  const recipient = savedEmail || email.trim()
+  const recipient = email.trim()
+  useEffect(() => {
+    if (edited) return
+    const next = buildResultEmail(record, language)
+    setSubject(next.subject)
+    setBody(next.body)
+  }, [edited, language, record])
+
   const send = async event => {
     event.preventDefault()
     if (sending) return
@@ -26,7 +37,6 @@ export function ResultEmail({ record }) {
       return
     }
     setSending(true)
-    const { subject, body } = buildResultEmail(record)
     try {
       await sendHistoryEmail({ recipient, recipientName: record.patient?.name || '', subject, body })
       setNotice({ error: false, text: tr("已提交寄送至 {{0}}。", [recipient]) })
@@ -35,9 +45,20 @@ export function ResultEmail({ record }) {
     } finally { setSending(false) }
   }
   return <div className="education-block">
-    <div className="panel-header"><h3>{t.sendEducation}</h3></div>
-    <form className="email-row" onSubmit={send}>
-      {savedEmail ? <p>{tr("收件地址：")}<strong>{savedEmail}</strong></p> : <input type="email" value={email} onChange={event => setEmail(event.target.value)} required disabled={sending} aria-label={t.emailAddress || tr("Email 地址")} placeholder={tr("請填寫收件 Email")} autoComplete="email" />}
+    <div className="panel-header"><div><h3>{t.sendEducation}</h3><p>{tr("寄送前預覽，可修改收件地址、主旨與內文。")}</p></div></div>
+    <form className="email-row email-preview-form" onSubmit={send}>
+      <label className="email-preview-field">
+        <span>{tr("收件地址")}</span>
+        <input type="email" value={email} onChange={event => setEmail(event.target.value)} required disabled={sending} aria-label={t.emailAddress || tr("Email 地址")} placeholder={tr("請填寫收件 Email")} autoComplete="email" />
+      </label>
+      <label className="email-preview-field">
+        <span>{tr("主旨")}</span>
+        <input type="text" value={subject} onChange={event => { setSubject(event.target.value); setEdited(true) }} required disabled={sending} />
+      </label>
+      <label className="email-preview-field">
+        <span>{tr("內文")}</span>
+        <textarea value={body} onChange={event => { setBody(event.target.value); setEdited(true) }} rows={10} required disabled={sending} />
+      </label>
       <button type="submit" className="primary-btn small" disabled={sending}>{sending ? tr("寄送中…") : t.sendEmail || tr("寄送 Email")}</button>
     </form>
     {notice && <p role={notice.error ? 'alert' : 'status'} className={`form-banner ${notice.error ? 'error' : 'success'}`}>{tr(notice.text)}</p>}

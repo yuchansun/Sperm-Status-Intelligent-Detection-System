@@ -127,7 +127,7 @@ export function PatientSelector({ confirmed, onConfirm, onChangePatient, locked 
       <h4>{tr("最近五筆檢測與摘要")}</h4>
       {!preview.history.length ? <p>{tr("此病患尚無過往分析紀錄；可以開始第一筆檢測。")}</p> : <ol className="patient-preview-records">{preview.history.map(r => <li key={r.id}>
         <strong>{r.date} · {r.sampleId}</strong><span>{tr(r.processingState)}{r.isDemo ? tr(" · 示範資料") : ''}</span>
-        <p>{tr("濃度")}{r.density} {r.measurements.densityUnit || ''}{tr("· 活動力")}{r.motility}{tr("· 正常型態")}{r.morphology}</p>
+        <p>{tr("精蟲濃度")}{r.density ?? '—'} ×10⁶/mL {tr("· 活動力")}{r.motility ?? '—'}{tr("· 正常型態")}{r.morphology ?? '—'}</p>
         <p>{displayRecordSummary(r) || tr("尚無摘要")}</p>
       </li>)}</ol>}
       {preview.hasMore && <p>{tr("此處僅列最近五筆；完整內容可至病患歷史頁查看。")}</p>}
