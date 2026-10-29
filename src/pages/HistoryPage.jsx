@@ -9,7 +9,7 @@ import { useLanguage } from '../context/language.js'
 
 function translateStatus(status, t) {
   if (status === '正常') return t.normal
-  if (status === '示範資料') return 'Demo'
+  if (status === '示範資料') return tr('模擬資料')
   if (status === '未分析') return tr("未分析")
   if (status === '未判讀') return tr("未判讀")
   return t.followUp

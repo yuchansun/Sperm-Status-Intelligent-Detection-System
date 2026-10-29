@@ -18,7 +18,7 @@ it('shows the full analysis result and private player after video upload', () =>
   expect(container.textContent).toContain('身分證字號')
   expect(container.textContent).toContain('TEST-001')
   expect(container.textContent).not.toContain('性別')
-  expect(container.textContent).toContain('Demo')
+  expect(container.textContent).toContain('模擬資料')
   expect(container.querySelectorAll('.result-card')).toHaveLength(3)
   expect(container.querySelector('video')).not.toBeNull()
   expect(container.textContent).not.toContain('僅保存')
