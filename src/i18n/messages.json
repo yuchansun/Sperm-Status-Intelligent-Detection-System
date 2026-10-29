@@ -169,10 +169,10 @@
     "en": "Selected file",
     "ko": "선택한 파일"
   },
-  "一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時使用示範範本。": {
-    "zh": "一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時使用示範範本。",
-    "en": "One file per examination: images up to 10 MB, videos up to 50 MB. A demo template is used if no file is selected.",
-    "ko": "검사당 파일 1개: 이미지 최대 10 MB, 동영상 최대 50 MB. 파일을 선택하지 않으면 데모 템플릿을 사용합니다."
+  "一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時將使用預設模擬影像與數值。": {
+    "zh": "一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時將使用預設模擬影像與數值。",
+    "en": "One file per examination: images up to 10 MB, videos up to 50 MB. Simulated images and values are used if no file is selected.",
+    "ko": "검사당 파일 1개: 이미지 최대 10 MB, 동영상 최대 50 MB. 파일을 선택하지 않으면 시뮬레이션 이미지와 수치를 사용합니다."
   },
   "本次選取的照片預覽": {
     "zh": "本次選取的照片預覽",
@@ -184,10 +184,10 @@
     "en": "Remove selection",
     "ko": "선택 취소"
   },
-  "示範範本：": {
-    "zh": "示範範本：",
-    "en": "Demo template:",
-    "ko": "데모 템플릿:"
+  "預設影像：": {
+    "zh": "預設影像：",
+    "en": "Default image:",
+    "ko": "기본 이미지:"
   },
   "部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。": {
     "zh": "部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。",
@@ -240,9 +240,9 @@
     "ko": "참고 범위 내"
   },
   "示範資料": {
-    "zh": "示範資料",
-    "en": "Demo",
-    "ko": "데모"
+    "zh": "模擬資料",
+    "en": "Simulated data",
+    "ko": "시뮬레이션 데이터"
   },
   "未分析": {
     "zh": "未分析",
@@ -260,9 +260,9 @@
     "ko": "로그인 중…"
   },
   "【示範分析】": {
-    "zh": "【示範分析】",
-    "en": "Demo ·",
-    "ko": "데모 ·"
+    "zh": "【模擬資料】",
+    "en": "Simulated data ·",
+    "ko": "시뮬레이션 데이터 ·"
   },
   "身分證／病歷識別碼": {
     "zh": "身分證／病歷識別碼",
@@ -755,9 +755,9 @@
     "ko": "이전 분석 기록이 없습니다. 첫 검사를 시작할 수 있습니다."
   },
   " · 示範資料": {
-    "zh": " · 示範資料",
-    "en": " · Demo",
-    "ko": " · 데모"
+    "zh": " · 模擬資料",
+    "en": " · Simulated data",
+    "ko": " · 시뮬레이션 데이터"
   },
   "濃度": {
     "zh": "濃度",
@@ -820,9 +820,9 @@
     "ko": "이미지를 불러오지 못했습니다. 로그인, 연결 및 이미지 권한을 확인해 주세요."
   },
   "示範影像": {
-    "zh": "示範影像",
-    "en": "Demo image",
-    "ko": "데모 이미지"
+    "zh": "模擬影像",
+    "en": "Simulated image",
+    "ko": "시뮬레이션 이미지"
   },
   "未附影像": {
     "zh": "未附影像",
@@ -1399,6 +1399,71 @@
     "en": "Video",
     "ko": "동영상"
   },
+  "收件地址": {
+    "zh": "收件地址",
+    "en": "Recipient address",
+    "ko": "받는 사람 주소"
+  },
+  "修改": {
+    "zh": "修改",
+    "en": "Edit",
+    "ko": "수정"
+  },
+  "主旨": {
+    "zh": "主旨",
+    "en": "Subject",
+    "ko": "제목"
+  },
+  "內文": {
+    "zh": "內文",
+    "en": "Message",
+    "ko": "본문"
+  },
+  "Email 預覽": {
+    "zh": "Email 預覽",
+    "en": "Email preview",
+    "ko": "이메일 미리보기"
+  },
+  "關閉預覽": {
+    "zh": "關閉預覽",
+    "en": "Close preview",
+    "ko": "미리보기 닫기"
+  },
+  "儲存修改": {
+    "zh": "儲存修改",
+    "en": "Save changes",
+    "ko": "변경사항 저장"
+  },
+  "寄送內容確認": {
+    "zh": "寄送內容確認",
+    "en": "Confirm email content",
+    "ko": "이메일 내용 확인"
+  },
+  "請確認以下內容，儲存修改後再按確認寄出。": {
+    "zh": "請確認以下內容，儲存修改後再按確認寄出。",
+    "en": "Review the content below, save changes, then confirm sending.",
+    "ko": "아래 내용을 확인하고 변경사항을 저장한 후 전송을 확인하세요."
+  },
+  "確認寄出": {
+    "zh": "確認寄出",
+    "en": "Confirm send",
+    "ko": "전송 확인"
+  },
+  "平均精蟲濃度": {
+    "zh": "平均精蟲濃度",
+    "en": "Average sperm concentration",
+    "ko": "평균 정자 농도"
+  },
+  "平均精蟲活動力": {
+    "zh": "平均精蟲活動力",
+    "en": "Average sperm motility",
+    "ko": "평균 정자 운동성"
+  },
+  "平均正常型態比例": {
+    "zh": "平均正常型態比例",
+    "en": "Average normal morphology ratio",
+    "ko": "평균 정상 형태 비율"
+  },
   "照片": {
     "zh": "照片",
     "en": "Image",
@@ -1908,5 +1973,80 @@
     "zh": "顯微鏡影像",
     "en": "Microscopy image",
     "ko": "현미경 이미지"
+  },
+  "精蟲濃度": {
+    "zh": "精蟲濃度",
+    "en": "Sperm concentration",
+    "ko": "정자 농도"
+  },
+  "正常型態比例": {
+    "zh": "正常型態比例",
+    "en": "Normal morphology",
+    "ko": "정상 형태 비율"
+  },
+  "列印／另存 PDF": {
+    "zh": "列印／另存 PDF",
+    "en": "Print / Save as PDF",
+    "ko": "인쇄 / PDF로 저장"
+  },
+  "模擬資料": {
+    "zh": "模擬資料",
+    "en": "Simulated data",
+    "ko": "시뮬레이션 데이터"
+  },
+  "正式檢驗": {
+    "zh": "正式檢驗",
+    "en": "Examination record",
+    "ko": "검사 기록"
+  },
+  "本筆為模擬資料，未進行實際影像分析。": {
+    "zh": "本筆為模擬資料，未進行實際影像分析。",
+    "en": "This is simulated data; no actual image analysis was performed.",
+    "ko": "시뮬레이션 데이터이며 실제 이미지 분석은 수행되지 않았습니다."
+  },
+  "各項指標依系統參考範圍呈現，請由檢驗人員複核。": {
+    "zh": "各項指標依系統參考範圍呈現，請由檢驗人員複核。",
+    "en": "Indicators are shown against system reference ranges and should be reviewed by an examiner.",
+    "ko": "각 지표는 시스템 참고 범위에 따라 표시되며 검사자의 검토가 필요합니다."
+  },
+  "目前沒有型態比例資料，暫不顯示圖表。": {
+    "zh": "目前沒有型態比例資料，暫不顯示圖表。",
+    "en": "No morphology data is available, so the chart is hidden.",
+    "ko": "형태 데이터가 없어 차트를 표시하지 않습니다."
+  },
+  "複核完成，紀錄已更新。": {
+    "zh": "複核完成，紀錄已更新。",
+    "en": "Review complete; the record has been updated.",
+    "ko": "검토가 완료되어 기록이 업데이트되었습니다."
+  },
+  "複核中…": {
+    "zh": "複核中…",
+    "en": "Reviewing…",
+    "ko": "검토 중…"
+  },
+  "複核失敗，請重新整理後再試。": {
+    "zh": "複核失敗，請重新整理後再試。",
+    "en": "Review failed. Refresh the page and try again.",
+    "ko": "검토에 실패했습니다. 페이지를 새로고침한 후 다시 시도하세요."
+  },
+  "編輯 Email 內容": {
+    "zh": "編輯 Email 內容",
+    "en": "Edit email content",
+    "ko": "이메일 내용 편집"
+  },
+  "關閉編輯": {
+    "zh": "關閉編輯",
+    "en": "Close editor",
+    "ko": "편집 닫기"
+  },
+  "系統參考範圍": {
+    "zh": "系統參考範圍",
+    "en": "System reference range",
+    "ko": "시스템 참고 범위"
+  },
+  "目前沒有實際辨識影像；標記僅供介面展示。": {
+    "zh": "目前沒有實際辨識影像；標記僅供介面展示。",
+    "en": "No image has been analyzed; the annotations are for interface display only.",
+    "ko": "이미지는 아직 분석되지 않았으며 표시는 인터페이스용입니다."
   }
 }

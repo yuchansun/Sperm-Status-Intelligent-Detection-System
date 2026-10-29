@@ -6,16 +6,18 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import { mockResult } from '../services/mockData.js'
 import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { PrivateExamMedia } from '../components/analysis/PrivateExamMedia.jsx'
 import { PrivateImage } from '../components/analysis/PrivateImage.jsx'
 import { useExaminationSession } from '../context/examinationSession.js'
 import { useLanguage } from '../context/language.js'
+import { ReportPreview } from '../components/analysis/ReportPreview.jsx'
+import { CORE_MEASUREMENT_STANDARDS, evaluateMeasurement, formatMeasurement, statusClass } from '../utils/measurementStandards.js'
+import { completeCloudRecord } from '../services/cloudApi.js'
 
 export function AnalysisResultPage() {
-  const [viewMode, setViewMode] = useState('original')
-  const [mailStatus, setMailStatus] = useState('')
+  const [reviewing, setReviewing] = useState(false)
+  const [reviewNotice, setReviewNotice] = useState('')
   const { t } = useLanguage()
   const navigate = useNavigate()
   const { activeExamination } = useExaminationSession()
@@ -23,19 +25,35 @@ export function AnalysisResultPage() {
   const { records, loading, error, reload } = useCloudHistory()
   const recordId = params.get('record') || activeExamination?.historyRecordId
   const record = records.find(r => r.id === recordId)
-  const result = { ...mockResult, boxes: record?.boxes || [], summary: record?.aiResult || {} }
+  const result = { boxes: record?.boxes || [], summary: record?.aiResult || {} }
   const sampleId = record?.sampleId ?? '—'
-  const chartData = [
-    { name: tr("正常型態"), value: Number.parseFloat(record?.morphology) || 0, color: '#35b779' },
-    { name: tr("異常型態"), value: 100 - (Number.parseFloat(record?.morphology) || 0), color: '#f59e0b' },
-  ]
+  const morphologyValue = Number.parseFloat(record?.measurements?.morphology ?? record?.morphology)
+  const chartData = Number.isFinite(morphologyValue) && morphologyValue >= 0 && morphologyValue <= 100 ? [
+    { name: tr("正常型態"), value: morphologyValue, color: '#35b779' },
+    { name: tr("異常型態"), value: 100 - morphologyValue, color: '#f59e0b' },
+  ] : []
+
+  const confirmReview = async () => {
+    if (!record || reviewing) return
+    setReviewing(true)
+    setReviewNotice('')
+    try {
+      await completeCloudRecord(record.id)
+      setReviewNotice(tr('複核完成，紀錄已更新。'))
+      await reload()
+    } catch (reviewError) {
+      setReviewNotice(tr(reviewError.message || '複核失敗，請重新整理後再試。'))
+    } finally {
+      setReviewing(false)
+    }
+  }
 
   if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || tr("雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
   if (!record) return <div className="page-shell"><p>{tr("找不到此分析紀錄。")}</p><button onClick={() => navigate('/history')}>{tr("查看紀錄")}</button></div>
 
   return (
     <div className="page-shell result-page">
-      {record.isDemo && <span className="chip neutral">Demo</span>}
+      {record.isDemo && <span className="chip neutral">{tr('模擬資料')}</span>}
       <header className="page-header">
         <div>
           <p className="eyebrow">{t.analysisResult}</p>
@@ -43,89 +61,43 @@ export function AnalysisResultPage() {
         </div>
         <div className="header-actions">
           <button type="button" className="secondary-btn" onClick={() => navigate('/analysis')}>{t.retest}</button>
-          <button type="button" className="primary-btn" onClick={() => setMailStatus(tr("PDF 模擬報告已準備下載"))}>{t.downloadPdf}</button>
+          {record.processingState === '待複核' && <button type="button" className="secondary-btn" onClick={confirmReview} disabled={reviewing}>{reviewing ? tr('複核中…') : t.confirmReview}</button>}
+          <button type="button" className="primary-btn" onClick={() => window.print()}>{tr('列印／另存 PDF')}</button>
         </div>
       </header>
 
       <section className="summary-banner result-summary">
-        <span className="status-pill danger">{t.followUp}</span>
+        <span className="status-pill neutral-badge">{record.processingState ? tr(record.processingState) : tr('待複核')}</span>
         <div>
-          <h3>{t.aiResult}</h3>
-          <p>{t.resultSummary}</p>
+          <h3>{t.testSummary}</h3>
+          <p>{record.isDemo ? tr('本筆為模擬資料，未進行實際影像分析。') : tr('各項指標依系統參考範圍呈現，請由檢驗人員複核。')}</p>
         </div>
       </section>
+      {reviewNotice && <p className="form-banner" role="status">{reviewNotice}</p>}
 
       <RecordActions key={record.id} record={record} onSaved={reload} onDeleted={() => navigate(`/patients/${record.patientId}/history`)} />
-      <section className="result-overview">
-        <div className="result-card highlight">
-          <span className="metric-label">{t.spermCountLabel}</span>
-          <div className="value-line">
-            <strong>{record.density}</strong>
-            <span>million/mL</span>
-          </div>
-          <div className="status-inline success">{t.whoPass}</div>
-        </div>
-
-        <div className="result-card">
-          <span className="metric-label">{t.headBodyRatio}</span>
-          <div className="value-line">
-            <strong>{record.morphology}</strong>
-            <span>{t.normalMorphology}</span>
-          </div>
-          <div className="status-inline warning">{t.lowFollowUp}</div>
-        </div>
-
-        <div className="result-card">
-          <span className="metric-label">{t.motilityEstimateLabel}</span>
-          <div className="value-line">
-            <strong>{record.motility}</strong>
-            <span>{t.progressive}</span>
-          </div>
-          <div className="status-inline neutral">{t.moderateMotility}</div>
-        </div>
+      <section className="result-overview standards-metric-grid">
+        {CORE_MEASUREMENT_STANDARDS.map(item => {
+          const result = evaluateMeasurement(record, item.key)
+          return <div className="result-card" key={item.key}><span className="metric-label">{tr(item.label)}</span><div className="value-line"><strong>{formatMeasurement(result, tr('未判定'))}</strong></div><small>{tr('系統參考範圍')}：{item.range}</small><span className={`status-pill ${statusClass(result.state)}`}>{result.state === 'normal' ? tr('正常') : result.state === 'abnormal' ? tr('異常') : tr('未判定')}</span></div>
+        })}
       </section>
 
       <section className="analysis-content">
         <div className="analysis-panel image-panel">
           <div className="panel-header">
             <h3>{t.imageYolo}</h3>
-            <div className="toggle-group">
-              <button
-                type="button"
-                className={viewMode === 'original' ? 'chip success' : 'chip neutral'}
-                onClick={() => setViewMode('original')}
-              >
-                {t.originalImage}
-              </button>
-              <button
-                type="button"
-                className={viewMode === 'yolo' ? 'chip success' : 'chip neutral'}
-                onClick={() => setViewMode('yolo')}
-              >
-                {t.yoloView}
-              </button>
-            </div>
           </div>
 
-          <div className="visual-box">
-            {record.media?.media_kind === 'video' && !(viewMode === 'yolo' && record.analyzedImagePath) ? <PrivateExamMedia record={record} /> : <PrivateImage path={viewMode === 'yolo' && record.analyzedImagePath ? record.analyzedImagePath : record.imagePath} isDemo={record.isDemo} />}
-            {viewMode === 'yolo' && !record.analyzedImagePath ? (
-              <div className="result-box-overlay" aria-label={t.yoloView}>
-                {result.boxes.map((box) => (
-                  <span
-                    key={box.id}
-                    className="result-bounding-box"
-                    style={{ left: `${box.x}%`, top: `${box.y}%`, width: `${box.width}%`, height: `${box.height}%` }}
-                  />
-                ))}
-              </div>
-            ) : null}
+          <div className="visual-box comparison-images">
+            <div><h4>{tr(record.media?.media_kind === 'video' ? '原始影片' : '原始影像')}</h4>{record.media?.media_kind === 'video' ? <PrivateExamMedia record={record} /> : <PrivateImage path={record.imagePath} isDemo={record.isDemo} />}</div>
+            <div><h4>{tr(record.media?.media_kind === 'video' ? '影片分析影像' : '分析後影像')}</h4>{record.analyzedImagePath ? <PrivateImage path={record.analyzedImagePath} /> : <p className="muted-preview">{tr(record.media?.media_kind === 'video' ? '目前沒有影片分析後影像。' : '目前沒有分析後影像。')}</p>}</div>
           </div>
 
-          <div className="evidence-row">
+          {!record.isDemo && ['detected', 'precision', 'confidence'].some(key => result.summary[key] !== null && result.summary[key] !== undefined) && <div className="evidence-row">
             <div>
               <span>{t.detected}</span>
-              <strong>{result.summary.detected}</strong>
+              <strong>{result.summary.detected ?? tr('未提供')}</strong>
             </div>
             <div>
               <span>{t.precision}</span>
@@ -135,7 +107,7 @@ export function AnalysisResultPage() {
               <span>{t.confidence}</span>
               <strong>{tr(result.summary.confidence)}</strong>
             </div>
-          </div>
+          </div>}
         </div>
 
         <div className="analysis-panel info-panel">
@@ -144,26 +116,24 @@ export function AnalysisResultPage() {
               <h3>{t.testSummary}</h3>
             </div>
             <ul className="summary-list">
-              <li><span>{t.concentration}</span><strong>{record.density} million/mL</strong></li>
-              <li><span>{t.normalMorphology}</span><strong>{record.morphology}</strong></li>
-              <li><span>{t.motility}</span><strong>{record.motility}</strong></li>
+          {CORE_MEASUREMENT_STANDARDS.map(item => <li key={item.key}><span>{tr(item.label)}</span><strong>{formatMeasurement(evaluateMeasurement(record, item.key))}</strong></li>)}
             </ul>
           </div>
 
           <div className="info-block chart-block">
             <div className="panel-header">
               <h3>{t.morphologyAnalysis}</h3>
-              <span className="chart-percent">{tr("正常率")}{record.morphology}</span>
+              <span className="chart-percent">{tr("正常率")}{Number.isFinite(morphologyValue) ? `${morphologyValue}%` : tr('未判定')}</span>
             </div>
             <div className="chart-wrap">
-              <ResponsiveContainer width="100%" height={190}>
+              {chartData.length ? <ResponsiveContainer width="100%" height={190}>
                 <PieChart>
                   <Pie data={chartData} dataKey="value" nameKey="name" innerRadius={54} outerRadius={78} paddingAngle={4}>
                     {chartData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
                   </Pie>
                   <Tooltip />
                 </PieChart>
-              </ResponsiveContainer>
+              </ResponsiveContainer> : <p className="muted-preview">{tr('目前沒有型態比例資料，暫不顯示圖表。')}</p>}
             </div>
             <div className="chart-legend">
               {chartData.map((entry) => <span key={entry.name}><i style={{ background: entry.color }} />{entry.name} {entry.value}%</span>)}
@@ -172,11 +142,10 @@ export function AnalysisResultPage() {
 
           <div className="info-block signal-block">
             <div className="panel-header"><h3>{t.healthSignal}</h3></div>
-            <div className="signal-list">
-              <div><span className="signal-dot signal-green" />{t.spermCountLabel}<strong>{record.density} million/mL</strong></div>
-              <div><span className="signal-dot signal-yellow" />{t.normalMorphology}<strong>{record.morphology}</strong></div>
-              <div><span className="signal-dot signal-yellow" />{t.motility}<strong>{record.motility}</strong></div>
-            </div>
+            <div className="signal-list">{CORE_MEASUREMENT_STANDARDS.map(item => {
+              const result = evaluateMeasurement(record, item.key)
+              return <div key={item.key}><span className={`signal-dot ${result.state === 'normal' ? 'signal-green' : result.state === 'abnormal' ? 'signal-red' : 'signal-yellow'}`} />{tr(item.label)}<strong>{formatMeasurement(result, tr('未判定'))}</strong></div>
+            })}</div>
           </div>
 
           <div className="info-block">
@@ -196,9 +165,9 @@ export function AnalysisResultPage() {
             <button type="button" className="secondary-btn" onClick={() => navigate(`/patients/${encodeURIComponent(record.patientId || record.patient.id)}/history`)}>{t.viewPatientHistory}</button>
           </div>
           <ResultEmail key={`${record.id}-${record.patient?.email || ''}`} record={record} />
-          {mailStatus ? <p className="form-banner success">{tr(mailStatus)}</p> : null}
         </div>
       </section>
+      <ReportPreview record={record} />
     </div>
   )
 }

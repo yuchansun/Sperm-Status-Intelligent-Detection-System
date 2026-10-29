@@ -2,10 +2,11 @@ import { translateText as tr, displayRecordSummary } from '../i18n/translate.js'
 import { buildHistoryEmail } from '../i18n/reportText.js'
 import { PatientActions } from '../components/analysis/PatientActions.jsx'
 import { RecordActions } from '../components/analysis/RecordActions.jsx'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   CartesianGrid,
+  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -18,12 +19,13 @@ import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { saveCloudNote, completeCloudRecord } from '../services/cloudApi.js'
 import { isEmailJsConfigured, sendHistoryEmail } from '../services/emailService.js'
 import { useLanguage } from '../context/language.js'
+import { ReportPreview } from '../components/analysis/ReportPreview.jsx'
+import { ResultEmail } from '../components/analysis/ResultEmail.jsx'
 
 export function PatientHistoryPage() {
   const { patientId } = useParams()
   const navigate = useNavigate()
   const { t } = useLanguage()
-  const [metric, setMetric] = useState('density')
   const [expandedRecordId, setExpandedRecordId] = useState(null)
   const [doctorComment, setDoctorComment] = useState(null)
   const [saveError, setSaveError] = useState('')
@@ -40,10 +42,28 @@ export function PatientHistoryPage() {
   )
   const patient = patientRecords[0]?.patient
   const latestRecord = patientRecords.at(-1)
+  const defaultEmailContent = patient ? buildHistoryEmail(patient, patientRecords) : { subject: '', body: '' }
+  const [emailSubject, setEmailSubject] = useState(() => {
+    try { return JSON.parse(window.localStorage.getItem(`sperm-ai-history-email-${patientId}`) || 'null')?.subject || defaultEmailContent.subject } catch { return defaultEmailContent.subject }
+  })
+  const [emailBody, setEmailBody] = useState(() => {
+    try { return JSON.parse(window.localStorage.getItem(`sperm-ai-history-email-${patientId}`) || 'null')?.body || defaultEmailContent.body } catch { return defaultEmailContent.body }
+  })
+  const [emailEditing, setEmailEditing] = useState(false)
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(`sperm-ai-history-email-${patientId}`) || 'null')
+      setEmailSubject(saved?.subject || defaultEmailContent.subject)
+      setEmailBody(saved?.body || defaultEmailContent.body)
+    } catch {
+      setEmailSubject(defaultEmailContent.subject)
+      setEmailBody(defaultEmailContent.body)
+    }
+  }, [patientId, defaultEmailContent.subject, defaultEmailContent.body])
   const averages = useMemo(() => {
     const average = (field) => {
       if (!patientRecords.length) return 0
-      const values = patientRecords.map(record => Number.parseFloat(record[field])).filter(Number.isFinite)
+      const values = patientRecords.map(record => Number.parseFloat(field === 'density' ? record.measurements?.countOfSpermatozoa ?? record.density : record.measurements?.[field] ?? record[field])).filter(Number.isFinite)
       if (!values.length) return '—'
       return (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1)
     }
@@ -56,10 +76,10 @@ export function PatientHistoryPage() {
   }, [patientRecords])
   const chartData = patientRecords.map((record) => ({
     date: record.date,
-    value: Number.isFinite(Number.parseFloat(record[metric])) ? Number.parseFloat(record[metric]) : null,
+    count: Number.isFinite(Number.parseFloat(record.measurements?.countOfSpermatozoa ?? record.density)) ? Number.parseFloat(record.measurements?.countOfSpermatozoa ?? record.density) : null,
+    motilityValue: Number.isFinite(Number.parseFloat(record.measurements?.motility ?? record.motility)) ? Number.parseFloat(record.measurements?.motility ?? record.motility) : null,
+    morphologyValue: Number.isFinite(Number.parseFloat(record.measurements?.morphology ?? record.morphology)) ? Number.parseFloat(record.measurements?.morphology ?? record.morphology) : null,
   }))
-
-  const getEmailContent = () => buildHistoryEmail(patient, patientRecords)
 
   const handleSendHistoryEmail = async () => {
     const recipient = email.trim()
@@ -68,7 +88,7 @@ export function PatientHistoryPage() {
       return
     }
 
-    const { subject, body } = getEmailContent()
+    const { subject, body } = { subject: emailSubject, body: emailBody }
     if (!isEmailJsConfigured()) {
       setEmailNotice(t.emailJsNotConfigured ?? tr("尚未設定 EmailJS，請先建立 .env.local。"))
       return
@@ -84,7 +104,7 @@ export function PatientHistoryPage() {
   }
 
   const handleCopyHistoryEmail = async () => {
-    const { subject, body } = getEmailContent()
+    const { subject, body } = { subject: emailSubject, body: emailBody }
     if (!navigator.clipboard) {
       setEmailNotice(t.emailCopyUnavailable)
       return
@@ -94,12 +114,12 @@ export function PatientHistoryPage() {
   }
 
   const handleDownloadHistoryEmail = () => {
-    const { subject, body } = getEmailContent()
+    const { subject, body } = { subject: emailSubject, body: emailBody }
     const file = new Blob([tr("主旨：{{0}}\n\n{{1}}", [subject, body])], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(file)
     const link = document.createElement('a')
     link.href = url
-    link.download = `${patient.name}-${getEmailContent().subject}.txt`
+    link.download = `${patient.name}-${subject}.txt`
     link.click()
     URL.revokeObjectURL(url)
     setEmailNotice(t.emailDownloaded)
@@ -111,7 +131,7 @@ export function PatientHistoryPage() {
       return
     }
 
-    const { subject, body } = getEmailContent()
+    const { subject, body } = { subject: emailSubject, body: emailBody }
     try {
       await navigator.share({ title: subject, text: body })
       setEmailNotice(t.emailShareSuccess)
@@ -165,14 +185,14 @@ export function PatientHistoryPage() {
           <div className="profile-block">
             <h4>{t.averageResults}</h4>
             <div className="average-result-grid">
-              <div><strong>{averages.density}</strong><span>million/mL</span><small>{t.averageConcentration}</small></div>
+              <div><strong>{averages.density}</strong><span>×10⁶/mL</span><small>{t.averageConcentration}</small></div>
               <div><strong>{averages.motility === '—' ? '—' : `${averages.motility}%`}</strong><small>{t.averageMotility}</small></div>
               <div><strong>{averages.morphology === '—' ? '—' : `${averages.morphology}%`}</strong><small>{t.averageMorphology}</small></div>
             </div>
             <div className="patient-current-status">
               <span>{tr(t.status)}</span>
               <strong className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
-                {latestRecord.status === '正常' ? t.normal : latestRecord.status === '示範資料' ? 'Demo' : latestRecord.status === '未分析' ? tr("未分析") : t.followUp}
+                {latestRecord.status === '正常' ? t.normal : latestRecord.status === '示範資料' ? tr('模擬資料') : latestRecord.status === '未分析' ? tr("未分析") : t.followUp}
               </strong>
             </div>
           </div>
@@ -184,23 +204,19 @@ export function PatientHistoryPage() {
               <h4>{t.trendChartTitle}</h4>
               <p>{t.trendChartDescription}</p>
             </div>
-            <label className="history-trend-select">
-              <span>{t.trendMetric}</span>
-              <select value={metric} onChange={(event) => setMetric(event.target.value)}>
-                <option value="density">{t.concentration}</option>
-                <option value="motility">{t.motility}</option>
-                <option value="morphology">{t.morphology}</option>
-              </select>
-            </label>
           </div>
           <div className="history-trend-chart" aria-label={t.trendChartTitle}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 12, right: 12, left: 0, bottom: 4 }}>
                 <CartesianGrid stroke="#e5edf9" strokeDasharray="3 3" />
                 <XAxis dataKey="date" tick={{ fill: '#5b7290', fontSize: 11 }} />
-                <YAxis tick={{ fill: '#5b7290', fontSize: 11 }} />
-                <Tooltip formatter={(value) => [value, t[metric]]} />
-                <Line type="monotone" dataKey="value" name={t[metric]} stroke="#3f82f6" strokeWidth={3} dot={{ r: 5, fill: '#3f82f6' }} activeDot={{ r: 7 }} />
+                <YAxis yAxisId="count" tick={{ fill: '#5b7290', fontSize: 11 }} unit=" ×10⁶/mL" />
+                <YAxis yAxisId="percent" orientation="right" tick={{ fill: '#5b7290', fontSize: 11 }} unit="%" />
+                <Tooltip />
+                <Legend />
+                <Line yAxisId="count" type="monotone" dataKey="count" name={`${t.concentration} (×10⁶/mL)`} stroke="#3f82f6" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
+                <Line yAxisId="percent" type="monotone" dataKey="motilityValue" name={`${t.motility} (%)`} stroke="#35b779" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
+                <Line yAxisId="percent" type="monotone" dataKey="morphologyValue" name={`${t.normalMorphology} (%)`} stroke="#f59e0b" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -264,6 +280,13 @@ export function PatientHistoryPage() {
                 {t.sendHistoryEmail}
               </button>
             </div>
+            <button type="button" className="secondary-btn small" onClick={() => setEmailEditing(value => !value)}>{emailEditing ? tr('關閉編輯') : tr('Email 預覽與修改')}</button>
+            {emailEditing && <div className="history-email-editor">
+              <label>{tr('主旨')}<input value={emailSubject} onChange={event => setEmailSubject(event.target.value)} /></label>
+              <label>{tr('內文')}<textarea rows="10" value={emailBody} onChange={event => setEmailBody(event.target.value)} /></label>
+              <div className="email-preview"><strong>{emailSubject}</strong><pre>{emailBody}</pre></div>
+              <button type="button" className="primary-btn small" onClick={() => { window.localStorage.setItem(`sperm-ai-history-email-${patientId}`, JSON.stringify({ subject: emailSubject, body: emailBody })); setEmailNotice(tr('Email 修改已儲存')) }}>{tr('儲存修改')}</button>
+            </div>}
             <div className="email-tools">
               <button type="button" className="secondary-btn small" onClick={handleCopyHistoryEmail}>{t.emailCopy}</button>
               <button type="button" className="secondary-btn small" onClick={handleDownloadHistoryEmail}>{t.emailDownload}</button>
@@ -289,8 +312,8 @@ export function PatientHistoryPage() {
                       <small>{record.sampleId}</small>
                     </span>
                     <span>
-                      <strong>{record.density} million/mL</strong>
-                      <small>{t.concentration}</small>
+                      <strong>{record.measurements?.countOfSpermatozoa ?? record.density ?? '—'} ×10⁶/mL</strong>
+                      <small>Count of spermatozoa</small>
                     </span>
                     <span className="status-pill neutral-badge">{tr(record.processingState)}</span>
                     <span className="patient-record-chevron" aria-hidden="true">{isExpanded ? '−' : '+'}</span>
@@ -302,10 +325,10 @@ export function PatientHistoryPage() {
                         <div className="detail-card-box">
                           <h4>{t.analysisResult}</h4>
                           <ul className="summary-list compact-list">
-                            <li><span>{t.concentration}</span><strong>{record.density} million/mL</strong></li>
-                            <li><span>{t.motility}</span><strong>{record.motility}</strong></li>
-                            <li><span>{t.morphology}</span><strong>{record.morphology}</strong></li>
-                            <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>
+                            <li><span>{t.concentration}</span><strong>{record.measurements?.countOfSpermatozoa ?? record.density ?? '未判定'} ×10⁶/mL</strong></li>
+                            <li><span>{t.motility}</span><strong>{String(record.measurements?.motility ?? record.motility ?? '未判定').replace(/%$/, '')} %</strong></li>
+                            <li><span>{t.normalMorphology}</span><strong>{String(record.measurements?.morphology ?? record.morphology ?? '未判定').replace(/%$/, '')} %</strong></li>
+                            {record.aiResult?.processingTime && !record.isDemo && <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>}
                           </ul>
                         </div>
                         <div className="detail-card-box">
@@ -316,10 +339,10 @@ export function PatientHistoryPage() {
                       <div className="patient-record-detail-grid">
                         <div className="detail-card-box">
                           <h4>{t.testSummary}</h4>
-                          <p>{record.isDemo && <strong>Demo · </strong>}{displayRecordSummary(record)}</p>
+                          <p>{record.isDemo && <strong>{tr('模擬資料')} · </strong>}{displayRecordSummary(record)}</p>
                           <ul className="summary-list compact-list">
-                            <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>
-                            <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>
+                            {!record.isDemo && record.aiResult?.precision && <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>}
+                            {!record.isDemo && record.aiResult?.confidence && <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>}
                           </ul>
                         </div>
                         <div className="detail-card-box">
@@ -349,6 +372,8 @@ export function PatientHistoryPage() {
                           </button>
                         </div>
                       ) : null}
+                      <ReportPreview key={`report-${record.id}`} record={record} />
+                      <ResultEmail key={`email-${record.id}`} record={record} />
                     </div>
                   )}
                 </article>

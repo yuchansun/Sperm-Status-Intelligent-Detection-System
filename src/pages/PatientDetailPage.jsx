@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   CartesianGrid,
+  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -14,14 +15,16 @@ import {
 import { PrivateExamMedia } from '../components/analysis/PrivateExamMedia.jsx'
 import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { useLanguage } from '../context/language.js'
+import { completeCloudRecord } from '../services/cloudApi.js'
 
 export function PatientDetailPage() {
   const { recordId } = useParams()
   const navigate = useNavigate()
   const { t } = useLanguage()
   const { records, loading, error, reload } = useCloudHistory()
+  const [reviewing, setReviewing] = useState(false)
+  const [reviewNotice, setReviewNotice] = useState('')
   const record = records.find((historyRecord) => historyRecord.id === recordId)
-  const [metric, setMetric] = useState('density')
   const patientKey = record?.patient?.id ?? record?.patient?.name
   const trendRecords = useMemo(
     () => records
@@ -31,7 +34,9 @@ export function PatientDetailPage() {
   )
   const chartData = trendRecords.map((historyRecord) => ({
     date: historyRecord.date,
-    value: Number.isFinite(Number.parseFloat(historyRecord[metric])) ? Number.parseFloat(historyRecord[metric]) : null,
+    count: Number.isFinite(Number.parseFloat(historyRecord.measurements?.countOfSpermatozoa ?? historyRecord.density)) ? Number.parseFloat(historyRecord.measurements?.countOfSpermatozoa ?? historyRecord.density) : null,
+    motilityValue: Number.isFinite(Number.parseFloat(historyRecord.measurements?.motility ?? historyRecord.motility)) ? Number.parseFloat(historyRecord.measurements?.motility ?? historyRecord.motility) : null,
+    morphologyValue: Number.isFinite(Number.parseFloat(historyRecord.measurements?.morphology ?? historyRecord.morphology)) ? Number.parseFloat(historyRecord.measurements?.morphology ?? historyRecord.morphology) : null,
   }))
 
   if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || tr("雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
@@ -51,6 +56,19 @@ export function PatientDetailPage() {
 
   const translateStatus = record.status === '正常' ? t.normal : record.status === '示範資料' ? tr("示範資料") : record.status === '未判讀' ? tr("未判讀") : record.status === '未分析' ? tr("未分析") : t.followUp
   const translateProcessingState = record.processingState === '已完成' ? t.completed : record.processingState === '待複核' ? t.reviewResult : record.processingState
+  const confirmReview = async () => {
+    setReviewing(true)
+    setReviewNotice('')
+    try {
+      await completeCloudRecord(record.id)
+      setReviewNotice(tr('複核完成，紀錄已更新。'))
+      await reload()
+    } catch (reviewError) {
+      setReviewNotice(tr(reviewError.message || '複核失敗，請重新整理後再試。'))
+    } finally {
+      setReviewing(false)
+    }
+  }
 
   return (
     <div className="page-shell history-page detail-mode">
@@ -69,6 +87,8 @@ export function PatientDetailPage() {
         </div>
 
         <RecordActions key={record.id} record={record} onSaved={reload} onDeleted={() => navigate(`/patients/${record.patientId}/history`)} />
+        {record.processingState === '待複核' && <div className="doctor-review-action"><div><strong>{t.confirmReview}</strong><p>{t.reviewHint}</p></div><button type="button" className="primary-btn small" onClick={confirmReview} disabled={reviewing}>{reviewing ? tr('複核中…') : t.confirmReview}</button></div>}
+        {reviewNotice && <p className="form-banner" role="status">{reviewNotice}</p>}
         <div className="patient-grid">
           <div className="profile-block">
             <h4>{t.patientData}</h4>
@@ -86,9 +106,9 @@ export function PatientDetailPage() {
           <div className="profile-block">
             <h4>{t.analysisResult}</h4>
             <div className="mini-metrics">
-              <div><span>{t.concentration}</span><strong>{record.density} million/mL</strong></div>
+              <div><span>{t.concentration}</span><strong>{record.measurements?.countOfSpermatozoa ?? record.density ?? '—'} ×10⁶/mL</strong></div>
               <div><span>{t.motility}</span><strong>{record.motility}</strong></div>
-              <div><span>{t.morphology}</span><strong>{record.morphology}</strong></div>
+              <div><span>{t.normalMorphology}</span><strong>{record.measurements?.morphology ?? record.morphology ?? '—'}</strong></div>
               <div><span>{t.processingStatus}</span><strong>{tr(translateProcessingState)}</strong></div>
             </div>
           </div>
@@ -102,11 +122,11 @@ export function PatientDetailPage() {
 
           <div className="detail-card-box">
             <h4>{t.testSummary}</h4>
-            <p>{record.isDemo && <strong>{tr("【示範分析】")}</strong>}{displayRecordSummary(record)}</p>
+            <p>{record.isDemo && <strong>{tr("模擬資料")} · </strong>}{displayRecordSummary(record)}</p>
             <ul className="summary-list compact-list">
-              <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>
-              <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>
-              <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>
+              {!record.isDemo && record.aiResult?.precision && <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>}
+              {!record.isDemo && record.aiResult?.confidence && <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>}
+              {!record.isDemo && record.aiResult?.processingTime && <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>}
             </ul>
           </div>
         </div>
@@ -126,23 +146,19 @@ export function PatientDetailPage() {
               <h4>{t.trendChartTitle}</h4>
               <p>{t.trendChartDescription}</p>
             </div>
-            <label className="history-trend-select">
-              <span>{t.trendMetric}</span>
-              <select value={metric} onChange={(event) => setMetric(event.target.value)}>
-                <option value="density">{t.concentration}</option>
-                <option value="motility">{t.motility}</option>
-                <option value="morphology">{t.morphology}</option>
-              </select>
-            </label>
           </div>
           <div className="history-trend-chart" aria-label={t.trendChartTitle}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 12, right: 12, left: 0, bottom: 4 }}>
                 <CartesianGrid stroke="#e5edf9" strokeDasharray="3 3" />
                 <XAxis dataKey="date" tick={{ fill: '#5b7290', fontSize: 11 }} />
-                <YAxis tick={{ fill: '#5b7290', fontSize: 11 }} />
-                <Tooltip formatter={(value) => [value, t[metric]]} />
-                <Line type="monotone" dataKey="value" name={t[metric]} stroke="#3f82f6" strokeWidth={3} dot={{ r: 4, fill: '#3f82f6' }} activeDot={{ r: 6 }} />
+                <YAxis yAxisId="count" tick={{ fill: '#5b7290', fontSize: 11 }} unit=" ×10⁶/mL" />
+                <YAxis yAxisId="percent" orientation="right" tick={{ fill: '#5b7290', fontSize: 11 }} unit="%" />
+                <Tooltip />
+                <Legend />
+                <Line yAxisId="count" type="monotone" dataKey="count" name={`${t.concentration} (×10⁶/mL)`} stroke="#3f82f6" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
+                <Line yAxisId="percent" type="monotone" dataKey="motilityValue" name={`${t.motility} (%)`} stroke="#35b779" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
+                <Line yAxisId="percent" type="monotone" dataKey="morphologyValue" name={`${t.normalMorphology} (%)`} stroke="#f59e0b" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

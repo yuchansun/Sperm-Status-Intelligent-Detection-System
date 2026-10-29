@@ -29,7 +29,8 @@ function AppLayout() {
         {authError && <p role="alert" className="form-banner error">{authError}</p>}
         <Navbar />
         <Routes>
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/" element={<AnalysisUploadPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/analysis" element={<AnalysisUploadPage />} />
           <Route path="/analysis/result" element={<AnalysisResultPage />} />
           <Route path="/history" element={<HistoryPage />} />

@@ -20,7 +20,7 @@ const templateOptions = [
 export function AnalysisUploadPage() {
   const { t } = useLanguage()
   const [selectedTemplate, setSelectedTemplate] = useState(templateOptions[0])
-  const [includeMotility, setIncludeMotility] = useState(false)
+  const [includeMotility, setIncludeMotility] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [confirmedPatient, setConfirmedPatient] = useState(null)
   const [sampleNumber, setSampleNumber] = useState({ value: '', error: '', loading: false })
@@ -245,14 +245,14 @@ export function AnalysisUploadPage() {
       </section>
 
       <section className="upload-card">
-        <h3>{tr("本次檔案")}</h3><p>{tr("一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時使用示範範本。")}</p>
+        <h3>{tr("本次檔案")}</h3><p>{tr("一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時將使用預設模擬影像與數值。")}</p>
         {selectedMedia ? <div className="selected-media-preview">
           <p>{selectedMedia.name} · {(selectedFile.size / 1_000_000).toFixed(2)} MB</p>
           {selectedMedia.kind === 'video'
             ? <video src={selectedMedia.url} controls playsInline preload="metadata" />
             : <img src={selectedMedia.url} alt={tr("本次選取的照片預覽")} />}
           <button type="button" className="secondary-btn small" onClick={clearFile}>{tr("移除本次選取")}</button>
-        </div> : <p>{tr("示範範本：")}{selectedTemplate}</p>}
+        </div> : <p>{tr("預設影像：")}{selectedTemplate}</p>}
       </section>
       </fieldset>}
       {hasAttempted && !isLoading && formError && <p role="note">{tr("部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。")}</p>}

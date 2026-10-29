@@ -7,8 +7,8 @@ export function Sidebar() {
   const { t } = useLanguage()
   const { logout } = useAuth()
   const navItems = [
-    { label: t.home, path: '/' },
-    { label: t.analysis, path: '/analysis' },
+    { label: t.analysis, path: '/' },
+    { label: t.home, path: '/dashboard' },
     { label: t.history, path: '/history' },
     { label: t.settings, path: '/settings' },
   ]
