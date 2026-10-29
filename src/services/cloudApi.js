@@ -126,7 +126,7 @@ export function mapRecord(row) {
     id: row.id, examinationId: exam.id, patientId: p.id, sampleId: row.sample_id,
     updatedAt: row.updated_at, date: row.exam_date, status: row.clinical_status || '未判讀', processingState: row.processing_state,
     density: row.density ?? '—', motility: percentage(row.motility), morphology: percentage(row.morphology),
-    score: row.density ?? '—', summary: row.summary ?? '', aiResult: row.ai_result || {},
+    summary: row.summary ?? '', aiResult: row.ai_result || {},
     media: row.exam_media ?? null,
     isDemo: row.ai_result?.isDemo === true, boxes: row.boxes || [], imagePath: row.original_image_path, analyzedImagePath: row.analyzed_image_path,
     measurements: { amount: row.amount ?? null, amountUnit: row.amount_unit ?? null, color: row.color ?? null,

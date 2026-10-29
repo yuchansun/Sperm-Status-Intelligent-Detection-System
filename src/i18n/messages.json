@@ -927,7 +927,7 @@
   "儲存修改": {
     "zh": "儲存修改",
     "en": "Save changes",
-    "ko": "변경 사항 저장"
+    "ko": "변경사항 저장"
   },
   "確定永久刪除此筆檢測？原始與分析後影像、影片、報告版本及寄送追蹤紀錄將一併刪除，無法復原。病患與其他檢測會保留。已寄出的 Email 不會撤回。": {
     "zh": "確定永久刪除此筆檢測？原始與分析後影像、影片、報告版本及寄送追蹤紀錄將一併刪除，無法復原。病患與其他檢測會保留。已寄出的 Email 不會撤回。",
@@ -1428,11 +1428,6 @@
     "zh": "關閉預覽",
     "en": "Close preview",
     "ko": "미리보기 닫기"
-  },
-  "儲存修改": {
-    "zh": "儲存修改",
-    "en": "Save changes",
-    "ko": "변경사항 저장"
   },
   "寄送內容確認": {
     "zh": "寄送內容確認",
@@ -2048,5 +2043,250 @@
     "zh": "目前沒有實際辨識影像；標記僅供介面展示。",
     "en": "No image has been analyzed; the annotations are for interface display only.",
     "ko": "이미지는 아직 분석되지 않았으며 표시는 인터페이스용입니다."
+  },
+  "模擬影像": {
+    "zh": "模擬影像",
+    "en": "Simulated image",
+    "ko": "시뮬레이션 이미지"
+  },
+  "影像讀取失敗，無法放入報告。": {
+    "zh": "影像讀取失敗，無法放入報告。",
+    "en": "The image could not be loaded or included in the report.",
+    "ko": "이미지를 불러올 수 없어 보고서에 포함할 수 없습니다."
+  },
+  "無法擷取影片影格，請確認影片格式與權限。": {
+    "zh": "無法擷取影片影格，請確認影片格式與權限。",
+    "en": "Unable to capture a video frame. Check the video format and access permissions.",
+    "ko": "동영상 프레임을 추출할 수 없습니다. 동영상 형식과 접근 권한을 확인하세요."
+  },
+  "正在擷取影片影格…": {
+    "zh": "正在擷取影片影格…",
+    "en": "Capturing a video frame…",
+    "ko": "동영상 프레임 추출 중…"
+  },
+  "影片原始影格": {
+    "zh": "影片原始影格",
+    "en": "Original video frame",
+    "ko": "원본 동영상 프레임"
+  },
+  "報告修改已儲存": {
+    "zh": "報告修改已儲存",
+    "en": "Report changes saved",
+    "ko": "보고서 변경 사항을 저장했습니다"
+  },
+  "檢驗報告操作": {
+    "zh": "檢驗報告操作",
+    "en": "Examination report actions",
+    "ko": "검사 보고서 작업"
+  },
+  "編輯報告資訊": {
+    "zh": "編輯報告資訊",
+    "en": "Edit report information",
+    "ko": "보고서 정보 수정"
+  },
+  "醫療機構": {
+    "zh": "醫療機構",
+    "en": "Healthcare institution",
+    "ko": "의료기관"
+  },
+  "請填寫醫療機構名稱": {
+    "zh": "請填寫醫療機構名稱",
+    "en": "Enter the healthcare institution name",
+    "ko": "의료기관 이름을 입력하세요"
+  },
+  "負責醫師": {
+    "zh": "負責醫師",
+    "en": "Responsible physician",
+    "ko": "담당 의사"
+  },
+  "請填寫醫師姓名": {
+    "zh": "請填寫醫師姓名",
+    "en": "Enter the physician’s name",
+    "ko": "의사 이름을 입력하세요"
+  },
+  "報告備註": {
+    "zh": "報告備註",
+    "en": "Report notes",
+    "ko": "보고서 메모"
+  },
+  "補充說明": {
+    "zh": "補充說明",
+    "en": "Additional information",
+    "ko": "추가 설명"
+  },
+  "精液分析檢驗報告": {
+    "zh": "精液分析檢驗報告",
+    "en": "Semen analysis report",
+    "ko": "정액 검사 보고서"
+  },
+  "檢驗報告": {
+    "zh": "檢驗報告",
+    "en": "Examination report",
+    "ko": "검사 보고서"
+  },
+  "病患姓名": {
+    "zh": "病患姓名",
+    "en": "Patient name",
+    "ko": "환자 이름"
+  },
+  "年齡": {
+    "zh": "年齡",
+    "en": "Age",
+    "ko": "나이"
+  },
+  "檢驗狀態": {
+    "zh": "檢驗狀態",
+    "en": "Examination status",
+    "ko": "검사 상태"
+  },
+  "檢驗結果": {
+    "zh": "檢驗結果",
+    "en": "Examination results",
+    "ko": "검사 결과"
+  },
+  "未判定": {
+    "zh": "未判定",
+    "en": "Not determined",
+    "ko": "미판정"
+  },
+  "判定": {
+    "zh": "判定",
+    "en": "Assessment",
+    "ko": "판정"
+  },
+  "異常": {
+    "zh": "異常",
+    "en": "Outside reference range",
+    "ko": "참고 범위 벗어남"
+  },
+  "檢驗影像": {
+    "zh": "檢驗影像",
+    "en": "Examination images",
+    "ko": "검사 이미지"
+  },
+  "原始影像": {
+    "zh": "原始影像",
+    "en": "Original image",
+    "ko": "원본 이미지"
+  },
+  "分析後影像": {
+    "zh": "分析後影像",
+    "en": "Analyzed image",
+    "ko": "분석 후 이미지"
+  },
+  "醫師評語與備註": {
+    "zh": "醫師評語與備註",
+    "en": "Physician comments and notes",
+    "ko": "의사 소견 및 메모"
+  },
+  "醫師簽章": {
+    "zh": "醫師簽章",
+    "en": "Physician signature",
+    "ko": "의사 서명"
+  },
+  "本報告僅供檢驗資料參考，檢驗結果應由醫療專業人員判讀。": {
+    "zh": "本報告僅供檢驗資料參考，檢驗結果應由醫療專業人員判讀。",
+    "en": "This report is for reference. Examination results should be interpreted by a healthcare professional.",
+    "ko": "이 보고서는 참고용이며 검사 결과는 의료 전문가가 판독해야 합니다."
+  },
+  "列印日期": {
+    "zh": "列印日期",
+    "en": "Print date",
+    "ko": "인쇄 날짜"
+  },
+  "Email 修改已儲存": {
+    "zh": "Email 修改已儲存",
+    "en": "Email changes saved",
+    "ko": "이메일 변경 사항을 저장했습니다"
+  },
+  "備註：{{0}}": {
+    "zh": "備註：{{0}}",
+    "en": "Notes: {{0}}",
+    "ko": "메모: {{0}}"
+  },
+  "補充說明：{{0}}": {
+    "zh": "補充說明：{{0}}",
+    "en": "Additional information: {{0}}",
+    "ko": "추가 설명: {{0}}"
+  },
+  "目前 {{0}}：{{1}}": {
+    "zh": "目前 {{0}}：{{1}}",
+    "en": "Latest {{0}}: {{1}}",
+    "ko": "최근 {{0}}: {{1}}"
+  },
+  "未提供": {
+    "zh": "未提供",
+    "en": "Not provided",
+    "ko": "제공되지 않음"
+  },
+  "Email 預覽與修改": {
+    "zh": "Email 預覽與修改",
+    "en": "Preview and edit email",
+    "ko": "이메일 미리보기 및 수정"
+  },
+  "正在確認登入狀態…": {
+    "zh": "正在確認登入狀態…",
+    "en": "Checking sign-in status…",
+    "ko": "로그인 상태 확인 중…"
+  },
+  "原始影片": {
+    "zh": "原始影片",
+    "en": "Original video",
+    "ko": "원본 동영상"
+  },
+  "影片分析影像": {
+    "zh": "影片分析影像",
+    "en": "Video analysis image",
+    "ko": "동영상 분석 이미지"
+  },
+  "目前沒有影片分析後影像。": {
+    "zh": "目前沒有影片分析後影像。",
+    "en": "No analyzed video image is available.",
+    "ko": "동영상 분석 후 이미지가 없습니다."
+  },
+  "目前沒有分析後影像。": {
+    "zh": "目前沒有分析後影像。",
+    "en": "No analyzed image is available.",
+    "ko": "분석 후 이미지가 없습니다."
+  },
+  "無": {
+    "zh": "無",
+    "en": "None",
+    "ko": "없음"
+  },
+  ">20 且 <120": {
+    "zh": ">20 且 <120",
+    "en": ">20 and <120",
+    "ko": ">20 및 <120"
+  },
+  "Amount": {
+    "zh": "精液量",
+    "en": "Semen volume",
+    "ko": "정액량"
+  },
+  "Color": {
+    "zh": "顏色",
+    "en": "Color",
+    "ko": "색상"
+  },
+  "Appearance": {
+    "zh": "外觀",
+    "en": "Appearance",
+    "ko": "외관"
+  },
+  "White": {
+    "zh": "白色",
+    "en": "White",
+    "ko": "흰색"
+  },
+  "Milk-like": {
+    "zh": "乳狀",
+    "en": "Milky",
+    "ko": "우유빛"
+  },
+  "活動力": {
+    "zh": "精蟲活動力",
+    "en": "Sperm motility",
+    "ko": "정자 운동성"
   }
 }

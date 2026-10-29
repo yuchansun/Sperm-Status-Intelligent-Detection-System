@@ -2,7 +2,7 @@ import { translateText as tr, displayRecordSummary } from '../i18n/translate.js'
 import { buildHistoryEmail } from '../i18n/reportText.js'
 import { PatientActions } from '../components/analysis/PatientActions.jsx'
 import { RecordActions } from '../components/analysis/RecordActions.jsx'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   CartesianGrid,
@@ -43,27 +43,19 @@ export function PatientHistoryPage() {
   const patient = patientRecords[0]?.patient
   const latestRecord = patientRecords.at(-1)
   const defaultEmailContent = patient ? buildHistoryEmail(patient, patientRecords) : { subject: '', body: '' }
-  const [emailSubject, setEmailSubject] = useState(() => {
-    try { return JSON.parse(window.localStorage.getItem(`sperm-ai-history-email-${patientId}`) || 'null')?.subject || defaultEmailContent.subject } catch { return defaultEmailContent.subject }
-  })
-  const [emailBody, setEmailBody] = useState(() => {
-    try { return JSON.parse(window.localStorage.getItem(`sperm-ai-history-email-${patientId}`) || 'null')?.body || defaultEmailContent.body } catch { return defaultEmailContent.body }
-  })
+  const [emailDraft, setEmailDraft] = useState(null)
+  let savedEmailDraft = null
+  try { savedEmailDraft = JSON.parse(window.localStorage.getItem(`sperm-ai-history-email-${patientId}`) || 'null') } catch { /* Use generated content when no valid draft exists. */ }
+  const currentEmailDraft = emailDraft?.patientId === patientId ? emailDraft : savedEmailDraft
+  const emailSubject = currentEmailDraft?.subject ?? defaultEmailContent.subject
+  const emailBody = currentEmailDraft?.body ?? defaultEmailContent.body
+  const setEmailSubject = subject => setEmailDraft({ patientId, subject, body: emailBody })
+  const setEmailBody = body => setEmailDraft({ patientId, subject: emailSubject, body })
   const [emailEditing, setEmailEditing] = useState(false)
-  useEffect(() => {
-    try {
-      const saved = JSON.parse(window.localStorage.getItem(`sperm-ai-history-email-${patientId}`) || 'null')
-      setEmailSubject(saved?.subject || defaultEmailContent.subject)
-      setEmailBody(saved?.body || defaultEmailContent.body)
-    } catch {
-      setEmailSubject(defaultEmailContent.subject)
-      setEmailBody(defaultEmailContent.body)
-    }
-  }, [patientId, defaultEmailContent.subject, defaultEmailContent.body])
   const averages = useMemo(() => {
     const average = (field) => {
       if (!patientRecords.length) return 0
-      const values = patientRecords.map(record => Number.parseFloat(field === 'density' ? record.measurements?.countOfSpermatozoa ?? record.density : record.measurements?.[field] ?? record[field])).filter(Number.isFinite)
+      const values = patientRecords.map(record => Number.parseFloat(field === 'density' ? record.measurements?.density ?? record.density : record.measurements?.[field] ?? record[field])).filter(Number.isFinite)
       if (!values.length) return '—'
       return (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1)
     }
@@ -76,7 +68,7 @@ export function PatientHistoryPage() {
   }, [patientRecords])
   const chartData = patientRecords.map((record) => ({
     date: record.date,
-    count: Number.isFinite(Number.parseFloat(record.measurements?.countOfSpermatozoa ?? record.density)) ? Number.parseFloat(record.measurements?.countOfSpermatozoa ?? record.density) : null,
+    count: Number.isFinite(Number.parseFloat(record.measurements?.density ?? record.density)) ? Number.parseFloat(record.measurements?.density ?? record.density) : null,
     motilityValue: Number.isFinite(Number.parseFloat(record.measurements?.motility ?? record.motility)) ? Number.parseFloat(record.measurements?.motility ?? record.motility) : null,
     morphologyValue: Number.isFinite(Number.parseFloat(record.measurements?.morphology ?? record.morphology)) ? Number.parseFloat(record.measurements?.morphology ?? record.morphology) : null,
   }))
@@ -312,8 +304,8 @@ export function PatientHistoryPage() {
                       <small>{record.sampleId}</small>
                     </span>
                     <span>
-                      <strong>{record.measurements?.countOfSpermatozoa ?? record.density ?? '—'} ×10⁶/mL</strong>
-                      <small>Count of spermatozoa</small>
+                      <strong>{record.measurements?.density ?? record.density ?? '—'} ×10⁶/mL</strong>
+                      <small>{t.concentration}</small>
                     </span>
                     <span className="status-pill neutral-badge">{tr(record.processingState)}</span>
                     <span className="patient-record-chevron" aria-hidden="true">{isExpanded ? '−' : '+'}</span>
@@ -325,9 +317,9 @@ export function PatientHistoryPage() {
                         <div className="detail-card-box">
                           <h4>{t.analysisResult}</h4>
                           <ul className="summary-list compact-list">
-                            <li><span>{t.concentration}</span><strong>{record.measurements?.countOfSpermatozoa ?? record.density ?? '未判定'} ×10⁶/mL</strong></li>
-                            <li><span>{t.motility}</span><strong>{String(record.measurements?.motility ?? record.motility ?? '未判定').replace(/%$/, '')} %</strong></li>
-                            <li><span>{t.normalMorphology}</span><strong>{String(record.measurements?.morphology ?? record.morphology ?? '未判定').replace(/%$/, '')} %</strong></li>
+                            <li><span>{t.concentration}</span><strong>{record.measurements?.density ?? record.density ?? tr('未判定')} ×10⁶/mL</strong></li>
+                            <li><span>{t.motility}</span><strong>{String(record.measurements?.motility ?? record.motility ?? tr('未判定')).replace(/%$/, '')} %</strong></li>
+                            <li><span>{t.normalMorphology}</span><strong>{String(record.measurements?.morphology ?? record.morphology ?? tr('未判定')).replace(/%$/, '')} %</strong></li>
                             {record.aiResult?.processingTime && !record.isDemo && <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>}
                           </ul>
                         </div>

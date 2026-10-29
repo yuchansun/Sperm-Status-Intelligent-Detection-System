@@ -23,7 +23,9 @@ function numericValue(value) {
 
 export function getMeasurementValue(record, key) {
   const measurements = record?.measurements || {}
-  if (key === 'countOfSpermatozoa') return measurements.countOfSpermatozoa ?? record?.density ?? null
+  // The display key is retained for compatibility; concentration comes from density.
+  // Total sperm number must never be substituted for concentration.
+  if (key === 'countOfSpermatozoa') return measurements.density ?? record?.density ?? null
   if (key === 'motility') return measurements.motility ?? record?.motility
   if (key === 'morphology') return measurements.morphology ?? record?.morphology
   return measurements[key] ?? null

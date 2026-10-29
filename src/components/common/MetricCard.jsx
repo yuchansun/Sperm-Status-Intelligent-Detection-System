@@ -1,8 +1,8 @@
 import { translateText as tr } from '../../i18n/translate.js'
-export function MetricCard({ label, value, detail, status, tone = 'blue', onClick }) {
+export function MetricCard({ label, value, detail, status, tone = 'blue', onClick, icon }) {
   const content = (
       <div className="metric-header">
-        <span>{tr(label)}</span>
+        <span className="dashboard-icon-label">{icon}{tr(label)}</span>
         {status && <span className="metric-status">{tr(status)}</span>}
       </div>
   )

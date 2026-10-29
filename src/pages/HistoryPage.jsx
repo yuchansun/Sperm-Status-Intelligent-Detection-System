@@ -180,7 +180,6 @@ export function HistoryPage() {
                   {latestRecord.processingState === '已完成' ? null : <span aria-hidden="true">!</span>}
                   {translateProcessingState(latestRecord.processingState, t)}
                 </div>
-                <strong>{latestRecord.score}</strong>
                 <button
                   type="button"
                   className="secondary-btn small"

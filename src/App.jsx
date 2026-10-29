@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
+import { translateText as tr } from './i18n/translate.js'
 import { Sidebar } from './components/common/Sidebar.jsx'
 import { Navbar } from './components/common/Navbar.jsx'
 import { DashboardPage } from './pages/DashboardPage.jsx'
@@ -18,7 +19,7 @@ import './App.css'
 function AppLayout() {
   const { isAuthenticated, isLoading, authError } = useAuth()
 
-  if (isLoading) return <p role="status">正在確認登入狀態…</p>
+  if (isLoading) return <p role="status">{tr('正在確認登入狀態…')}</p>
 
   if (!isAuthenticated) return <Navigate to="/login" replace />
 
@@ -26,7 +27,7 @@ function AppLayout() {
     <div className="app-shell">
       <Sidebar />
       <main className="main-panel">
-        {authError && <p role="alert" className="form-banner error">{authError}</p>}
+        {authError && <p role="alert" className="form-banner error">{tr(authError)}</p>}
         <Navbar />
         <Routes>
           <Route path="/" element={<AnalysisUploadPage />} />

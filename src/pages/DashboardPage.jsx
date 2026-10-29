@@ -1,5 +1,6 @@
 import { translateText as tr } from '../i18n/translate.js'
 import { useMemo } from 'react'
+import { TestTubeDiagonal, ClipboardCheck, CircleCheck, History, Plus, Eye } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { localDate } from '../services/cloudApi.js'
@@ -27,6 +28,11 @@ export function DashboardPage() {
     [t.reviewResult, t.manualReview, t.attention],
     [t.completed, t.todayClosed, t.normal],
   ]
+  const statIcons = [
+    <TestTubeDiagonal size={20} aria-hidden="true" />,
+    <ClipboardCheck size={20} aria-hidden="true" />,
+    <CircleCheck size={20} aria-hidden="true" />,
+  ]
 
   return (
     <div className="page-shell dashboard-page">
@@ -39,10 +45,10 @@ export function DashboardPage() {
         </div>
         <button
           type="button"
-          className="primary-btn"
+          className="primary-btn dashboard-icon-label"
           onClick={() => navigate('/analysis')}
         >
-          ＋ {t.newAnalysis}
+          <Plus size={18} aria-hidden="true" />{t.newAnalysis}
         </button>
       </header>
 
@@ -51,6 +57,7 @@ export function DashboardPage() {
           <MetricCard
             key={stat.label}
             label={statLabels[index][0]}
+            icon={statIcons[index]}
             value={
               index === 1
                 ? String(pendingReviewCount)
@@ -74,7 +81,7 @@ export function DashboardPage() {
 
       <section className="dashboard-block">
         <div className="panel-header">
-          <h3>{t.pendingSamples}</h3>
+          <h3 className="dashboard-icon-label"><TestTubeDiagonal size={22} aria-hidden="true" />{t.pendingSamples}</h3>
           <span className="chip neutral">{t.todayWork}</span>
         </div>
 
@@ -88,17 +95,18 @@ export function DashboardPage() {
 
           {queue.map((item) => (
             <div className="queue-row" key={item.id}>
-              <span>{item.sampleId ?? item.id}</span>
-              <span>{item.time}</span>
-              <span className={`status-pill ${item.status === '待分析' ? 'warning' : item.status === 'AI分析中' ? 'neutral-badge' : 'success'}`}>
-                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : item.status}
-              </span>
+              <span data-label={t.sampleId}>{item.sampleId ?? item.id}</span>
+              <span data-label={t.receivedAt}>{item.time}</span>
+              <div data-label={t.status}><span className={`status-pill ${item.status === '待分析' ? 'warning' : item.status === 'AI分析中' ? 'neutral-badge' : 'success'}`}>
+                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : tr(item.status)}
+              </span></div>
               <button
                 type="button"
-                className="secondary-btn small"
+                className="secondary-btn small dashboard-icon-label"
                 onClick={() => navigate(`/history/${item.recordId}`)}
               >
-                {item.action === '開始分析' ? t.startAnalysis : item.action === '複核結果' ? t.reviewResult : t.view}
+                <ClipboardCheck size={16} aria-hidden="true" />
+                {item.action}
               </button>
             </div>
           ))}
@@ -107,7 +115,7 @@ export function DashboardPage() {
 
       <section className="dashboard-block">
         <div className="panel-header">
-          <h3>{t.recentTests}</h3>
+          <h3 className="dashboard-icon-label"><History size={22} aria-hidden="true" />{t.recentTests}</h3>
           <span className="chip neutral">{t.thisWeek}</span>
         </div>
 
@@ -123,13 +131,13 @@ export function DashboardPage() {
 
           {recentResults.map((item) => (
             <div className="recent-row" key={item.id}>
-              <span>{item.sampleId ?? item.id}</span>
-              <span>{item.density}</span>
-              <span>{item.motility}</span>
-              <span>{item.morphology}</span>
-              <span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? tr("示範資料") : item.result}</span>
-              <button type="button" className="secondary-btn small" onClick={() => navigate(`/history/${item.recordId}`)}>
-                {t.view}
+              <span data-label={t.sampleId}>{item.sampleId ?? item.id}</span>
+              <span data-label={t.concentration}>{item.density} ×10⁶/mL</span>
+              <span data-label={t.motility}>{item.motility}</span>
+              <span data-label={t.morphology}>{item.morphology}</span>
+              <div data-label={t.interpretation}><span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? tr("示範資料") : tr(item.result)}</span></div>
+              <button type="button" className="secondary-btn small dashboard-icon-label" onClick={() => navigate(`/history/${item.recordId}`)}>
+                <Eye size={16} aria-hidden="true" />{t.view}
               </button>
             </div>
           ))}

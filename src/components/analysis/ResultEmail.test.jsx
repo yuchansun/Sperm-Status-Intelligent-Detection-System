@@ -21,7 +21,7 @@ it('uses the saved patient email without an input and sends only after a click',
  await submit()
  expect(sendHistoryEmail).not.toHaveBeenCalled()
  await act(async () => [...container.querySelectorAll('button')].find(button => button.textContent === '確認寄出').click())
- expect(sendHistoryEmail).toHaveBeenCalledWith(expect.objectContaining({recipient:'saved@example.com',recipientName:'病患',body:expect.stringContaining('濃度：42 million/mL')}))
+ expect(sendHistoryEmail).toHaveBeenCalledWith(expect.objectContaining({recipient:'saved@example.com',recipientName:'病患',body:expect.stringContaining('精蟲濃度：42 ×10⁶/mL')}))
  expect(container.querySelector('[role="status"]').textContent).toContain('已提交寄送')
 })
 it('asks for an email only if the patient has none',async()=>{

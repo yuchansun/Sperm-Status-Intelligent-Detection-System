@@ -1,3 +1,4 @@
+import { BrandMark } from '../components/common/BrandMark.jsx'
 import { translateText as tr } from '../i18n/translate.js'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
@@ -67,9 +68,8 @@ export function LoginPage() {
           )}
         </div>
         <div className="login-brand">
-          <div className="brand-mark">AI</div>
+          <BrandMark />
           <div>
-            <p className="eyebrow">SpermAI Platform</p>
             <span className="brand-name">SpermAI</span>
           </div>
         </div>

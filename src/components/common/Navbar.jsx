@@ -1,6 +1,7 @@
 import { translateText as tr } from '../../i18n/translate.js'
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { House, LayoutDashboard, History, Settings, LogOut } from 'lucide-react'
 import { useLanguage } from '../../context/language.js'
 import { useAuth } from '../../context/auth.js'
 
@@ -10,10 +11,10 @@ export function Navbar() {
   const { logout } = useAuth()
 
   const navItems = [
-    { label: t.analysis, path: '/' },
-    { label: t.home, path: '/dashboard' },
-    { label: t.history, path: '/history' },
-    { label: t.settings, path: '/settings' },
+    { label: t.analysis, path: '/', icon: House },
+    { label: t.home, path: '/dashboard', icon: LayoutDashboard },
+    { label: t.history, path: '/history', icon: History },
+    { label: t.settings, path: '/settings', icon: Settings },
   ]
 
   useEffect(() => {
@@ -29,7 +30,6 @@ export function Navbar() {
     <>
       <header className="topbar">
         <div>
-          <p className="eyebrow">SpermAI Platform</p>
           <h1>{t.platform}</h1>
         </div>
         <button
@@ -52,8 +52,9 @@ export function Navbar() {
       />
       <aside
         className={`mobile-drawer ${isMenuOpen ? 'mobile-drawer-open' : ''}`}
-        aria-label="Mobile navigation"
+        aria-label={t.mainNavigation}
         aria-hidden={!isMenuOpen}
+        inert={!isMenuOpen}
       >
         <div className="drawer-header">
           <div>
@@ -70,7 +71,7 @@ export function Navbar() {
           </button>
         </div>
         <nav className="drawer-nav">
-          {navItems.map(({ label, path }) => (
+          {navItems.map(({ label, path, icon: Icon }) => (
             <NavLink
               key={tr(label)}
               to={path}
@@ -80,7 +81,7 @@ export function Navbar() {
               }
               onClick={() => setIsMenuOpen(false)}
             >
-              <span className="drawer-nav-dot" />
+              <Icon size={20} aria-hidden="true" />
               {tr(label)}
             </NavLink>
           ))}
@@ -89,7 +90,7 @@ export function Navbar() {
             className="drawer-nav-item drawer-logout"
             onClick={logout}
           >
-            <span className="drawer-nav-dot" />
+            <LogOut size={20} aria-hidden="true" />
             {t.logout}
           </button>
         </nav>

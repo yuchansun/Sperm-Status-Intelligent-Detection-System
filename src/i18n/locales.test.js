@@ -34,7 +34,7 @@ it('uses consistent units and localized terms in reports and emails while preser
   const history=buildHistoryEmail(patient,[{...record,patient:{...patient,note:'USER_NOTE'}}],language)
   expect(han.test(history.body)).toBe(false)
   expect(history.body).toContain('USER_NOTE')
-  expect(history.body).toContain('95%')
+  expect(history.body).toContain('42 ×10⁶/mL')
  }
  expect(displayRecordSummary({...record,summary:'人工修改摘要',aiResult:{manuallyEdited:true}},'en')).toBe('人工修改摘要')
  expect(buildHistoryEmail(patient,[record],'ko').body).toContain('備註原文')

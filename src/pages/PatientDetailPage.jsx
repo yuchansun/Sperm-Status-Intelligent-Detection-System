@@ -1,3 +1,4 @@
+import { evaluateMeasurement, formatMeasurement } from '../utils/measurementStandards.js'
 import { translateText as tr, displayRecordSummary } from '../i18n/translate.js'
 import { RecordActions } from '../components/analysis/RecordActions.jsx'
 import { useMemo, useState } from 'react'
@@ -34,7 +35,7 @@ export function PatientDetailPage() {
   )
   const chartData = trendRecords.map((historyRecord) => ({
     date: historyRecord.date,
-    count: Number.isFinite(Number.parseFloat(historyRecord.measurements?.countOfSpermatozoa ?? historyRecord.density)) ? Number.parseFloat(historyRecord.measurements?.countOfSpermatozoa ?? historyRecord.density) : null,
+    count: Number.isFinite(Number.parseFloat(historyRecord.measurements?.density ?? historyRecord.density)) ? Number.parseFloat(historyRecord.measurements?.density ?? historyRecord.density) : null,
     motilityValue: Number.isFinite(Number.parseFloat(historyRecord.measurements?.motility ?? historyRecord.motility)) ? Number.parseFloat(historyRecord.measurements?.motility ?? historyRecord.motility) : null,
     morphologyValue: Number.isFinite(Number.parseFloat(historyRecord.measurements?.morphology ?? historyRecord.morphology)) ? Number.parseFloat(historyRecord.measurements?.morphology ?? historyRecord.morphology) : null,
   }))
@@ -106,9 +107,9 @@ export function PatientDetailPage() {
           <div className="profile-block">
             <h4>{t.analysisResult}</h4>
             <div className="mini-metrics">
-              <div><span>{t.concentration}</span><strong>{record.measurements?.countOfSpermatozoa ?? record.density ?? '—'} ×10⁶/mL</strong></div>
-              <div><span>{t.motility}</span><strong>{record.motility}</strong></div>
-              <div><span>{t.normalMorphology}</span><strong>{record.measurements?.morphology ?? record.morphology ?? '—'}</strong></div>
+              <div><span>{t.concentration}</span><strong>{formatMeasurement(evaluateMeasurement(record, 'countOfSpermatozoa'), tr('未判定'))}</strong></div>
+              <div><span>{t.motility}</span><strong>{formatMeasurement(evaluateMeasurement(record, 'motility'), tr('未判定'))}</strong></div>
+              <div><span>{t.normalMorphology}</span><strong>{formatMeasurement(evaluateMeasurement(record, 'morphology'), tr('未判定'))}</strong></div>
               <div><span>{t.processingStatus}</span><strong>{tr(translateProcessingState)}</strong></div>
             </div>
           </div>

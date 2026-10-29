@@ -79,7 +79,7 @@ export function AnalysisResultPage() {
       <section className="result-overview standards-metric-grid">
         {CORE_MEASUREMENT_STANDARDS.map(item => {
           const result = evaluateMeasurement(record, item.key)
-          return <div className="result-card" key={item.key}><span className="metric-label">{tr(item.label)}</span><div className="value-line"><strong>{formatMeasurement(result, tr('未判定'))}</strong></div><small>{tr('系統參考範圍')}：{item.range}</small><span className={`status-pill ${statusClass(result.state)}`}>{result.state === 'normal' ? tr('正常') : result.state === 'abnormal' ? tr('異常') : tr('未判定')}</span></div>
+          return <div className="result-card" key={item.key}><span className="metric-label">{tr(item.label)}</span><div className="value-line"><strong>{formatMeasurement(result, tr('未判定'))}</strong></div><small>{tr('系統參考範圍')}：{tr(item.range)}</small><span className={`status-pill ${statusClass(result.state)}`}>{result.state === 'normal' ? tr('正常') : result.state === 'abnormal' ? tr('異常') : tr('未判定')}</span></div>
         })}
       </section>
 
@@ -116,7 +116,7 @@ export function AnalysisResultPage() {
               <h3>{t.testSummary}</h3>
             </div>
             <ul className="summary-list">
-          {CORE_MEASUREMENT_STANDARDS.map(item => <li key={item.key}><span>{tr(item.label)}</span><strong>{formatMeasurement(evaluateMeasurement(record, item.key))}</strong></li>)}
+          {CORE_MEASUREMENT_STANDARDS.map(item => <li key={item.key}><span>{tr(item.label)}</span><strong>{formatMeasurement(evaluateMeasurement(record, item.key), tr('未判定'))}</strong></li>)}
             </ul>
           </div>
 
