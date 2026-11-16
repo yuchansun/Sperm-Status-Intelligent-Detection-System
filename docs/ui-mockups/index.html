@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpermAI｜介面方向預覽</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px; background: #eef3f5; color: #173447; font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; }
+    main { max-width: 1480px; margin: auto; }
+    header { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin: 0 auto 20px; }
+    h1 { margin: 0 0 6px; font-size: 24px; } p { margin: 0; color: #627b89; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px; }
+    button { border: 1px solid #cad8df; border-radius: 999px; padding: 10px 16px; background: white; color: #315263; font: inherit; cursor: pointer; }
+    button[aria-pressed="true"] { color: white; background: #087f86; border-color: #087f86; }
+    figure { margin: 0; padding: 10px; border: 1px solid #dce5e8; border-radius: 18px; background: white; box-shadow: 0 12px 34px #1b455112; }
+    figure img { display: block; width: 100%; height: auto; border-radius: 10px; }
+    .note { margin: 12px 4px; font-size: 13px; }
+    @media(max-width:700px) { body { padding: 14px; } header { align-items: start; flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div><h1>SpermAI 介面方向預覽</h1><p>純視覺草稿｜範例數字不會寫入資料庫</p></div>
+      <nav aria-label="切換設計方向">
+        <button data-src="direction-a-vibrant.svg" aria-pressed="true">A 活潑加強版</button>
+        <button data-src="direction-a.svg" aria-pressed="false">A 精準檢驗室</button>
+        <button data-src="direction-b.svg" aria-pressed="false">B 顯微鏡探索</button>
+        <button data-src="direction-c.svg" aria-pressed="false">C 臨床研究報告</button>
+      </nav>
+    </header>
+    <figure><img id="mockup" src="direction-a-vibrant.svg" alt="介面設計方向草稿" /></figure>
+    <p class="note">這是供討論的靜態視覺稿，不會改動正式網站。選定方向後才會套用到 keling3 分枝。</p>
+  </main>
+  <script>
+    const preview = document.querySelector('#mockup')
+    document.querySelectorAll('nav button').forEach(button => button.addEventListener('click', () => {
+      preview.src = button.dataset.src
+      document.querySelectorAll('nav button').forEach(item => item.setAttribute('aria-pressed', String(item === button)))
+    }))
+  </script>
+</body>
+</html>

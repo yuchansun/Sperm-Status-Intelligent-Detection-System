@@ -3153,3 +3153,187 @@
   #report-preview .report-print-header,
   #report-preview .report-print-footer { print-color-adjust: exact; }
 }
+
+/* Gentle visual refresh: preserve existing content and page structure. */
+:root {
+  --spermai-ink: #183d43;
+  --spermai-teal: #087f86;
+  --spermai-mint: #e7f7f2;
+  --spermai-coral: #ed7659;
+}
+
+.app-shell {
+  background: linear-gradient(180deg, #f5faf8 0%, #edf5f2 100%);
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #153a43 0%, #12323c 100%);
+}
+
+.brand-mark {
+  background: linear-gradient(135deg, #3dd2b0, #138e93);
+  box-shadow: 0 8px 18px rgba(32, 194, 170, 0.22);
+}
+
+.brand-subtitle { color: #a9ced0; }
+.nav-icon { color: #65d8c0; }
+
+.nav-item-active,
+.bottom-nav-item-active {
+  background: rgba(66, 210, 177, 0.16);
+  border-color: rgba(105, 230, 201, 0.25);
+}
+
+.nav-item:hover,
+.bottom-nav-item:hover,
+.nav-item:focus-visible,
+.bottom-nav-item:focus-visible {
+  background: rgba(66, 210, 177, 0.12);
+}
+
+.main-panel {
+  background: transparent;
+}
+
+.topbar,
+.page-header {
+  border-color: rgba(32, 116, 112, 0.12);
+  box-shadow: 0 8px 24px rgba(31, 75, 69, 0.045);
+}
+
+.eyebrow { color: #168b84; }
+
+.topbar h1,
+.page-shell h2,
+.page-shell h3 { color: var(--spermai-ink); }
+
+.primary-btn {
+  background: linear-gradient(135deg, #098c89, #08777f);
+  box-shadow: 0 9px 18px rgba(8, 127, 134, 0.18);
+}
+
+.primary-btn:hover,
+.primary-btn:focus-visible {
+  background: linear-gradient(135deg, #0a9b94, #087f86);
+  box-shadow: 0 11px 22px rgba(8, 127, 134, 0.24);
+}
+
+.secondary-btn {
+  background: #eaf5f3;
+  color: #23645f;
+}
+
+.secondary-btn:hover,
+.secondary-btn:focus-visible {
+  background: #dff0ed;
+}
+
+.upload-page > .page-header {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(110deg, rgba(255,255,255,.95), rgba(237,249,245,.88));
+}
+
+.upload-page > .page-header::after {
+  content: "";
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(28, 166, 143, 0.18);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 10px rgba(28, 166, 143, 0.035), inset 0 0 0 22px rgba(28, 166, 143, 0.045);
+  pointer-events: none;
+}
+
+.upload-page > .page-header > div { position: relative; z-index: 1; }
+
+.upload-page > .full-width {
+  background: linear-gradient(135deg, #f18462, #e66a55);
+  box-shadow: 0 10px 22px rgba(230, 106, 85, 0.2);
+}
+
+.upload-page > .full-width:hover,
+.upload-page > .full-width:focus-visible {
+  background: linear-gradient(135deg, #f29170, #e97660);
+  box-shadow: 0 12px 25px rgba(230, 106, 85, 0.26);
+}
+
+.upload-card,
+.dashboard-block,
+.analysis-panel,
+.result-card,
+.summary-banner,
+.profile-block,
+.detail-card-box {
+  border-color: rgba(39, 125, 116, 0.13);
+  box-shadow: 0 9px 24px rgba(31, 75, 69, 0.055);
+}
+
+.upload-card,
+.dashboard-block,
+.analysis-panel { border-radius: 18px; }
+
+.patient-input-mode .segment-btn.active {
+  background: linear-gradient(135deg, #098c89, #08777f);
+  border-color: #087f86;
+  box-shadow: 0 6px 14px rgba(8, 127, 134, 0.16);
+}
+
+.field-row input:focus,
+.field-row select:focus,
+.patient-search-form input:focus,
+.report-edit-form input:focus,
+.report-edit-form textarea:focus {
+  outline: 3px solid rgba(31, 174, 151, 0.15);
+  border-color: #36a99c;
+}
+
+.dashboard-grid .metric-card {
+  border-top: 3px solid #47b9a1;
+}
+
+.dashboard-grid .metric-card:nth-child(2) { border-top-color: #eea06e; }
+.dashboard-grid .metric-card:nth-child(3) { border-top-color: #78bca2; }
+
+.dashboard-grid .metric-card-interactive:hover,
+.dashboard-grid .metric-card-interactive:focus-visible {
+  box-shadow: 0 14px 28px rgba(28, 103, 91, 0.13);
+}
+
+.chip.neutral,
+.status-pill.neutral-badge {
+  background: #e7f3f2;
+  color: #347a73;
+}
+
+.status-pill.success,
+.chip.success {
+  background: #e5f5ed;
+  color: #23845c;
+}
+
+.status-pill.warning,
+.chip.warning {
+  background: #fff1e5;
+  color: #b86c3c;
+}
+
+.history-trend-chart {
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fbfefd, #f3f9f7);
+}
+
+.patient-record {
+  border-color: rgba(39, 125, 116, 0.13);
+}
+
+@media (max-width: 600px) {
+  .upload-page > .page-header::after {
+    width: 50px;
+    height: 50px;
+    right: 14px;
+  }
+}
