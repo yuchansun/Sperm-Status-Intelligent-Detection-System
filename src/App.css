@@ -3330,10 +3330,158 @@
   border-color: rgba(39, 125, 116, 0.13);
 }
 
+/* Dashboard callout follows the green-and-coral direction mockup. */
+.dashboard-page .compact-header {
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  color: #fff;
+  background: linear-gradient(112deg, #087f86 0%, #149a8c 58%, #55b892 100%);
+  box-shadow: 0 12px 28px rgba(8, 127, 134, 0.18);
+}
+
+.dashboard-page .compact-header::after {
+  content: "";
+  position: absolute;
+  width: 112px;
+  height: 112px;
+  right: 205px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(232, 255, 246, 0.28);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 16px rgba(232, 255, 246, 0.05), inset 0 0 0 36px rgba(232, 255, 246, 0.06);
+  pointer-events: none;
+}
+
+.dashboard-page .compact-header > div,
+.dashboard-page .compact-header > button { position: relative; z-index: 1; }
+.dashboard-page .compact-header h2 { color: #fff; }
+.dashboard-page .compact-header .eyebrow { color: #c6fff0; }
+
+.dashboard-page .compact-header > .primary-btn {
+  color: #fff;
+  background: linear-gradient(135deg, #f28a65, #e96d54);
+  box-shadow: 0 8px 20px rgba(113, 45, 35, 0.2);
+}
+
+.dashboard-page .compact-header > .primary-btn:hover,
+.dashboard-page .compact-header > .primary-btn:focus-visible {
+  background: linear-gradient(135deg, #f49a77, #ef795e);
+  box-shadow: 0 10px 22px rgba(113, 45, 35, 0.25);
+}
+
+/* Give the patient lookup field a deliberate, comfortable input treatment. */
+.patient-search-form > label { color: #365966; font-weight: 650; }
+.patient-search-form > div { align-items: stretch; }
+.patient-search-form input {
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid #cbdeda;
+  border-radius: 13px;
+  color: #183d43;
+  background: #fbfefd;
+  box-shadow: inset 0 1px 2px rgba(24, 61, 67, 0.035);
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.patient-search-form input::placeholder { color: #91a5a7; }
+.patient-search-form input:hover { border-color: #9fc8bf; background: #fff; }
+.patient-search-form input:focus { background: #fff; }
+.patient-search-form button { min-width: 92px; }
+
+/* Establish a clear hierarchy on a single examination record. */
+.detail-mode .detail-card {
+  gap: 22px;
+  border-color: rgba(39, 125, 116, 0.14);
+}
+
+.detail-mode .history-detail-header {
+  padding: 4px 0 16px;
+  border-bottom: 1px solid #e1eeea;
+}
+
+.detail-mode .history-detail-header > div { flex: 1; }
+.detail-mode .history-detail-header h3 { font-size: clamp(1.35rem, 2vw, 1.8rem); }
+.detail-mode .history-detail-header .status-pill { padding: 7px 12px; font-size: .78rem; }
+
+.detail-mode .patient-grid { align-items: stretch; gap: 14px; }
+.detail-mode .profile-block {
+  border-color: #e0ece8;
+  background: linear-gradient(155deg, #fff 15%, #f5faf8 100%);
+}
+
+.detail-mode .profile-block h4 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e4eeeb;
+}
+
+.detail-mode .profile-block:nth-child(2) {
+  border-top: 3px solid #42b79d;
+}
+
+.detail-mode .mini-metrics { gap: 9px; }
+.detail-mode .mini-metrics > div {
+  min-height: 76px;
+  border-color: #e0efeb;
+  background: #f0f8f5;
+}
+
+.detail-mode .mini-metrics > div:nth-child(1) { background: #e9f7f3; }
+.detail-mode .mini-metrics > div:nth-child(2) { background: #edf7f7; }
+.detail-mode .mini-metrics > div:nth-child(3) { background: #f1f6ed; }
+.detail-mode .mini-metrics > div:last-child {
+  grid-column: 1 / -1;
+  min-height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff9f0;
+  border-color: #f1e5d2;
+}
+
+.detail-mode .mini-metrics > div:last-child span { margin: 0; }
+.detail-mode .mini-metrics > div:last-child strong { color: #9b6b35; }
+
+.detail-mode .detail-content-grid { gap: 14px; }
+.detail-mode .detail-card-box {
+  border-color: #e1ece9;
+  background: #fff;
+}
+
+.detail-mode .detail-card > .detail-card-box > h4,
+.detail-mode .detail-card > .detail-content-grid .detail-card-box > h4 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.detail-mode .detail-card > .detail-card-box > h4::before,
+.detail-mode .detail-card > .detail-content-grid .detail-card-box > h4::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: #35ad98;
+}
+
+.detail-mode .history-trend-chart {
+  padding: 8px 8px 0;
+  border: 1px solid #e5efec;
+}
+
 @media (max-width: 600px) {
   .upload-page > .page-header::after {
     width: 50px;
     height: 50px;
     right: 14px;
   }
+
+  .dashboard-page .compact-header::after { right: 130px; width: 74px; height: 74px; }
+  .dashboard-page .compact-header { align-items: flex-start; }
+  .dashboard-page .compact-header > .primary-btn { align-self: flex-start; }
+  .patient-search-form > div { flex-direction: column; }
+  .patient-search-form button { width: 100%; }
+  .detail-mode .history-detail-header { flex-wrap: wrap; }
+  .detail-mode .history-detail-header .status-pill { margin-left: auto; }
 }
