@@ -5,7 +5,6 @@ import { RecordActions } from '../components/analysis/RecordActions.jsx'
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { PrivateExamMedia } from '../components/analysis/PrivateExamMedia.jsx'
 import { PrivateImage } from '../components/analysis/PrivateImage.jsx'
@@ -14,6 +13,7 @@ import { useLanguage } from '../context/language.js'
 import { ReportPreview } from '../components/analysis/ReportPreview.jsx'
 import { CORE_MEASUREMENT_STANDARDS, evaluateMeasurement, formatMeasurement, statusClass } from '../utils/measurementStandards.js'
 import { completeCloudRecord } from '../services/cloudApi.js'
+import { MorphologyBreakdown } from '../components/analysis/MorphologyBreakdown.jsx'
 
 export function AnalysisResultPage() {
   const [reviewing, setReviewing] = useState(false)
@@ -27,11 +27,6 @@ export function AnalysisResultPage() {
   const record = records.find(r => r.id === recordId)
   const result = { boxes: record?.boxes || [], summary: record?.aiResult || {} }
   const sampleId = record?.sampleId ?? '—'
-  const morphologyValue = Number.parseFloat(record?.measurements?.morphology ?? record?.morphology)
-  const chartData = Number.isFinite(morphologyValue) && morphologyValue >= 0 && morphologyValue <= 100 ? [
-    { name: tr("正常型態"), value: morphologyValue, color: '#35b779' },
-    { name: tr("異常型態"), value: 100 - morphologyValue, color: '#f59e0b' },
-  ] : []
 
   const confirmReview = async () => {
     if (!record || reviewing) return
@@ -50,6 +45,18 @@ export function AnalysisResultPage() {
 
   if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || tr("雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
   if (!record) return <div className="page-shell"><p>{tr("找不到此分析紀錄。")}</p><button onClick={() => navigate('/history')}>{tr("查看紀錄")}</button></div>
+  if (['影像待上傳', '待分析'].includes(record.processingState)) return (
+    <div className="page-shell result-page">
+      <header className="page-header">
+        <div><p className="eyebrow">{t.pendingSamples}</p><h2>{tr("檢體編號 #")}{record.sampleId}</h2></div>
+      </header>
+      <section className="pending-analysis-placeholder">
+        <strong>{t.awaitingImage}</strong>
+        <p>{tr("影像上傳前尚未產生分析數值。")}</p>
+        <button type="button" className="primary-btn" onClick={() => navigate(`/analysis?record=${encodeURIComponent(record.id)}`)}>{t.uploadImage}</button>
+      </section>
+    </div>
+  )
 
   return (
     <div className="page-shell result-page">
@@ -121,23 +128,7 @@ export function AnalysisResultPage() {
           </div>
 
           <div className="info-block chart-block">
-            <div className="panel-header">
-              <h3>{t.morphologyAnalysis}</h3>
-              <span className="chart-percent">{tr("正常率")}{Number.isFinite(morphologyValue) ? `${morphologyValue}%` : tr('未判定')}</span>
-            </div>
-            <div className="chart-wrap">
-              {chartData.length ? <ResponsiveContainer width="100%" height={190}>
-                <PieChart>
-                  <Pie data={chartData} dataKey="value" nameKey="name" innerRadius={54} outerRadius={78} paddingAngle={4}>
-                    {chartData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer> : <p className="muted-preview">{tr('目前沒有型態比例資料，暫不顯示圖表。')}</p>}
-            </div>
-            <div className="chart-legend">
-              {chartData.map((entry) => <span key={entry.name}><i style={{ background: entry.color }} />{entry.name} {entry.value}%</span>)}
-            </div>
+            <MorphologyBreakdown record={record} />
           </div>
 
           <div className="info-block signal-block">

@@ -10,7 +10,7 @@ import { validatePatientDraft } from '../../utils/patientValidation.ts'
 import { maskNationalId } from '../../utils/maskSensitive.ts'
 import { getHealthCardReader } from '../../services/healthCard/getHealthCardReader.ts'
 
-export function PatientSelector({ confirmed, onConfirm, onChangePatient, locked }) {
+export function PatientSelector({ confirmed, onConfirm, onChangePatient, locked, allowChangePatient = true }) {
   const [mode, setMode] = useState('existing')
   const [term, setTerm] = useState('')
   const [search, setSearch] = useState({ rows: [], loading: false, error: '', searched: false })
@@ -77,7 +77,7 @@ export function PatientSelector({ confirmed, onConfirm, onChangePatient, locked 
     <strong>{confirmed.draft.patientName}</strong>
     <p>{maskNationalId(confirmed.draft.nationalId)}{tr("· 出生日期")}{confirmed.draft.birthDate}</p>
     <p>{confirmed.kind === 'existing' ? tr("沿用病患主檔，開始本次檢測時不會覆寫基本資料。") : tr("按下開始後才會建立病患與本次檢測。")}</p>
-    <button type="button" className="secondary-btn small" disabled={locked} onClick={onChangePatient}>{tr("更換／重新確認病患")}</button>
+    {allowChangePatient && <button type="button" className="secondary-btn small" disabled={locked} onClick={onChangePatient}>{tr("更換／重新確認病患")}</button>}
   </section>
   return <div className="patient-selection">
     <section className="upload-card">

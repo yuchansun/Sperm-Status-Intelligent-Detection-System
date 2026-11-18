@@ -9,6 +9,8 @@ export function PrivateExamMedia({ record }) {
   const [playbackFailed, setPlaybackFailed] = useState('')
   const path = media?.object_path
   const bucket = media?.bucket_id
+  const pendingImage = ['影像待上傳', '待分析'].includes(record.processingState)
+  const hasReadyMedia = media?.upload_status === 'ready' && Boolean(path)
   useEffect(() => {
     if (!path || bucket !== 'exam-videos' || media.upload_status !== 'ready') return
     let active = true
@@ -19,6 +21,7 @@ export function PrivateExamMedia({ record }) {
     const timer = window.setInterval(refresh, 240000)
     return () => { active = false; window.clearInterval(timer) }
   }, [path, bucket, media?.upload_status])
+  if (pendingImage && !hasReadyMedia && !record.imagePath) return <p role="status">{tr("尚未上傳檢體影像。")}</p>
   if (media && media.upload_status !== 'ready') return <p role="status">{tr("檔案尚未上傳完成。")}</p>
   if (!media || media.media_kind !== 'video') return <PrivateImage path={record.imagePath} isDemo={record.isDemo} />
   if (media.upload_status !== 'ready') return <p role="status">{tr("檔案尚未上傳完成。")}</p>

@@ -12,9 +12,22 @@ export function DashboardPage() {
   const navigate = useNavigate()
   const { records: historyRecords, loading, error, reload } = useCloudHistory()
   const today = localDate()
-  const queue = historyRecords.filter(r => r.processingState !== '已完成').map(r => ({ id: r.sampleId, recordId: r.id, time: r.date, status: r.processingState, action: tr("複核結果") }))
-  const recentResults = historyRecords.slice(0, 5).map(r => ({ ...r, recordId: r.id, result: r.status }))
-  const dashboardStats = [{ label: tr("待檢驗"), value: String(historyRecords.filter(r => r.processingState === '待分析').length), tone: 'blue' }, { label: tr("待複核"), tone: 'warning' }, { label: tr("已完成"), tone: 'green' }]
+  const queueStates = new Set(['影像待上傳', '待分析', 'AI分析中'])
+  const queue = historyRecords
+    .filter(record => queueStates.has(record.processingState))
+    .map(record => ({
+      id: record.sampleId,
+      recordId: record.id,
+      time: record.date,
+      status: record.processingState,
+      action: record.processingState === 'AI分析中' ? t.viewProgress : record.processingState === '待分析' ? t.startAnalysis : t.uploadImage,
+      needsUpload: record.processingState === '影像待上傳' || record.processingState === '待分析',
+    }))
+  const recentResults = historyRecords
+    .filter(record => !queueStates.has(record.processingState))
+    .slice(0, 5)
+    .map(record => ({ ...record, recordId: record.id, result: record.status }))
+  const dashboardStats = [{ label: t.pendingSamples, value: String(queue.length), tone: 'blue' }, { label: tr("待複核"), tone: 'warning' }, { label: tr("已完成"), tone: 'green' }]
   const pendingReviewCount = useMemo(
     () => historyRecords.filter((record) => record.processingState === '待複核').length,
     [historyRecords],
@@ -24,7 +37,7 @@ export function DashboardPage() {
     [historyRecords, today],
   )
   const statLabels = [
-    [t.pendingSamples, t.todayPending, t.pending],
+    [t.pendingSamples, t.queueCountDetail, t.pending],
     [t.reviewResult, t.manualReview, t.attention],
     [t.completed, t.todayClosed, t.normal],
   ]
@@ -82,8 +95,9 @@ export function DashboardPage() {
       <section className="dashboard-block">
         <div className="panel-header">
           <h3 className="dashboard-icon-label"><TestTubeDiagonal size={22} aria-hidden="true" />{t.pendingSamples}</h3>
-          <span className="chip neutral">{t.todayWork}</span>
+          <span className="chip neutral">{t.queueWorkflowLabel}</span>
         </div>
+        <p className="queue-source-note">{t.dashboardQueueHint}</p>
 
         <div className="queue-table">
           <div className="queue-row queue-head">
@@ -97,19 +111,20 @@ export function DashboardPage() {
             <div className="queue-row" key={item.id}>
               <span data-label={t.sampleId}>{item.sampleId ?? item.id}</span>
               <span data-label={t.receivedAt}>{item.time}</span>
-              <div data-label={t.status}><span className={`status-pill ${item.status === '待分析' ? 'warning' : item.status === 'AI分析中' ? 'neutral-badge' : 'success'}`}>
-                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : tr(item.status)}
+              <div data-label={t.status}><span className={`status-pill ${item.status === 'AI分析中' ? 'neutral-badge' : 'warning'}`}>
+                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : t.awaitingImage}
               </span></div>
               <button
                 type="button"
                 className="secondary-btn small dashboard-icon-label"
-                onClick={() => navigate(`/history/${item.recordId}`)}
+                onClick={() => navigate(item.needsUpload ? `/analysis?record=${encodeURIComponent(item.recordId)}` : `/history/${item.recordId}`)}
               >
-                <ClipboardCheck size={16} aria-hidden="true" />
+                {item.needsUpload ? <Plus size={16} aria-hidden="true" /> : <ClipboardCheck size={16} aria-hidden="true" />}
                 {item.action}
               </button>
             </div>
           ))}
+          {!queue.length && !loading && <p className="empty-queue-note">{t.noPendingSpecimens}</p>}
         </div>
       </section>
 

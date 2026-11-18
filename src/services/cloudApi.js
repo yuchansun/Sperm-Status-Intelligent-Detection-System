@@ -82,11 +82,20 @@ export async function submitDemoExamination({ patientDraft: d, specimen, file, o
     p_id: operation.examinationId, p_patient_id: patient.id, p_include_motility: specimen.includeMotility,
     p_template_label: specimen.templateLabel,
   }).single()))
+  const demoAnalysis = generateDemoAnalysis(operation.recordId, specimen.includeMotility)
+  const pendingImageFields = file ? {
+    amount: null, amount_unit: null, color: null, appearance: null, ph: null,
+    count_of_spermatozoa: null, count_unit: null, count_definition: null,
+    density: null, density_unit: null, morphology: null, motility: null, motility_type: null,
+    summary: '', ai_result: {}, boxes: [], original_image_path: null, analyzed_image_path: null,
+    clinical_status: '未分析',
+  } : {
+    ...demoAnalysis, boxes: mockResult.boxes, clinical_status: '示範資料',
+  }
   const record = {
     id: operation.recordId, examination_id: examination.id, sample_id: examination.sample_id,
-    exam_date: localDate(), clinical_status: '示範資料', processing_state: file ? '影像待上傳' : '待複核',
-    ...generateDemoAnalysis(operation.recordId, specimen.includeMotility),
-    boxes: mockResult.boxes, created_by: uid, updated_at: new Date().toISOString(),
+    exam_date: localDate(), processing_state: file ? '影像待上傳' : '待複核',
+    ...pendingImageFields, created_by: uid, updated_at: new Date().toISOString(),
   }
   // Save a recoverable record first; retries reuse these IDs and never delete partial work.
   unwrap(await query('正在儲存檢測紀錄', () => db.from('analysis_records').upsert(record, { onConflict: 'id' }).select('id').single()))
@@ -104,8 +113,10 @@ export async function submitDemoExamination({ patientDraft: d, specimen, file, o
       operation.uploadedFile = file
     }
     unwrap(await query('檔案已傳完，正在確認儲存', () => db.from('exam_media').update({ upload_status: 'ready' }).eq('analysis_record_id', record.id).select('id').single()))
-    unwrap(await query('正在完成檢測紀錄', () => db.from('analysis_records').update({ original_image_path: isVideo ? null : path,
-      processing_state: '待複核', updated_at: new Date().toISOString() }).eq('id', record.id).select('id').single()))
+    unwrap(await query('正在完成檢測紀錄', () => db.from('analysis_records').update({
+      ...demoAnalysis, boxes: mockResult.boxes, clinical_status: '示範資料',
+      original_image_path: isVideo ? null : path, processing_state: '待複核', updated_at: new Date().toISOString(),
+    }).eq('id', record.id).select('id').single()))
   }
   return { patient: { patientId: patient.id, patientName: patient.patient_name }, examination: { examinationId: examination.id, sampleId: examination.sample_id }, recordId: record.id }
 }
@@ -124,6 +135,7 @@ export function mapRecord(row) {
   if (today.getMonth() < birth.getMonth() || (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())) age--
   return {
     id: row.id, examinationId: exam.id, patientId: p.id, sampleId: row.sample_id,
+    includeMotility: exam.include_motility, templateLabel: exam.template_label,
     updatedAt: row.updated_at, date: row.exam_date, status: row.clinical_status || '未判讀', processingState: row.processing_state,
     density: row.density ?? '—', motility: percentage(row.motility), morphology: percentage(row.morphology),
     summary: row.summary ?? '', aiResult: row.ai_result || {},
@@ -136,6 +148,12 @@ export function mapRecord(row) {
       motilityType: row.motility_type ?? null },
     patient: { birthDate: p.birth_date, updatedAt: p.updated_at, healthCardNumber: p.health_card_number || '', identityStatus: p.identity_status || '', patientDataSource: p.patient_data_source, rawSex: p.sex, id: p.id, identity: maskNationalId(p.national_id || ''), nationalId: p.national_id || '', code: p.patient_code, name: p.patient_name, email: p.email ?? '', sex: { M: '男', F: '女', UNKNOWN: '未知' }[p.sex], age, phone: p.phone || '—', doctor: '—', note: p.patient_notes?.note || '' },
   }
+}
+export async function getCloudRecord(id) {
+  const row = unwrap(await client().from('analysis_records')
+    .select('*, exam_media(*), examinations!inner(*, patients!inner(*, patient_notes(note)))')
+    .eq('id', id).is('deleted_at', null).is('examinations.patients.deleted_at', null).single())
+  return mapRecord(row)
 }
 export async function getCloudHistory() {
   const rows = []

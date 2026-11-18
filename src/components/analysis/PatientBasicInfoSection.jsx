@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { HealthCardReadError } from '../../types/healthCard.ts'
 import { maskHealthCardNumber, maskNationalId } from '../../utils/maskSensitive.ts'
 import { isPatientDraftComplete } from '../../utils/patientValidation.ts'
+import { BirthDatePicker } from '../common/BirthDatePicker.jsx'
 
 function SensitiveField({
   label,
@@ -179,10 +180,10 @@ export function PatientBasicInfoSection({
 
           <label className={fieldErrors.birthDate ? 'field-error' : undefined}>
             <span>{tr("出生日期 *")}</span>
-            <input
-              type="date"
+            <BirthDatePicker
               value={draft.birthDate}
-              onChange={(event) => patchDraft({ birthDate: event.target.value })}
+              onChange={(birthDate) => patchDraft({ birthDate })}
+              invalid={Boolean(fieldErrors.birthDate)}
             />
             {fieldErrors.birthDate ? <p className="field-message error">{tr(fieldErrors.birthDate)}</p> : null}
           </label>

@@ -21,6 +21,42 @@ import { isEmailJsConfigured, sendHistoryEmail } from '../services/emailService.
 import { useLanguage } from '../context/language.js'
 import { ReportPreview } from '../components/analysis/ReportPreview.jsx'
 import { ResultEmail } from '../components/analysis/ResultEmail.jsx'
+import { MorphologyBreakdown } from '../components/analysis/MorphologyBreakdown.jsx'
+import { CORE_MEASUREMENT_STANDARDS, evaluateMeasurement, formatMeasurement, statusClass } from '../utils/measurementStandards.js'
+
+const trendMetrics = {
+  count: { key: 'countOfSpermatozoa', averageKey: 'density', label: '精蟲濃度', unit: '×10⁶/mL' },
+  motilityValue: { key: 'motility', averageKey: 'motility', label: '活動力', unit: '%' },
+  morphologyValue: { key: 'morphology', averageKey: 'morphology', label: '正常型態比例', unit: '%' },
+}
+
+function PatientTrendTooltip({ active, payload, label, averages, t }) {
+  if (!active || !payload?.length) return null
+  const record = payload[0]?.payload?.record
+  return <div className="history-trend-tooltip">
+    <strong>{label}</strong>
+    {payload.filter(item => Number.isFinite(Number(item.value))).map(item => {
+      const metric = trendMetrics[item.dataKey]
+      if (!metric) return null
+      const value = Number(item.value)
+      const average = averages[metric.averageKey]
+      const evaluation = record ? evaluateMeasurement(record, metric.key) : { state: 'unknown' }
+      const stateLabel = evaluation.state === 'normal' ? t.normal : evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')
+      const difference = Number.isFinite(average) ? value - average : null
+      const comparison = difference === null ? '' : Math.abs(difference) < 0.05
+        ? tr('等於平均')
+        : `${tr(difference > 0 ? '高於平均' : '低於平均')} ${Math.abs(difference).toFixed(1)} ${metric.unit}`
+      return <div className="history-trend-tooltip-row" key={item.dataKey}>
+        <span><i style={{ backgroundColor: item.color }} />{tr(metric.label)}</span>
+        <strong>{value.toFixed(1)} {metric.unit}</strong>
+        <small>{tr('歷史平均')}：{Number.isFinite(average) ? `${average.toFixed(1)} ${metric.unit}` : '—'}
+          {comparison ? ` · ${comparison}` : ''}</small>
+        <em className={`status-pill ${statusClass(evaluation.state)}`}>{stateLabel}</em>
+      </div>
+    })}
+    <p className="history-tooltip-note">{tr('狀態依系統參考範圍判定；平均值僅供個人趨勢比較。')}</p>
+  </div>
+}
 
 export function PatientHistoryPage() {
   const { patientId } = useParams()
@@ -54,10 +90,10 @@ export function PatientHistoryPage() {
   const [emailEditing, setEmailEditing] = useState(false)
   const averages = useMemo(() => {
     const average = (field) => {
-      if (!patientRecords.length) return 0
+      if (!patientRecords.length) return null
       const values = patientRecords.map(record => Number.parseFloat(field === 'density' ? record.measurements?.density ?? record.density : record.measurements?.[field] ?? record[field])).filter(Number.isFinite)
-      if (!values.length) return '—'
-      return (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1)
+      if (!values.length) return null
+      return values.reduce((sum, value) => sum + value, 0) / values.length
     }
 
     return {
@@ -67,11 +103,17 @@ export function PatientHistoryPage() {
     }
   }, [patientRecords])
   const chartData = patientRecords.map((record) => ({
+    record,
     date: record.date,
     count: Number.isFinite(Number.parseFloat(record.measurements?.density ?? record.density)) ? Number.parseFloat(record.measurements?.density ?? record.density) : null,
     motilityValue: Number.isFinite(Number.parseFloat(record.measurements?.motility ?? record.motility)) ? Number.parseFloat(record.measurements?.motility ?? record.motility) : null,
     morphologyValue: Number.isFinite(Number.parseFloat(record.measurements?.morphology ?? record.morphology)) ? Number.parseFloat(record.measurements?.morphology ?? record.morphology) : null,
   }))
+  const averageAssessments = CORE_MEASUREMENT_STANDARDS.map(item => {
+    const field = item.key === 'countOfSpermatozoa' ? 'density' : item.key
+    const evaluation = evaluateMeasurement({ measurements: { [field]: averages[field] } }, item.key)
+    return { ...item, evaluation }
+  })
 
   const handleSendHistoryEmail = async () => {
     const recipient = email.trim()
@@ -177,10 +219,16 @@ export function PatientHistoryPage() {
           <div className="profile-block">
             <h4>{t.averageResults}</h4>
             <div className="average-result-grid">
-              <div><strong>{averages.density}</strong><span>×10⁶/mL</span><small>{t.averageConcentration}</small></div>
-              <div><strong>{averages.motility === '—' ? '—' : `${averages.motility}%`}</strong><small>{t.averageMotility}</small></div>
-              <div><strong>{averages.morphology === '—' ? '—' : `${averages.morphology}%`}</strong><small>{t.averageMorphology}</small></div>
+              {averageAssessments.map(item => <div key={item.key} className="average-assessment-card">
+                <small>{tr(item.label)}</small>
+                <strong>{formatMeasurement(item.evaluation, tr('未判定'))}</strong>
+                <span className={`status-pill ${statusClass(item.evaluation.state)}`}>
+                  {item.evaluation.state === 'normal' ? t.normal : item.evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')}
+                </span>
+                <small>{tr('參考值')}：{tr(item.range)}</small>
+              </div>)}
             </div>
+            <p className="average-assessment-note">{tr('以此病患已有數值的檢測紀錄計算平均；個別檢測仍請逐筆查看。')}</p>
             <div className="patient-current-status">
               <span>{tr(t.status)}</span>
               <strong className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
@@ -198,19 +246,28 @@ export function PatientHistoryPage() {
             </div>
           </div>
           <div className="history-trend-chart" aria-label={t.trendChartTitle}>
-            <ResponsiveContainer width="100%" height="100%">
+            <div className="history-average-strip" aria-label={tr('歷史平均')}>
+              {averageAssessments.map(item => <span key={item.key}>
+                <i className={`average-dot average-dot-${item.key}`} />
+                {tr(item.label)} {formatMeasurement(item.evaluation, tr('未判定'))}
+                <b className={`status-pill ${statusClass(item.evaluation.state)}`}>
+                  {item.evaluation.state === 'normal' ? t.normal : item.evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')}
+                </b>
+              </span>)}
+            </div>
+            <div className="history-trend-plot"><ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 12, right: 12, left: 0, bottom: 4 }}>
                 <CartesianGrid stroke="#e5edf9" strokeDasharray="3 3" />
                 <XAxis dataKey="date" tick={{ fill: '#5b7290', fontSize: 11 }} />
                 <YAxis yAxisId="count" tick={{ fill: '#5b7290', fontSize: 11 }} unit=" ×10⁶/mL" />
                 <YAxis yAxisId="percent" orientation="right" tick={{ fill: '#5b7290', fontSize: 11 }} unit="%" />
-                <Tooltip />
+                <Tooltip content={(props) => <PatientTrendTooltip {...props} averages={averages} t={t} />} />
                 <Legend />
                 <Line yAxisId="count" type="monotone" dataKey="count" name={`${t.concentration} (×10⁶/mL)`} stroke="#3f82f6" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
                 <Line yAxisId="percent" type="monotone" dataKey="motilityValue" name={`${t.motility} (%)`} stroke="#35b779" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
                 <Line yAxisId="percent" type="monotone" dataKey="morphologyValue" name={`${t.normalMorphology} (%)`} stroke="#f59e0b" strokeWidth={3} connectNulls={false} dot={{ r: 4 }} />
               </LineChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></div>
           </div>
         </div>
 
@@ -289,6 +346,10 @@ export function PatientHistoryPage() {
           <div className="record-list patient-record-list">
             {patientRecords.map((record) => {
               const isExpanded = expandedRecordId === record.id
+              const recordStates = CORE_MEASUREMENT_STANDARDS.map(item => evaluateMeasurement(record, item.key).state)
+              const hasResult = recordStates.some(state => state !== 'unknown')
+              const overallState = recordStates.includes('abnormal') ? 'abnormal' : recordStates.every(state => state === 'normal') ? 'normal' : 'unknown'
+              const overallLabel = overallState === 'normal' ? t.normal : overallState === 'abnormal' ? tr('異常') : tr('未判定')
               return (
                 <article className={`patient-record ${isExpanded ? 'patient-record-expanded' : ''}`} key={record.id}>
                   <RecordActions record={record} onSaved={reload} compact header={<button
@@ -308,6 +369,7 @@ export function PatientHistoryPage() {
                       <small>{t.concentration}</small>
                     </span>
                     <span className="status-pill neutral-badge">{tr(record.processingState)}</span>
+                    {hasResult && <span className={`status-pill ${statusClass(overallState)}`}>{overallLabel}</span>}
                     <span className="patient-record-chevron" aria-hidden="true">{isExpanded ? '−' : '+'}</span>
                   </button>} />
 
@@ -317,9 +379,15 @@ export function PatientHistoryPage() {
                         <div className="detail-card-box">
                           <h4>{t.analysisResult}</h4>
                           <ul className="summary-list compact-list">
-                            <li><span>{t.concentration}</span><strong>{record.measurements?.density ?? record.density ?? tr('未判定')} ×10⁶/mL</strong></li>
-                            <li><span>{t.motility}</span><strong>{String(record.measurements?.motility ?? record.motility ?? tr('未判定')).replace(/%$/, '')} %</strong></li>
-                            <li><span>{t.normalMorphology}</span><strong>{String(record.measurements?.morphology ?? record.morphology ?? tr('未判定')).replace(/%$/, '')} %</strong></li>
+                            {CORE_MEASUREMENT_STANDARDS.map(item => {
+                              const evaluation = evaluateMeasurement(record, item.key)
+                              const statusLabel = evaluation.state === 'normal' ? t.normal : evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')
+                              return <li key={item.key} className="historical-metric-row">
+                                <span>{tr(item.label)}</span>
+                                <strong>{formatMeasurement(evaluation, tr('未判定'))}</strong>
+                                <em className={`status-pill ${statusClass(evaluation.state)}`}>{statusLabel}</em>
+                              </li>
+                            })}
                             {record.aiResult?.processingTime && !record.isDemo && <li><span>{tr(t.processingTime)}</span><strong>{tr(record.aiResult.processingTime)}</strong></li>}
                           </ul>
                         </div>
@@ -327,6 +395,9 @@ export function PatientHistoryPage() {
                           <h4>{t.imageYolo}</h4>
                           <PrivateExamMedia record={record} />
                         </div>
+                      </div>
+                      <div className="detail-card-box historical-morphology-card">
+                        <MorphologyBreakdown record={record} height={145} />
                       </div>
                       <div className="patient-record-detail-grid">
                         <div className="detail-card-box">

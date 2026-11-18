@@ -2288,5 +2288,40 @@
     "zh": "精蟲活動力",
     "en": "Sperm motility",
     "ko": "정자 운동성"
+  },
+  "歷史平均": {
+    "zh": "歷史平均",
+    "en": "Patient average",
+    "ko": "개인 평균"
+  },
+  "高於平均": {
+    "zh": "高於平均",
+    "en": "Above average by",
+    "ko": "평균보다 높음"
+  },
+  "低於平均": {
+    "zh": "低於平均",
+    "en": "Below average by",
+    "ko": "평균보다 낮음"
+  },
+  "等於平均": {
+    "zh": "等於平均",
+    "en": "Equal to average",
+    "ko": "평균과 같음"
+  },
+  "參考值": {
+    "zh": "參考值",
+    "en": "Reference",
+    "ko": "참고값"
+  },
+  "狀態依系統參考範圍判定；平均值僅供個人趨勢比較。": {
+    "zh": "狀態依系統參考範圍判定；平均值僅供個人趨勢比較。",
+    "en": "Status uses the system reference range; the average is for personal trend comparison only.",
+    "ko": "상태는 시스템 참고 범위를 따르며, 평균은 개인 추세 비교용입니다."
+  },
+  "以此病患已有數值的檢測紀錄計算平均；個別檢測仍請逐筆查看。": {
+    "zh": "以此病患已有數值的檢測紀錄計算平均；個別檢測仍請逐筆查看。",
+    "en": "Averages use this patient's records with available measurements. Review each examination individually.",
+    "ko": "측정값이 있는 검사 기록으로 평균을 계산합니다. 개별 검사는 각각 확인하세요."
   }
 }
