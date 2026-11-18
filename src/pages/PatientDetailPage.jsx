@@ -1,4 +1,4 @@
-import { evaluateMeasurement, formatMeasurement } from '../utils/measurementStandards.js'
+import { evaluateMeasurement, formatMeasurement, statusClass } from '../utils/measurementStandards.js'
 import { translateText as tr, displayRecordSummary } from '../i18n/translate.js'
 import { RecordActions } from '../components/analysis/RecordActions.jsx'
 import { useMemo, useState } from 'react'
@@ -17,6 +17,7 @@ import { PrivateExamMedia } from '../components/analysis/PrivateExamMedia.jsx'
 import { useCloudHistory } from '../hooks/useCloudHistory.js'
 import { useLanguage } from '../context/language.js'
 import { completeCloudRecord } from '../services/cloudApi.js'
+import { MorphologyBreakdown } from '../components/analysis/MorphologyBreakdown.jsx'
 
 export function PatientDetailPage() {
   const { recordId } = useParams()
@@ -29,7 +30,8 @@ export function PatientDetailPage() {
   const patientKey = record?.patient?.id ?? record?.patient?.name
   const trendRecords = useMemo(
     () => records
-      .filter((historyRecord) => (historyRecord.patient?.id ?? historyRecord.patient?.name) === patientKey)
+      .filter((historyRecord) => (historyRecord.patient?.id ?? historyRecord.patient?.name) === patientKey
+        && !['影像待上傳', '待分析', 'AI分析中'].includes(historyRecord.processingState))
       .sort((first, second) => first.date.localeCompare(second.date)),
     [records, patientKey],
   )
@@ -55,7 +57,8 @@ export function PatientDetailPage() {
     )
   }
 
-  const translateStatus = record.status === '正常' ? t.normal : record.status === '示範資料' ? tr("示範資料") : record.status === '未判讀' ? tr("未判讀") : record.status === '未分析' ? tr("未分析") : t.followUp
+  const isAwaitingImage = ['影像待上傳', '待分析'].includes(record.processingState)
+  const translateStatus = isAwaitingImage ? t.awaitingImage : record.status === '正常' ? t.normal : record.status === '示範資料' ? tr("示範資料") : record.status === '未判讀' ? tr("未判讀") : record.status === '未分析' ? tr("未分析") : t.followUp
   const translateProcessingState = record.processingState === '已完成' ? t.completed : record.processingState === '待複核' ? t.reviewResult : record.processingState
   const confirmReview = async () => {
     setReviewing(true)
@@ -82,12 +85,12 @@ export function PatientDetailPage() {
             <p className="eyebrow">{t.patientData} / {t.testInfo}</p>
             <h3>{record.patient.name}</h3>
           </div>
-          <span className={`status-pill ${record.status === '正常' ? 'success' : 'warning'}`}>
+          <span className={`status-pill ${!isAwaitingImage && record.status === '正常' ? 'success' : 'warning'}`}>
             {tr(translateStatus)}
           </span>
         </div>
 
-        <RecordActions key={record.id} record={record} onSaved={reload} onDeleted={() => navigate(`/patients/${record.patientId}/history`)} />
+        <RecordActions key={record.id} record={record} onSaved={reload} onDeleted={() => navigate(`/patients/${record.patientId}/history`)} allowEdit={!isAwaitingImage} />
         {record.processingState === '待複核' && <div className="doctor-review-action"><div><strong>{t.confirmReview}</strong><p>{t.reviewHint}</p></div><button type="button" className="primary-btn small" onClick={confirmReview} disabled={reviewing}>{reviewing ? tr('複核中…') : t.confirmReview}</button></div>}
         {reviewNotice && <p className="form-banner" role="status">{reviewNotice}</p>}
         <div className="patient-grid">
@@ -106,12 +109,26 @@ export function PatientDetailPage() {
 
           <div className="profile-block">
             <h4>{t.analysisResult}</h4>
-            <div className="mini-metrics">
-              <div><span>{t.concentration}</span><strong>{formatMeasurement(evaluateMeasurement(record, 'countOfSpermatozoa'), tr('未判定'))}</strong></div>
-              <div><span>{t.motility}</span><strong>{formatMeasurement(evaluateMeasurement(record, 'motility'), tr('未判定'))}</strong></div>
-              <div><span>{t.normalMorphology}</span><strong>{formatMeasurement(evaluateMeasurement(record, 'morphology'), tr('未判定'))}</strong></div>
+            {isAwaitingImage ? <div className="pending-analysis-placeholder">
+              <strong>{t.awaitingImage}</strong>
+              <p>{tr("影像上傳前尚未產生分析數值。")}</p>
+              <button type="button" className="primary-btn small" onClick={() => navigate(`/analysis?record=${encodeURIComponent(record.id)}`)}>{t.uploadImage}</button>
+            </div> : <div className="mini-metrics">
+              {[
+                { key: 'countOfSpermatozoa', label: t.concentration },
+                { key: 'motility', label: t.motility },
+                { key: 'morphology', label: t.normalMorphology },
+              ].map(item => {
+                const result = evaluateMeasurement(record, item.key)
+                const status = result.state === 'normal' ? t.normal : result.state === 'abnormal' ? tr('異常') : tr('未判定')
+                return <div key={item.key}>
+                  <span>{item.label}</span>
+                  <strong>{formatMeasurement(result, tr('未判定'))}</strong>
+                  <em className={`status-pill ${statusClass(result.state)}`}>{status}</em>
+                </div>
+              })}
               <div><span>{t.processingStatus}</span><strong>{tr(translateProcessingState)}</strong></div>
-            </div>
+            </div>}
           </div>
         </div>
 
@@ -123,7 +140,7 @@ export function PatientDetailPage() {
 
           <div className="detail-card-box">
             <h4>{t.testSummary}</h4>
-            <p>{record.isDemo && <strong>{tr("模擬資料")} · </strong>}{displayRecordSummary(record)}</p>
+            <p>{isAwaitingImage ? tr("尚未上傳檢體影像，因此尚未產生檢驗摘要。") : <>{record.isDemo && <strong>{tr("模擬資料")} · </strong>}{displayRecordSummary(record)}</>}</p>
             <ul className="summary-list compact-list">
               {!record.isDemo && record.aiResult?.precision && <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>}
               {!record.isDemo && record.aiResult?.confidence && <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>}
@@ -131,6 +148,10 @@ export function PatientDetailPage() {
             </ul>
           </div>
         </div>
+
+        {!isAwaitingImage && <div className="detail-card-box historical-morphology-card">
+          <MorphologyBreakdown record={record} />
+        </div>}
 
         <div className="detail-card-box">
           <h4>{t.notes}</h4>

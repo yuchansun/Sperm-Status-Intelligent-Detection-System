@@ -2421,6 +2421,123 @@
   background: #f7faff;
 }
 
+/* Bring settings into the same calm teal clinical system as the other pages. */
+.settings-page > .page-header {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(110deg, #fff 0%, #f0f9f5 100%);
+  border-color: rgba(39, 125, 116, 0.14);
+}
+
+.settings-page > .page-header::after {
+  content: "";
+  position: absolute;
+  width: 82px;
+  height: 82px;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(28, 166, 143, 0.18);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 12px rgba(28, 166, 143, 0.035), inset 0 0 0 27px rgba(28, 166, 143, 0.05);
+  pointer-events: none;
+}
+
+.settings-page > .page-header > div { position: relative; z-index: 1; }
+
+.settings-page .settings-card {
+  border: 1px solid rgba(39, 125, 116, 0.13);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 9px 24px rgba(31, 75, 69, 0.055);
+}
+
+.settings-page .settings-card-header {
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e5efeb;
+}
+
+.settings-page .settings-card-header h3 { color: #183d43; }
+.settings-page .settings-card-header p { color: #6a8280; line-height: 1.65; }
+
+.settings-page .language-option {
+  border-color: #dcebe6;
+  background: #f8fcfa;
+  color: #365b59;
+  border-radius: 13px;
+}
+
+.settings-page .language-option:hover,
+.settings-page .language-option:focus-within {
+  border-color: #8ec9ba;
+  background: #f2faf7;
+}
+
+.settings-page .language-option-active {
+  border-color: #41aa96;
+  background: linear-gradient(115deg, #e8f7f2, #f3faf6);
+  box-shadow: 0 0 0 2px rgba(65, 170, 150, 0.12);
+}
+
+.settings-page .language-check { color: #138a7e; }
+
+.settings-page .health-card-summary {
+  border-color: #d9ebe5;
+  background: linear-gradient(120deg, #eff8f4, #f8fcfa);
+  color: #3b625d;
+}
+
+.settings-page .health-card-summary code {
+  color: #176f68;
+  font-weight: 650;
+}
+
+.settings-page .health-card-platform-tabs .segment-btn {
+  border-color: #d6e8e2;
+  background: #f3f8f6;
+  color: #4e716b;
+}
+
+.settings-page .health-card-platform-tabs .segment-btn.active {
+  border-color: #087f86;
+  background: linear-gradient(135deg, #098c89, #08777f);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(8, 127, 134, 0.16);
+}
+
+.settings-page .health-card-details {
+  border-color: #deebe6;
+  background: #fbfdfc;
+  color: #45635f;
+}
+
+.settings-page .health-card-details summary,
+.settings-page .health-card-advanced summary { color: #147e76; }
+
+.settings-page .health-card-details code,
+.settings-page .command-block {
+  background: #183f43;
+}
+
+.settings-page .health-card-details code { color: #d8f5ed; }
+.settings-page .command-block-header { color: #b9ddd4; }
+
+.settings-page .health-card-check {
+  border-color: #dcebe6;
+  background: #f8fcfa;
+}
+
+.settings-page .health-card-check-header h4 { color: #214b48; }
+.settings-page .health-card-check-results { border-color: #e2eee9; }
+
+.settings-page .health-card-status-badge.success { background: #e5f5ed; color: #23845c; }
+.settings-page .health-card-status-badge.neutral { background: #e7f3f2; color: #347a73; }
+.settings-page .health-card-status-badge.warning { background: #fff1e5; color: #b86c3c; }
+
+.settings-page .health-card-links a { color: #087f86; }
+.settings-page .health-card-privacy { border-color: #e8ece6; background: #f8faf6; }
+
 .patient-record-expanded {
   border-color: #a9c9f5;
   background: #f4f8ff;
@@ -2429,7 +2546,7 @@
 .patient-record-summary {
   width: 100%;
   display: grid;
-  grid-template-columns: 1.2fr 1fr auto 34px;
+  grid-template-columns: 1.2fr 1fr auto auto 34px;
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
@@ -2917,7 +3034,7 @@
   }
 
   .patient-record-summary {
-    grid-template-columns: 1fr auto 28px;
+    grid-template-columns: 1fr auto auto 28px;
   }
 
   .patient-record-summary > span:nth-child(2) {
@@ -3470,6 +3587,88 @@
   border: 1px solid #e5efec;
 }
 
+.average-assessment-card {
+  align-items: flex-start;
+  min-height: 132px;
+}
+
+.average-assessment-card strong { line-height: 1.35; }
+.average-assessment-card .status-pill { margin: 3px 0; }
+.average-assessment-note,
+.history-tooltip-note {
+  margin: 8px 0 0;
+  color: #6f8582;
+  font-size: .76rem;
+  line-height: 1.5;
+}
+
+.history-trend-chart {
+  height: auto;
+  padding: 12px;
+}
+
+.history-average-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 2px 4px 10px;
+}
+
+.history-average-strip > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #42605e;
+  font-size: .76rem;
+}
+
+.history-average-strip .status-pill { padding: 3px 7px; font-size: .65rem; }
+.average-dot { width: 8px; height: 8px; border-radius: 50%; }
+.average-dot-countOfSpermatozoa { background: #3f82f6; }
+.average-dot-motility { background: #35b779; }
+.average-dot-morphology { background: #f59e0b; }
+.history-trend-plot { width: 100%; height: 270px; }
+
+.history-trend-tooltip {
+  min-width: 235px;
+  max-width: min(330px, 78vw);
+  padding: 12px;
+  border: 1px solid #d9e9e5;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .98);
+  box-shadow: 0 10px 28px rgba(22, 70, 64, .14);
+}
+
+.history-trend-tooltip > strong { display: block; margin-bottom: 7px; color: #173e3c; }
+.history-trend-tooltip-row { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; padding: 7px 0; border-top: 1px solid #edf3f1; }
+.history-trend-tooltip-row > span { display: flex; align-items: center; gap: 6px; color: #526d69; font-size: .76rem; }
+.history-trend-tooltip-row > span i { width: 8px; height: 8px; border-radius: 50%; }
+.history-trend-tooltip-row > strong { color: #193f3d; font-size: .8rem; }
+.history-trend-tooltip-row > small { grid-column: 1 / -1; color: #6c807c; }
+.history-trend-tooltip-row > em { grid-column: 1 / -1; justify-self: start; padding: 3px 7px; font-size: .65rem; font-style: normal; }
+.history-tooltip-note { max-width: 290px; }
+
+.historical-metric-row { display: grid !important; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px !important; align-items: center; }
+.historical-metric-row .status-pill { padding: 4px 8px; font-size: .68rem; font-style: normal; }
+
+.morphology-breakdown-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #244e49; }
+.morphology-breakdown-heading > span { color: #607c76; font-size: .82rem; }
+.morphology-breakdown-chart { min-height: 110px; }
+.morphology-breakdown .chart-legend { margin-top: 0; }
+.historical-morphology-card { max-width: 520px; }
+.patient-record-summary > .status-pill { padding: 5px 8px; font-size: .68rem; white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .average-result-grid { grid-template-columns: 1fr; }
+  .average-assessment-card { min-height: auto; }
+  .history-trend-chart { padding: 8px 4px; }
+  .history-trend-plot { height: 245px; }
+  .history-average-strip { gap: 7px; }
+  .history-average-strip > span { flex-wrap: wrap; }
+  .historical-metric-row { grid-template-columns: 1fr auto; }
+  .historical-metric-row .status-pill { grid-column: 2; }
+}
+
 @media (max-width: 600px) {
   .upload-page > .page-header::after {
     width: 50px;
@@ -3484,4 +3683,423 @@
   .patient-search-form button { width: 100%; }
   .detail-mode .history-detail-header { flex-wrap: wrap; }
   .detail-mode .history-detail-header .status-pill { margin-left: auto; }
+  .settings-page > .page-header::after { width: 54px; height: 54px; right: 16px; }
+  .settings-page .settings-card { padding: 18px; }
+  .settings-page .settings-card-header { flex-wrap: wrap; gap: 12px; }
+}
+
+/* A quiet, original microscopy motif for the new-test landing page. */
+.upload-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.upload-page::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 36px;
+  left: 0;
+  right: 0;
+  height: min(520px, 58vw);
+  min-height: 300px;
+  background: url('/upload-flow.svg') center top / min(980px, 100%) 100% no-repeat;
+  opacity: .48;
+  pointer-events: none;
+}
+
+.upload-page > .page-header {
+  min-height: 132px;
+  padding-right: 250px;
+  background: linear-gradient(110deg, rgba(255,255,255,.96), rgba(237,249,245,.9));
+}
+
+.upload-page > .page-header::after { display: none; }
+
+.upload-page > .page-header > .upload-hero-art {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 18px;
+  width: min(31%, 230px);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.upload-hero-art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+@media (max-width: 600px) {
+  .upload-page::before {
+    top: 30px;
+    height: 350px;
+    min-height: 0;
+    background-position: center top;
+    opacity: .32;
+  }
+
+  .upload-page > .page-header {
+    min-height: 104px;
+    padding: 16px 124px 16px 18px;
+  }
+
+  .upload-page > .page-header > .upload-hero-art {
+    right: 5px;
+    width: 122px;
+  }
+}
+
+@media (max-width: 380px) {
+  .upload-page > .page-header { padding-right: 106px; }
+  .upload-page > .page-header > .upload-hero-art { width: 104px; }
+}
+
+/* Keep the flowing microscopy lines in the lower landing-page space. */
+.upload-page::before { display: none; }
+
+.upload-process-guide {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(210px, .8fr) minmax(0, 1.65fr);
+  align-items: center;
+  gap: 24px;
+  min-height: 172px;
+  padding: 24px 28px;
+  border: 1px solid rgba(39, 125, 116, .14);
+  border-radius: 20px;
+  background: linear-gradient(112deg, #edf8f4 0%, rgba(249, 253, 251, .97) 63%, #f4fbf8 100%);
+  box-shadow: 0 10px 25px rgba(31, 75, 69, .045);
+}
+
+.upload-process-guide::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 0 auto;
+  width: min(66%, 760px);
+  background: url('/upload-flow.svg') right center / 100% 100% no-repeat;
+  opacity: .78;
+  pointer-events: none;
+}
+
+.upload-process-intro,
+.upload-process-steps { position: relative; z-index: 1; }
+
+.upload-process-intro .eyebrow {
+  margin: 0 0 8px;
+  color: #398d7e;
+  font-size: .67rem;
+  font-weight: 750;
+  letter-spacing: .16em;
+}
+
+.upload-process-intro h3 {
+  max-width: 260px;
+  margin: 0;
+  color: #244e4d;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.45;
+}
+
+.upload-process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upload-process-steps li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.upload-process-steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 38px;
+  right: -7px;
+  height: 1px;
+  background: linear-gradient(90deg, #8fcabb, rgba(143, 202, 187, .25));
+}
+
+.upload-process-steps li > span {
+  z-index: 1;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid #b8ddd2;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: #348d7c;
+  font-size: .7rem;
+  font-weight: 750;
+  box-shadow: 0 3px 9px rgba(45, 123, 108, .07);
+}
+
+.upload-process-steps li:nth-child(3) > span {
+  border-color: rgba(237, 151, 117, .55);
+  background: #fff8f4;
+  color: #d97959;
+}
+
+.upload-process-steps li strong {
+  color: #42615e;
+  font-size: .82rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.upload-process-orbit { display: none; }
+
+/* A compact, predictable calendar for patient birth dates. */
+.birth-date-picker { position: relative; width: 100%; }
+
+.birth-date-picker .birth-date-compat {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.birth-date-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 13px;
+  border: 1px solid #d4e3df;
+  border-radius: 12px;
+  background: #fff;
+  color: #294e50;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.birth-date-trigger:hover,
+.birth-date-trigger:focus-visible,
+.birth-date-trigger[aria-expanded="true"] {
+  border-color: #55aa9a;
+  background: #fcfffe;
+  box-shadow: 0 0 0 3px rgba(31, 174, 151, .12);
+  outline: none;
+}
+
+.birth-date-trigger.invalid { border-color: #d97769; }
+.birth-date-trigger svg { flex: 0 0 auto; color: #328c7d; }
+.birth-date-placeholder { color: #91a5a7; }
+
+.birth-calendar {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(320px, calc(100vw - 48px));
+  padding: 14px;
+  border: 1px solid #dcebe6;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, .98);
+  box-shadow: 0 18px 42px rgba(32, 77, 71, .17);
+  animation: birth-calendar-in .16s ease-out;
+}
+
+@keyframes birth-calendar-in {
+  from { opacity: 0; transform: translateY(-4px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.birth-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.birth-calendar-selects { display: flex; flex: 1; justify-content: center; gap: 6px; }
+.birth-calendar-selects select {
+  min-height: 34px;
+  padding: 0 8px;
+  border: 1px solid #e0ece8;
+  border-radius: 9px;
+  background: #f7fbf9;
+  color: #2d5c57;
+  font: inherit;
+  font-size: .84rem;
+  font-weight: 650;
+}
+.birth-calendar-selects select:focus-visible { outline: 2px solid rgba(31, 174, 151, .3); }
+
+.calendar-nav-btn {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #e0ece8;
+  border-radius: 10px;
+  background: #fff;
+  color: #347e73;
+  cursor: pointer;
+}
+.calendar-nav-btn:hover:not(:disabled) { border-color: #9acfc0; background: #eff8f4; }
+.calendar-nav-btn:disabled { color: #b8c8c4; cursor: not-allowed; }
+
+.birth-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.calendar-weekday {
+  display: grid;
+  min-height: 28px;
+  place-items: center;
+  color: #879b98;
+  font-size: .68rem;
+  font-weight: 650;
+}
+
+.calendar-empty { min-height: 35px; }
+
+.calendar-day {
+  display: grid;
+  min-width: 0;
+  min-height: 35px;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #385c59;
+  font: inherit;
+  font-size: .8rem;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.calendar-day:hover:not(:disabled) { border-color: #c9e7dc; background: #eef8f3; }
+.calendar-day.today { border-color: #b8ddd2; color: #267e72; font-weight: 750; }
+.calendar-day.selected { border-color: #178d82; background: linear-gradient(135deg, #168f85, #087a7c); color: #fff; box-shadow: 0 4px 10px rgba(8, 127, 134, .2); }
+.calendar-day:disabled { color: #c1ceca; cursor: not-allowed; }
+.calendar-day:focus-visible { outline: 2px solid #e88a6b; outline-offset: 1px; }
+
+@media (max-width: 760px) {
+  .upload-process-guide {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 22px;
+  }
+  .upload-process-guide::before {
+    width: 100%;
+    background-size: 100% 100%;
+    background-position: right bottom;
+    opacity: .42;
+  }
+  .upload-process-intro h3 { max-width: none; }
+}
+
+@media (max-width: 420px) {
+  .upload-process-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 10px; }
+  .upload-process-steps li:not(:last-child)::after { display: none; }
+  .upload-process-steps li { flex-direction: row; align-items: center; gap: 9px; }
+}
+
+.queue-source-note {
+  margin: -6px 0 14px;
+  color: #657f7b;
+  font-size: .84rem;
+  line-height: 1.55;
+}
+
+.upload-process-toggle-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -12px 2px -12px;
+}
+
+.workflow-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #6a8781;
+  font: inherit;
+  font-size: .72rem;
+  cursor: pointer;
+  transition: color .16s ease, background .16s ease;
+}
+
+.workflow-toggle-btn:hover,
+.workflow-toggle-btn:focus-visible {
+  background: rgba(72, 155, 137, .08);
+  color: #286f65;
+  outline: none;
+}
+
+.empty-queue-note {
+  margin: 0;
+  padding: 18px 12px;
+  color: #728b87;
+  text-align: center;
+}
+
+.resume-upload-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 14px 18px;
+  border: 1px solid #c9e5db;
+  border-radius: 14px;
+  background: linear-gradient(105deg, #edf8f4, #f8fcfa);
+  color: #315c56;
+  font-size: .9rem;
+}
+
+.resume-upload-notice span { color: #52877c; font-weight: 700; }
+.resume-upload-hint { margin: -6px 0 0; color: #627b77; }
+
+.pending-analysis-placeholder {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px dashed #b8d9ce;
+  border-radius: 14px;
+  background: #f5faf8;
+  color: #55716c;
+}
+
+.pending-analysis-placeholder strong { color: #286f65; }
+.pending-analysis-placeholder p { margin: 0; }
+
+@media (max-width: 600px) {
+  .resume-upload-notice { align-items: flex-start; flex-direction: column; }
 }

@@ -14,7 +14,7 @@ function initial(record) {
  return { exam_date:record.date, summary:record.summary || '', density:m.density ?? '', motility:m.motility ?? '',
   morphology:m.morphology ?? '', amount:m.amount ?? '', ph:m.ph ?? '', color:m.color ?? '', appearance:m.appearance ?? '', count_of_spermatozoa:m.countOfSpermatozoa ?? '' }
 }
-export function RecordActions({ record, onSaved, onDeleted = onSaved, header, compact = false }) {
+export function RecordActions({ record, onSaved, onDeleted = onSaved, header, compact = false, allowEdit = true }) {
  const [mode,setMode]=useState('')
  const [draft,setDraft]=useState({})
  const [busy,setBusy]=useState(false)
@@ -43,7 +43,7 @@ export function RecordActions({ record, onSaved, onDeleted = onSaved, header, co
   <div className={header ? 'patient-record-heading' : 'header-actions'}>
    {header}
    <div className={compact ? 'record-icon-actions' : 'header-actions'}>
-    <button className={compact ? 'record-icon-btn' : 'secondary-btn small'} type="button" disabled={busy} aria-label={tr("修改檢測")} title={tr("修改檢測")} onClick={()=>open('edit')}>{compact ? <Pencil size={17} aria-hidden="true" /> : tr("修改檢測")}</button>
+    {allowEdit && <button className={compact ? 'record-icon-btn' : 'secondary-btn small'} type="button" disabled={busy} aria-label={tr("修改檢測")} title={tr("修改檢測")} onClick={()=>open('edit')}>{compact ? <Pencil size={17} aria-hidden="true" /> : tr("修改檢測")}</button>}
     <button className={compact ? 'record-icon-btn record-icon-delete' : 'secondary-btn small'} type="button" disabled={busy} aria-label={tr("刪除檢測")} title={tr("刪除檢測")} onClick={()=>open('delete')}>{compact ? <Trash2 size={17} aria-hidden="true" /> : tr("刪除檢測")}</button>
    </div>
   </div>
