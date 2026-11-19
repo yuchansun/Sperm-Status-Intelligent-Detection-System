@@ -30,6 +30,8 @@ const trendMetrics = {
   morphologyValue: { key: 'morphology', averageKey: 'morphology', label: '正常型態比例', unit: '%' },
 }
 
+const averageNumber = new Intl.NumberFormat('en', { maximumFractionDigits: 2, useGrouping: false })
+
 function PatientTrendTooltip({ active, payload, label, averages, t }) {
   if (!active || !payload?.length) return null
   const record = payload[0]?.payload?.record
@@ -43,13 +45,13 @@ function PatientTrendTooltip({ active, payload, label, averages, t }) {
       const evaluation = record ? evaluateMeasurement(record, metric.key) : { state: 'unknown' }
       const stateLabel = evaluation.state === 'normal' ? t.normal : evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')
       const difference = Number.isFinite(average) ? value - average : null
-      const comparison = difference === null ? '' : Math.abs(difference) < 0.05
+      const comparison = difference === null ? '' : Math.abs(difference) < 0.005
         ? tr('等於平均')
-        : `${tr(difference > 0 ? '高於平均' : '低於平均')} ${Math.abs(difference).toFixed(1)} ${metric.unit}`
+        : `${tr(difference > 0 ? '高於平均' : '低於平均')} ${averageNumber.format(Math.abs(difference))} ${metric.unit}`
       return <div className="history-trend-tooltip-row" key={item.dataKey}>
         <span><i style={{ backgroundColor: item.color }} />{tr(metric.label)}</span>
         <strong>{value.toFixed(1)} {metric.unit}</strong>
-        <small>{tr('{{0}}：{{1}}', [tr('歷史平均'), Number.isFinite(average) ? `${average.toFixed(1)} ${metric.unit}` : '—'])}
+        <small>{tr('{{0}}：{{1}}', [tr('歷史平均'), Number.isFinite(average) ? `${averageNumber.format(average)} ${metric.unit}` : '—'])}
           {comparison ? ` · ${comparison}` : ''}</small>
         <em className={`status-pill ${statusClass(evaluation.state)}`}>{stateLabel}</em>
       </div>
@@ -112,7 +114,8 @@ export function PatientHistoryPage() {
   const averageAssessments = CORE_MEASUREMENT_STANDARDS.map(item => {
     const field = item.key === 'countOfSpermatozoa' ? 'density' : item.key
     const evaluation = evaluateMeasurement({ measurements: { [field]: averages[field] } }, item.key)
-    return { ...item, evaluation }
+    const displayValue = evaluation.state === 'unknown' ? tr('未判定') : `${averageNumber.format(evaluation.value)} ${evaluation.unit}`
+    return { ...item, evaluation, displayValue }
   })
 
   const handleSendHistoryEmail = async () => {
@@ -221,7 +224,7 @@ export function PatientHistoryPage() {
             <div className="average-result-grid">
               {averageAssessments.map(item => <div key={item.key} className="average-assessment-card">
                 <small>{tr(item.label)}</small>
-                <strong>{formatMeasurement(item.evaluation, tr('未判定'))}</strong>
+                <strong>{item.displayValue}</strong>
                 <span className={`status-pill ${statusClass(item.evaluation.state)}`}>
                   {item.evaluation.state === 'normal' ? t.normal : item.evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')}
                 </span>
@@ -249,7 +252,7 @@ export function PatientHistoryPage() {
             <div className="history-average-strip" aria-label={tr('歷史平均')}>
               {averageAssessments.map(item => <span key={item.key}>
                 <i className={`average-dot average-dot-${item.key}`} />
-                {tr(item.label)} {formatMeasurement(item.evaluation, tr('未判定'))}
+                {tr(item.label)} {item.displayValue}
                 <b className={`status-pill ${statusClass(item.evaluation.state)}`}>
                   {item.evaluation.state === 'normal' ? t.normal : item.evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')}
                 </b>
