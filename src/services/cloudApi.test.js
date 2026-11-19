@@ -49,9 +49,9 @@ describe('cloud data boundary', () => {
     const analysis = calls[3].steps.find(s => s[0] === 'upsert')[1]
     expect(analysis.ai_result.isDemo).toBe(true)
     expect(analysis.motility).toBeNull()
-    expect(analysis.density).toBe(generateDemoAnalysis(false).density)
-    expect(analysis.morphology).toBe(generateDemoAnalysis(false).morphology)
-    expect(analysis.ai_result.demoCaseId).toBe(generateDemoAnalysis(false).ai_result.demoCaseId)
+    expect(analysis.density).toBe(generateDemoAnalysis('record-1', false).density)
+    expect(analysis.morphology).toBe(generateDemoAnalysis('record-1', false).morphology)
+    expect(analysis.ai_result.demoCaseId).toBe(generateDemoAnalysis('record-1', false).ai_result.demoCaseId)
     expect(analysis.examination_id).toBe('exam-1')
     expect(upload).not.toHaveBeenCalled()
     expect(localStorage.getItem('sperm-ai-patients')).toBe('original')
@@ -91,9 +91,9 @@ describe('cloud data boundary', () => {
       ok({ id: 'record-1' }), ok({ id: 'record-1' }), ok({ id: 'record-1' }))
     await submitDemoExamination({ patientDraft: draft, specimen, file, operation: operation() })
     const saved = calls.at(-1).steps.find(s => s[0] === 'update')[1]
-    expect(saved.density).toBe(generateDemoAnalysis(false).density)
+    expect(saved.density).toBe(generateDemoAnalysis('record-1', false).density)
     expect(saved.motility).toBeNull()
-    expect(saved.morphology).toBe(generateDemoAnalysis(false).morphology)
+    expect(saved.morphology).toBe(generateDemoAnalysis('record-1', false).morphology)
     expect(saved.ai_result.isDemo).toBe(true)
     expect(upload).toHaveBeenCalledWith(expect.objectContaining({ bucket: 'exam-videos' }))
     const update = calls.at(-1).steps.find(s => s[0] === 'update')[1]

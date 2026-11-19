@@ -11,7 +11,7 @@ it('uses concentration rather than total sperm number for concentration displays
 })
 
 it('labels the fixed case concentration without claiming an unmeasured total', () => {
-  const record = generateDemoAnalysis(true)
+  const record = generateDemoAnalysis('unit-check', true)
   expect(record.count_of_spermatozoa).toBeUndefined()
   expect(record.density_unit).toBe('million/mL')
 })

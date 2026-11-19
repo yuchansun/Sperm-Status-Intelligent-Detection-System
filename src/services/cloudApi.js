@@ -82,7 +82,7 @@ export async function submitDemoExamination({ patientDraft: d, specimen, file, o
     p_id: operation.examinationId, p_patient_id: patient.id, p_include_motility: specimen.includeMotility,
     p_template_label: specimen.templateLabel,
   }).single()))
-  const demoAnalysis = generateDemoAnalysis(specimen.includeMotility)
+  const demoAnalysis = generateDemoAnalysis(operation.recordId, specimen.includeMotility)
   if (!file) demoAnalysis.ai_result.templateFilename = demoCase.sourceFilename
   demoAnalysis.ai_result.source = file ? 'upload' : 'template'
   const pendingImageFields = file ? {
