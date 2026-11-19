@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { LanguageContext, languageStorageKey, translations } from './language.js'
 
 function getInitialLanguage() {
@@ -10,6 +10,10 @@ function getInitialLanguage() {
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(getInitialLanguage)
+
+  useEffect(() => {
+    document.documentElement.lang = language === 'zh' ? 'zh-Hant' : language
+  }, [language])
 
   const value = useMemo(() => ({
     language,

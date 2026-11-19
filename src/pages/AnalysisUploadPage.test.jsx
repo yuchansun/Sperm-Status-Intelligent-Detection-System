@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { AnalysisUploadPage } from './AnalysisUploadPage.jsx'
 import { newSubmission, submitDemoExamination, reserveSpecimenNumber } from '../services/cloudApi.js'
-vi.mock('react-router-dom', () => ({ useNavigate: () => vi.fn() }))
+vi.mock('react-router-dom', () => ({ useNavigate: () => vi.fn(), useSearchParams: () => [new URLSearchParams()] }))
 vi.mock('../context/language.js', () => ({ useLanguage: () => ({ t: {} }) }))
 vi.mock('../context/examinationSession.js', () => ({ useExaminationSession: () => ({ setActiveExamination: vi.fn() }) }))
 vi.mock('../services/cloudApi.js', () => ({ newSubmission: vi.fn(), submitDemoExamination: vi.fn(), reserveSpecimenNumber: vi.fn() }))
@@ -19,10 +19,24 @@ beforeEach(async () => {
  vi.stubGlobal('URL', Object.assign(class extends URL {}, { createObjectURL: vi.fn(()=>'blob:test-video'), revokeObjectURL: vi.fn() }))
  container=document.createElement('div');document.body.appendChild(container);root=createRoot(container)
  act(()=>root.render(React.createElement(AnalysisUploadPage)))
- await act(async()=>container.querySelector('button').click())
+ await act(async()=>[...container.querySelectorAll('button')].find(b => b.textContent === '確認測試病患').click())
 })
 afterEach(()=>{act(()=>root?.unmount());container?.remove();vi.unstubAllGlobals()})
 describe('unified media picker',()=>{
+ it('shows three named templates with the same source clip and submits the chosen name', async () => {
+  const picker = container.querySelector('.source-option select')
+  expect([...picker.options].map(option => option.textContent)).toEqual(['範例檢體 A', '範例檢體 B', '範例檢體 C'])
+  for (const option of picker.options) {
+   act(() => {
+    picker.value = option.value
+    picker.dispatchEvent(new Event('change', { bubbles: true }))
+   })
+   expect(container.querySelector('.demo-video').getAttribute('src')).toBe('/demo/redpandacompress_2495459-2.mp4')
+  }
+  submitDemoExamination.mockResolvedValueOnce({ examination: {}, patient: {}, recordId: 'record-id' })
+  await act(async () => container.querySelector('.full-width').click())
+  expect(submitDemoExamination.mock.calls[0][0].specimen.templateLabel).toBe('範例檢體 C')
+ })
  it('displays the reserved specimen serial as text before analysis', () => {
   expect(container.querySelector('.specimen-number-display').textContent).toContain('SMP-00000042')
   expect(container.querySelector('.specimen-number-display input')).toBeNull()

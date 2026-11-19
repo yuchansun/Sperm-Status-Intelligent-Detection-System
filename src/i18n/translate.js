@@ -23,7 +23,7 @@ const patterns = Object.entries(messages).filter(([source]) => source.includes('
 })
 export function translateText(source, variables = [], language = currentLanguage()) {
   if (typeof source !== 'string') return source
-  const key = aliases.get(source) || source
+  const key = Object.hasOwn(messages, source) ? source : aliases.get(source) || source
   let value = messages[key]?.[language] || key
   let args = variables
   if (!messages[key]) {

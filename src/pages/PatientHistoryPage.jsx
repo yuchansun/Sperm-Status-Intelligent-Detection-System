@@ -49,7 +49,7 @@ function PatientTrendTooltip({ active, payload, label, averages, t }) {
       return <div className="history-trend-tooltip-row" key={item.dataKey}>
         <span><i style={{ backgroundColor: item.color }} />{tr(metric.label)}</span>
         <strong>{value.toFixed(1)} {metric.unit}</strong>
-        <small>{tr('歷史平均')}：{Number.isFinite(average) ? `${average.toFixed(1)} ${metric.unit}` : '—'}
+        <small>{tr('{{0}}：{{1}}', [tr('歷史平均'), Number.isFinite(average) ? `${average.toFixed(1)} ${metric.unit}` : '—'])}
           {comparison ? ` · ${comparison}` : ''}</small>
         <em className={`status-pill ${statusClass(evaluation.state)}`}>{stateLabel}</em>
       </div>
@@ -174,7 +174,7 @@ export function PatientHistoryPage() {
     }
   }
 
-  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || tr("雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
+  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{tr(error || "雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
 
   if (!patient) {
     return (
@@ -225,14 +225,14 @@ export function PatientHistoryPage() {
                 <span className={`status-pill ${statusClass(item.evaluation.state)}`}>
                   {item.evaluation.state === 'normal' ? t.normal : item.evaluation.state === 'abnormal' ? tr('異常') : tr('未判定')}
                 </span>
-                <small>{tr('參考值')}：{tr(item.range)}</small>
+                <small>{tr('{{0}}：{{1}}', [tr('參考值'), tr(item.range)])}</small>
               </div>)}
             </div>
             <p className="average-assessment-note">{tr('以此病患已有數值的檢測紀錄計算平均；個別檢測仍請逐筆查看。')}</p>
             <div className="patient-current-status">
               <span>{tr(t.status)}</span>
               <strong className={`status-pill ${latestRecord.status === '正常' ? 'success' : 'warning'}`}>
-                {latestRecord.status === '正常' ? t.normal : latestRecord.status === '示範資料' ? tr('模擬資料') : latestRecord.status === '未分析' ? tr("未分析") : t.followUp}
+                {latestRecord.status === '正常' ? t.normal : ['示範資料', '未判讀'].includes(latestRecord.status) ? tr('未判讀') : latestRecord.status === '未分析' ? tr("未分析") : t.followUp}
               </strong>
             </div>
           </div>
@@ -402,7 +402,7 @@ export function PatientHistoryPage() {
                       <div className="patient-record-detail-grid">
                         <div className="detail-card-box">
                           <h4>{t.testSummary}</h4>
-                          <p>{record.isDemo && <strong>{tr('模擬資料')} · </strong>}{displayRecordSummary(record)}</p>
+                          <p>{displayRecordSummary(record)}</p>
                           <ul className="summary-list compact-list">
                             {!record.isDemo && record.aiResult?.precision && <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>}
                             {!record.isDemo && record.aiResult?.confidence && <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>}

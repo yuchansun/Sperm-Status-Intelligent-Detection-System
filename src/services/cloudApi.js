@@ -5,7 +5,7 @@ import { describeMedia } from './mediaFiles.js'
 import { withDeadline } from './requestDeadline.js'
 import { uploadMediaFile } from './uploadMedia.js'
 import { maskNationalId } from '../utils/maskSensitive.ts'
-import { generateDemoAnalysis } from './demoAnalysis.js'
+import { demoCase, generateDemoAnalysis } from './demoAnalysis.js'
 import { mockResult } from './mockData.js'
 
 function client() {
@@ -82,7 +82,9 @@ export async function submitDemoExamination({ patientDraft: d, specimen, file, o
     p_id: operation.examinationId, p_patient_id: patient.id, p_include_motility: specimen.includeMotility,
     p_template_label: specimen.templateLabel,
   }).single()))
-  const demoAnalysis = generateDemoAnalysis(operation.recordId, specimen.includeMotility)
+  const demoAnalysis = generateDemoAnalysis(specimen.includeMotility)
+  if (!file) demoAnalysis.ai_result.templateFilename = demoCase.sourceFilename
+  demoAnalysis.ai_result.source = file ? 'upload' : 'template'
   const pendingImageFields = file ? {
     amount: null, amount_unit: null, color: null, appearance: null, ph: null,
     count_of_spermatozoa: null, count_unit: null, count_definition: null,

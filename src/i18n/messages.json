@@ -1,4 +1,99 @@
 {
+  "數值來源：預設案例。": {
+    "zh": "數值來源：預設案例。",
+    "en": "Measurement source: preset case.",
+    "ko": "수치 출처: 사전 설정된 사례."
+  },
+  "參考影像": {
+    "zh": "參考影像",
+    "en": "Reference image",
+    "ko": "참고 이미지"
+  },
+  "精子型態判讀參考": {
+    "zh": "精子型態判讀參考",
+    "en": "Sperm morphology reference",
+    "ko": "정자 형태 판독 참고자료"
+  },
+  "常見精子型態異常示意，供人工判讀時查閱。": {
+    "zh": "常見精子型態異常示意，供人工判讀時查閱。",
+    "en": "Examples of sperm morphology defects for manual review.",
+    "ko": "수기 판독 시 참고할 수 있는 정자 형태 이상 예시입니다."
+  },
+  "放大型態參考圖": {
+    "zh": "放大型態參考圖",
+    "en": "Enlarge the morphology reference figure",
+    "ko": "형태 참고 도표 확대"
+  },
+  "精子型態異常示意圖": {
+    "zh": "精子型態異常示意圖",
+    "en": "Examples of sperm morphology defects",
+    "ko": "정자 형태 이상 예시 도표"
+  },
+  "放大檢視": {
+    "zh": "放大檢視",
+    "en": "Enlarge figure",
+    "ko": "확대 보기"
+  },
+  "頭部異常": {
+    "zh": "頭部異常",
+    "en": "Head defects",
+    "ko": "두부 이상"
+  },
+  "頸部與中段異常": {
+    "zh": "頸部與中段異常",
+    "en": "Neck and midpiece defects",
+    "ko": "경부 및 중편 이상"
+  },
+  "尾部異常": {
+    "zh": "尾部異常",
+    "en": "Tail defects",
+    "ko": "미부 이상"
+  },
+  "過多殘餘細胞質": {
+    "zh": "過多殘餘細胞質",
+    "en": "Excess residual cytoplasm",
+    "ko": "과도한 잔여 세포질"
+  },
+  "來源：WHO 精液檢驗手冊，第 6 版（2021），第 50 頁，圖 2.10。": {
+    "zh": "來源：WHO 精液檢驗手冊，第 6 版（2021），第 50 頁，圖 2.10。",
+    "en": "Source: WHO laboratory manual for the examination and processing of human semen, 6th ed. (2021), p. 50, Fig. 2.10.",
+    "ko": "출처: WHO 정액 검사 및 처리 매뉴얼 제6판(2021), 50쪽, 그림 2.10."
+  },
+  "關閉": {
+    "zh": "關閉",
+    "en": "Close",
+    "ko": "닫기"
+  },
+  "範例檢體 A": {
+    "zh": "範例檢體 A",
+    "en": "Specimen A",
+    "ko": "검체 A"
+  },
+  "範例檢體 B": {
+    "zh": "範例檢體 B",
+    "en": "Specimen B",
+    "ko": "검체 B"
+  },
+  "範例檢體 C": {
+    "zh": "範例檢體 C",
+    "en": "Specimen C",
+    "ko": "검체 C"
+  },
+  "播放此案例預先完成的辨識影片，數值沿用展示資料。": {
+    "zh": "播放此案例預先完成的辨識影片，數值沿用展示資料。",
+    "en": "This case uses a prerecorded detection video and demo measurements.",
+    "ko": "이 사례에는 미리 분석한 영상과 시연용 수치가 표시됩니다."
+  },
+  "辨識結果影片": {
+    "zh": "辨識結果影片",
+    "en": "Annotated video",
+    "ko": "검출 결과 영상"
+  },
+  "請選擇雲端範本或本機檔案。": {
+    "zh": "請選擇雲端範本或本機檔案。",
+    "en": "Select a cloud template or a local file.",
+    "ko": "클라우드 템플릿 또는 로컬 파일을 선택하세요."
+  },
   "檢體編號 #A001": {
     "zh": "檢體編號 #A001",
     "en": "Specimen no. #A001",
@@ -11,12 +106,12 @@
   },
   "正常型態": {
     "zh": "正常型態",
-    "en": "Normal morphology",
+    "en": "Normal forms",
     "ko": "정상 형태"
   },
   "異常型態": {
     "zh": "異常型態",
-    "en": "Abnormal morphology",
+    "en": "Abnormal forms",
     "ko": "비정상 형태"
   },
   "雲端紀錄載入中…": {
@@ -41,8 +136,8 @@
   },
   "檢體編號 #": {
     "zh": "檢體編號 #",
-    "en": "Specimen no. #",
-    "ko": "검체 번호 #"
+    "en": "Specimen ",
+    "ko": "검체 번호 "
   },
   "PDF 模擬報告已準備下載": {
     "zh": "PDF 模擬報告已準備下載",
@@ -51,7 +146,7 @@
   },
   "正常率": {
     "zh": "正常率",
-    "en": "Normal morphology",
+    "en": "Normal forms",
     "ko": "정상 형태 비율"
   },
   "姓名": {
@@ -136,8 +231,8 @@
   },
   "本機照片／影片": {
     "zh": "本機照片／影片",
-    "en": "Local image / video",
-    "ko": "로컬 이미지 / 동영상"
+    "en": "Local photo or video",
+    "ko": "기기의 사진 또는 동영상"
   },
   "照片最多 10 MB，影片最多 50 MB": {
     "zh": "照片最多 10 MB，影片最多 50 MB",
@@ -146,8 +241,8 @@
   },
   "選擇照片或影片": {
     "zh": "選擇照片或影片",
-    "en": "Choose image or video",
-    "ko": "이미지 또는 동영상 선택"
+    "en": "Choose photo or video",
+    "ko": "사진 또는 동영상 선택"
   },
   "相機拍攝（照片）": {
     "zh": "相機拍攝（照片）",
@@ -186,8 +281,8 @@
   },
   "預設影像：": {
     "zh": "預設影像：",
-    "en": "Default image:",
-    "ko": "기본 이미지:"
+    "en": "Selected template: ",
+    "ko": "선택한 템플릿: "
   },
   "部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。": {
     "zh": "部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。",
@@ -771,7 +866,7 @@
   },
   "· 正常型態": {
     "zh": "· 正常型態",
-    "en": "· Normal morphology",
+    "en": "· Normal forms",
     "ko": "· 정상 형태"
   },
   "尚無摘要": {
@@ -840,9 +935,9 @@
     "ko": "검사 원본 이미지"
   },
   "濃度（million/mL）": {
-    "zh": "濃度（million/mL）",
-    "en": "Sperm concentration (million/mL)",
-    "ko": "정자 농도(million/mL)"
+    "zh": "濃度（×10⁶/mL）",
+    "en": "Sperm concentration (×10⁶/mL)",
+    "ko": "정자 농도(×10⁶/mL)"
   },
   "活動力（%）": {
     "zh": "活動力（%）",
@@ -851,7 +946,7 @@
   },
   "正常型態（%）": {
     "zh": "正常型態（%）",
-    "en": "Normal morphology (%)",
+    "en": "Normal forms (%)",
     "ko": "정상 형태 비율(%)"
   },
   "精液量（mL）": {
@@ -951,12 +1046,12 @@
   },
   "精子濃度：14.8 M/mL，接近 WHO 參考下限": {
     "zh": "精蟲濃度：14.8 M/mL，接近 WHO 參考下限",
-    "en": "Sperm concentration: 14.8 million/mL, near the WHO lower reference limit",
-    "ko": "정자 농도: 14.8 million/mL, WHO 참고 하한에 근접"
+    "en": "Sperm concentration: 14.8 ×10⁶/mL, near the WHO lower reference limit",
+    "ko": "정자 농도: 14.8 ×10⁶/mL, WHO 참고 하한에 근접"
   },
   "正常形態：6.4%，符合目前參考值": {
     "zh": "正常型態：6.4%，符合目前參考值",
-    "en": "Normal morphology: 6.4%, within the current reference range",
+    "en": "Normal forms: 6.4%, within the current reference range",
     "ko": "정상 형태 비율: 6.4%, 현재 참고 범위 내"
   },
   "活動力：62%，目前表現穩定": {
@@ -1005,9 +1100,9 @@
     "ko": "검사 날짜: {{0}}"
   },
   "濃度：{{0}} million/mL": {
-    "zh": "濃度：{{0}} million/mL",
-    "en": "Sperm concentration: {{0}} million/mL",
-    "ko": "정자 농도: {{0}} million/mL"
+    "zh": "濃度：{{0}} ×10⁶/mL",
+    "en": "Sperm concentration: {{0}} ×10⁶/mL",
+    "ko": "정자 농도: {{0}} ×10⁶/mL"
   },
   "如需進一步了解結果與相關衛教，請洽詢醫療人員。": {
     "zh": "如需進一步了解結果與相關衛教，請洽詢醫療人員。",
@@ -1085,9 +1180,9 @@
     "ko": "취소하고 재시도를 위해 데이터 유지"
   },
   "濃度 {{0}} million/mL · 活動力 {{1}} · 正常型態 {{2}}": {
-    "zh": "濃度 {{0}} million/mL · 活動力 {{1}} · 正常型態 {{2}}",
-    "en": "Sperm concentration {{0}} million/mL · Sperm motility {{1}} · Normal morphology {{2}}",
-    "ko": "정자 농도 {{0}} million/mL · 정자 운동성 {{1}} · 정상 형태 비율 {{2}}"
+    "zh": "濃度 {{0}} ×10⁶/mL · 活動力 {{1}} · 正常型態 {{2}}",
+    "en": "Sperm concentration {{0}} ×10⁶/mL · Sperm motility {{1}} · Normal forms {{2}}",
+    "ko": "정자 농도 {{0}} ×10⁶/mL · 정자 운동성 {{1}} · 정상 형태 비율 {{2}}"
   },
   "檢驗日期：{{0}}": {
     "zh": "檢驗日期：{{0}}",
@@ -1106,7 +1201,7 @@
   },
   "正常型態：{{0}}": {
     "zh": "正常型態：{{0}}",
-    "en": "Normal morphology: {{0}}",
+    "en": "Normal forms: {{0}}",
     "ko": "정상 형태 비율: {{0}}"
   },
   "處理狀態：{{0}}": {
@@ -1456,7 +1551,7 @@
   },
   "平均正常型態比例": {
     "zh": "平均正常型態比例",
-    "en": "Average normal morphology ratio",
+    "en": "Average normal forms (%)",
     "ko": "평균 정상 형태 비율"
   },
   "照片": {
@@ -1891,8 +1986,8 @@
   },
   "目前濃度：{{0}} M/mL": {
     "zh": "目前濃度：{{0}} M/mL",
-    "en": "Latest sperm concentration: {{0}} million/mL",
-    "ko": "최근 정자 농도: {{0}} million/mL"
+    "en": "Latest sperm concentration: {{0}} ×10⁶/mL",
+    "ko": "최근 정자 농도: {{0}} ×10⁶/mL"
   },
   "目前活動力：{{0}}": {
     "zh": "目前活動力：{{0}}",
@@ -1901,7 +1996,7 @@
   },
   "目前正常型態：{{0}}": {
     "zh": "目前正常型態：{{0}}",
-    "en": "Latest normal morphology: {{0}}",
+    "en": "Latest normal forms: {{0}}",
     "ko": "최근 정상 형태 비율: {{0}}"
   },
   "判讀摘要：{{0}}": {
@@ -1955,14 +2050,14 @@
     "ko": "정자 AI 보조 검사 플랫폼에서 생성한 보고서입니다. 개인 건강 정보 보호를 위해 관련자에게만 공유하세요."
   },
   "精子濃度：14.8 million/mL，接近 WHO 參考下限": {
-    "zh": "精蟲濃度：14.8 million/mL，接近 WHO 參考下限",
-    "en": "Sperm concentration: 14.8 million/mL, near the WHO lower reference limit",
-    "ko": "정자 농도: 14.8 million/mL, WHO 참고 하한에 근접"
+    "zh": "精蟲濃度：14.8 ×10⁶/mL，接近 WHO 參考下限",
+    "en": "Sperm concentration: 14.8 ×10⁶/mL, near the WHO lower reference limit",
+    "ko": "정자 농도: 14.8 ×10⁶/mL, WHO 참고 하한에 근접"
   },
   "目前濃度：{{0}} million/mL": {
-    "zh": "目前濃度：{{0}} million/mL",
-    "en": "Latest sperm concentration: {{0}} million/mL",
-    "ko": "최근 정자 농도: {{0}} million/mL"
+    "zh": "目前濃度：{{0}} ×10⁶/mL",
+    "en": "Latest sperm concentration: {{0}} ×10⁶/mL",
+    "ko": "최근 정자 농도: {{0}} ×10⁶/mL"
   },
   "顯微鏡影像": {
     "zh": "顯微鏡影像",
@@ -1976,7 +2071,7 @@
   },
   "正常型態比例": {
     "zh": "正常型態比例",
-    "en": "Normal morphology",
+    "en": "Normal forms",
     "ko": "정상 형태 비율"
   },
   "列印／另存 PDF": {
@@ -2236,13 +2331,13 @@
   },
   "影片分析影像": {
     "zh": "影片分析影像",
-    "en": "Video analysis image",
+    "en": "Analyzed video frame",
     "ko": "동영상 분석 이미지"
   },
   "目前沒有影片分析後影像。": {
     "zh": "目前沒有影片分析後影像。",
-    "en": "No analyzed video image is available.",
-    "ko": "동영상 분석 후 이미지가 없습니다."
+    "en": "No analyzed video frame is available.",
+    "ko": "분석된 동영상 이미지가 없습니다."
   },
   "目前沒有分析後影像。": {
     "zh": "目前沒有分析後影像。",
@@ -2323,5 +2418,65 @@
     "zh": "以此病患已有數值的檢測紀錄計算平均；個別檢測仍請逐筆查看。",
     "en": "Averages use this patient's records with available measurements. Review each examination individually.",
     "ko": "측정값이 있는 검사 기록으로 평균을 계산합니다. 개별 검사는 각각 확인하세요."
+  },
+  "影像上傳前尚未產生分析數值。": {
+    "zh": "影像上傳前尚未產生分析數值。",
+    "en": "Results will be available after upload.",
+    "ko": "파일을 업로드하면 분석 결과를 확인할 수 있습니다."
+  },
+  "正在載入待處理檢體…": {
+    "zh": "正在載入待處理檢體…",
+    "en": "Loading pending specimen…",
+    "ko": "대기 중인 검체를 불러오는 중…"
+  },
+  "返回儀表板": {
+    "zh": "返回儀表板",
+    "en": "Back to dashboard",
+    "ko": "대시보드로 돌아가기"
+  },
+  "照片最多 10 MB，影片最多 50 MB。請選擇檢體影像後再開始分析。": {
+    "zh": "照片最多 10 MB，影片最多 50 MB。請選擇檢體影像後再開始分析。",
+    "en": "Select a photo (up to 10 MB) or video (up to 50 MB) to start analysis.",
+    "ko": "분석할 사진(최대 10 MB) 또는 동영상(최대 50 MB)을 선택하세요."
+  },
+  "尚未上傳檢體影像，因此尚未產生檢驗摘要。": {
+    "zh": "尚未上傳檢體影像，因此尚未產生檢驗摘要。",
+    "en": "Upload a specimen image or video to view the test summary.",
+    "ko": "검체 사진 또는 동영상을 업로드하면 검사 요약을 확인할 수 있습니다."
+  },
+  "尚未上傳檢體影像。": {
+    "zh": "尚未上傳檢體影像。",
+    "en": "No specimen image or video has been uploaded.",
+    "ko": "업로드된 검체 사진이나 동영상이 없습니다."
+  },
+  "無法載入待上傳檢體。": {
+    "zh": "無法載入待上傳檢體。",
+    "en": "Unable to load the specimen awaiting upload.",
+    "ko": "업로드 대기 중인 검체를 불러올 수 없습니다."
+  },
+  "這筆檢體目前不需要補上傳影像，請回儀表板重新整理。": {
+    "zh": "這筆檢體目前不需要補上傳影像，請回儀表板重新整理。",
+    "en": "This specimen no longer needs an upload. Refresh the dashboard.",
+    "ko": "이 검체는 추가 업로드가 필요하지 않습니다. 대시보드를 새로 고치세요."
+  },
+  "已等待 {{0}} 秒": {
+    "zh": "已等待 {{0}} 秒",
+    "en": "Elapsed time: {{0}} s",
+    "ko": "경과 시간: {{0}}초"
+  },
+  "已選範本：{{0}}": {
+    "zh": "已選範本：{{0}}",
+    "en": "Selected template: {{0}}",
+    "ko": "선택한 템플릿: {{0}}"
+  },
+  "million/mL": {
+    "zh": "×10⁶/mL",
+    "en": "×10⁶/mL",
+    "ko": "×10⁶/mL"
+  },
+  "電子郵件": {
+    "zh": "電子郵件",
+    "en": "Email",
+    "ko": "이메일"
   }
 }

@@ -9,7 +9,7 @@ import { useLanguage } from '../context/language.js'
 
 function translateStatus(status, t) {
   if (status === '正常') return t.normal
-  if (status === '示範資料') return tr('模擬資料')
+  if (status === '示範資料') return tr('未判讀')
   if (status === '未分析') return tr("未分析")
   if (status === '未判讀') return tr("未判讀")
   return t.followUp
@@ -17,10 +17,10 @@ function translateStatus(status, t) {
 
 function translateProcessingState(state, t) {
   if (state === '已完成') return t.completed
-  if (state === '待分析') return t.pending
+  if (state === '待分析') return tr(state)
   if (state === 'AI分析中') return t.analyzing
   if (state === '待複核') return t.reviewResult
-  return state
+  return tr(state)
 }
 
 export function HistoryPage() {

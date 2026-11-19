@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useLanguage } from '../../context/language.js'
 
 const localeByLanguage = { zh: 'zh-TW', en: 'en-US', ko: 'ko-KR' }
 const labelsByLanguage = {
   zh: { birthDate: '出生日期', choose: '選擇日期', chooseTitle: '選擇出生日期', previousMonth: '上個月', nextMonth: '下個月', month: '月份', year: '年份' },
-  en: { birthDate: 'Birth date', choose: 'Select a date', chooseTitle: 'Select birth date', previousMonth: 'Previous month', nextMonth: 'Next month', month: 'Month', year: 'Year' },
+  en: { birthDate: 'Date of birth', choose: 'Select a date', chooseTitle: 'Select date of birth', previousMonth: 'Previous month', nextMonth: 'Next month', month: 'Month', year: 'Year' },
   ko: { birthDate: '생년월일', choose: '날짜 선택', chooseTitle: '생년월일 선택', previousMonth: '이전 달', nextMonth: '다음 달', month: '월', year: '년' },
 }
 const WEEK_START = new Date(2024, 0, 7)

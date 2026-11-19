@@ -22,7 +22,7 @@ it('translates dynamic service errors without dropping codes or measured values'
  localStorage.setItem('sperm-ai-language','ko')
  expect(tr('資料操作失敗（PGRST202），請確認權限、資料內容與網路後重試。')).toContain('PGRST202')
  expect(han.test(tr('資料操作失敗（PGRST202），請確認權限、資料內容與網路後重試。'))).toBe(false)
- expect(tr('濃度 {{0}} million/mL · 活動力 {{1}} · 正常型態 {{2}}',[42,'32%','6%'])).toContain('42 million/mL')
+ expect(tr('濃度 {{0}} million/mL · 活動力 {{1}} · 正常型態 {{2}}',[42,'32%','6%'])).toContain('42 ×10⁶/mL')
 })
 it('uses consistent units and localized terms in reports and emails while preserving patient text',()=>{
  const patient={name:'USER_NAME',age:30,phone:'0912345678',note:'備註原文'}
@@ -30,7 +30,7 @@ it('uses consistent units and localized terms in reports and emails while preser
  for(const language of ['en','ko']){
   const result=buildResultEmail(record,language)
   expect(han.test(result.body)).toBe(false)
-  expect(result.body).toContain('42 million/mL')
+  expect(result.body).toContain('42 ×10⁶/mL')
   const history=buildHistoryEmail(patient,[{...record,patient:{...patient,note:'USER_NOTE'}}],language)
   expect(han.test(history.body)).toBe(false)
   expect(history.body).toContain('USER_NOTE')

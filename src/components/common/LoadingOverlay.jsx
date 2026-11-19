@@ -21,7 +21,7 @@ export function LoadingOverlay({ isOpen, title, description, status, progress, e
           <p>{percent}% · {(progress.loaded / 1_000_000).toFixed(1)} / {(progress.total / 1_000_000).toFixed(1)}{' '}{tr("MB 已傳送")}</p>
           {percent === 100 && <p>{tr("傳送完畢，等待伺服器確認；尚未宣告儲存完成。")}</p>}
         </>}
-        {Number.isFinite(elapsedSeconds) && <p>{tr("已等待")}{elapsedSeconds}{tr("秒")}</p>}
+        {Number.isFinite(elapsedSeconds) && <p>{tr("已等待 {{0}} 秒", [elapsedSeconds])}</p>}
         {onCancel && <button type="button" className="secondary-btn small" onClick={onCancel}>{tr("取消，保留資料以便重試")}</button>}
       </div>
     </div>

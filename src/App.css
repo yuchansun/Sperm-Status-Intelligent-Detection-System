@@ -994,6 +994,7 @@
 
 .header-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
 }
@@ -1706,6 +1707,28 @@
   gap: 12px;
 }
 
+.morphology-reference {
+  border-top: 1px solid #dfe9f8;
+  padding-top: 16px;
+}
+.morphology-reference h4 { margin: 0; }
+.morphology-reference p { margin: 6px 0 12px; }
+.reference-figure-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #dfe9f8;
+  border-radius: 12px;
+  background: white;
+  cursor: zoom-in;
+}
+.reference-figure-button img, .reference-dialog img { display: block; width: 100%; height: auto; }
+.reference-figure-button span { display: block; text-align: right; color: #335874; }
+.reference-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; margin: 10px 0; }
+.reference-dialog { width: min(1080px, 94vw); max-height: 90vh; overflow: auto; border: 0; border-radius: 14px; padding: 16px; }
+.reference-dialog::backdrop { background: rgb(12 28 44 / 65%); }
+.reference-dialog img { width: max(100%, 740px); }
 .evidence-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3099,7 +3122,7 @@
 .patient-preview-records span { display: block; margin-top: 4px; }
 .patient-note-preview { white-space: pre-wrap; }
 .patient-confirmed p, .patient-history-preview p { overflow-wrap: anywhere; }
-.private-video video, .selected-media-preview video, .selected-media-preview img { width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px; }
+.demo-video, .private-video video, .selected-media-preview video, .selected-media-preview img { width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px; }
 @media (max-width: 640px) {
  .patient-search-results li { flex-direction: column; align-items: stretch; }
  .patient-search-form > div { flex-direction: column; }
@@ -3651,12 +3674,12 @@
 .historical-metric-row { display: grid !important; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px !important; align-items: center; }
 .historical-metric-row .status-pill { padding: 4px 8px; font-size: .68rem; font-style: normal; }
 
-.morphology-breakdown-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #244e49; }
+.morphology-breakdown-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; color: #244e49; }
 .morphology-breakdown-heading > span { color: #607c76; font-size: .82rem; }
 .morphology-breakdown-chart { min-height: 110px; }
 .morphology-breakdown .chart-legend { margin-top: 0; }
 .historical-morphology-card { max-width: 520px; }
-.patient-record-summary > .status-pill { padding: 5px 8px; font-size: .68rem; white-space: nowrap; }
+.patient-record-summary > .status-pill { padding: 5px 8px; font-size: .68rem; white-space: normal; }
 
 @media (max-width: 600px) {
   .average-result-grid { grid-template-columns: 1fr; }
@@ -3665,7 +3688,7 @@
   .history-trend-plot { height: 245px; }
   .history-average-strip { gap: 7px; }
   .history-average-strip > span { flex-wrap: wrap; }
-  .historical-metric-row { grid-template-columns: 1fr auto; }
+  .historical-metric-row { grid-template-columns: minmax(0, 1fr) auto !important; }
   .historical-metric-row .status-pill { grid-column: 2; }
 }
 

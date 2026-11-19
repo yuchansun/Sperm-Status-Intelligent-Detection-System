@@ -117,7 +117,7 @@ export function ReportPreview({ record }) {
       <div className="report-metrics">
         {CORE_MEASUREMENT_STANDARDS.map(item => {
           const result = evaluateMeasurement(record, item.key)
-          return <div className="report-metric" key={item.key}><span>{tr(item.label)}</span><strong>{formatMeasurement(result, tr('未判定'))}</strong><small>{tr('系統參考範圍')}：{tr(item.range)}</small><small>{tr('判定')}：{result.state === 'normal' ? tr('正常') : result.state === 'abnormal' ? tr('異常') : tr('未判定')}</small></div>
+          return <div className="report-metric" key={item.key}><span>{tr(item.label)}</span><strong>{formatMeasurement(result, tr('未判定'))}</strong><small>{tr('{{0}}：{{1}}', [tr('系統參考範圍'), tr(item.range)])}</small><small>{tr('判定')}：{result.state === 'normal' ? tr('正常') : result.state === 'abnormal' ? tr('異常') : tr('未判定')}</small></div>
         })}
       </div>
       <h2>{tr('檢驗影像')}</h2>

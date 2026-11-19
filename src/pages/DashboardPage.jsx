@@ -112,7 +112,7 @@ export function DashboardPage() {
               <span data-label={t.sampleId}>{item.sampleId ?? item.id}</span>
               <span data-label={t.receivedAt}>{item.time}</span>
               <div data-label={t.status}><span className={`status-pill ${item.status === 'AI分析中' ? 'neutral-badge' : 'warning'}`}>
-                {item.status === '待分析' ? t.pendingSamples : item.status === 'AI分析中' ? t.analyzing : t.awaitingImage}
+                {item.status === '待分析' ? tr('待分析') : item.status === 'AI分析中' ? t.analyzing : t.awaitingImage}
               </span></div>
               <button
                 type="button"
@@ -150,7 +150,7 @@ export function DashboardPage() {
               <span data-label={t.concentration}>{item.density} ×10⁶/mL</span>
               <span data-label={t.motility}>{item.motility}</span>
               <span data-label={t.morphology}>{item.morphology}</span>
-              <div data-label={t.interpretation}><span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? tr("示範資料") : tr(item.result)}</span></div>
+              <div data-label={t.interpretation}><span className={`status-pill ${item.result === '正常' ? 'success' : 'warning'}`}>{item.result === '正常' ? t.normal : item.result === '示範資料' ? tr("未判讀") : tr(item.result)}</span></div>
               <button type="button" className="secondary-btn small dashboard-icon-label" onClick={() => navigate(`/history/${item.recordId}`)}>
                 <Eye size={16} aria-hidden="true" />{t.view}
               </button>

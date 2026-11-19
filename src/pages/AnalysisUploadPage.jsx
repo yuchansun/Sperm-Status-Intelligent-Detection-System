@@ -12,21 +12,20 @@ import { useLanguage } from '../context/language.js'
 import { getCloudRecord, newSubmission, submitDemoExamination, reserveSpecimenNumber } from '../services/cloudApi.js'
 import { validatePatientDraft } from '../utils/patientValidation.ts'
 
-const templateOptions = [
-  '範例檢體 A - 高濃度正常',
-  '範例檢體 B - 型態異常案例',
-  '範例檢體 C - 低濃度待追蹤',
-]
+import { demoCase } from '../services/demoAnalysis.js'
+
+const templateNames = ['範例檢體 A', '範例檢體 B', '範例檢體 C']
 
 export function AnalysisUploadPage() {
   const { t } = useLanguage()
-  const [selectedTemplate, setSelectedTemplate] = useState(templateOptions[0])
   const [includeMotility, setIncludeMotility] = useState(true)
   const [showProcessGuide, setShowProcessGuide] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [confirmedPatient, setConfirmedPatient] = useState(null)
   const [searchParams] = useSearchParams()
   const resumeRecordId = searchParams.get('record')
+  const [templateName, setTemplateName] = useState(templateNames[0])
+  const [usingTemplate, setUsingTemplate] = useState(!resumeRecordId)
   const [resumeState, setResumeState] = useState({ loading: Boolean(resumeRecordId), error: '' })
   const [sampleNumber, setSampleNumber] = useState({ value: '', error: '', loading: false })
   const [numberAttempt, setNumberAttempt] = useState(0)
@@ -74,7 +73,6 @@ export function AnalysisUploadPage() {
         },
       })
       setSampleNumber({ value: record.sampleId, error: '', loading: false })
-      if (record.templateLabel && templateOptions.includes(record.templateLabel)) setSelectedTemplate(record.templateLabel)
       setIncludeMotility(record.includeMotility !== false)
       setResumeState({ loading: false, error: '' })
     }).catch((error) => {
@@ -104,9 +102,9 @@ export function AnalysisUploadPage() {
 
   const canStartAnalysis = useMemo(() => {
     return Boolean(sampleNumber.value) && Boolean(patientDraft)
-      && (!resumeRecordId || Boolean(selectedFile))
+      && (usingTemplate || Boolean(selectedFile))
       && Object.keys(validatePatientDraft(patientDraft)).length === 0
-  }, [patientDraft, resumeRecordId, sampleNumber.value, selectedFile])
+  }, [patientDraft, usingTemplate, sampleNumber.value, selectedFile])
 
   const handleStartAnalysis = async () => {
     if (isLoading || !sampleNumber.value) return
@@ -128,7 +126,7 @@ export function AnalysisUploadPage() {
     setHasAttempted(true)
     try {
       const result = await submitDemoExamination({
-        patientDraft, specimen: { includeMotility, templateLabel: selectedTemplate },
+        patientDraft, specimen: { includeMotility, templateLabel: usingTemplate ? templateName : demoCase.sourceFilename },
         file: selectedFile, operation: submissionRef.current,
         selectedPatientId: confirmedPatient.patientId, createOnly: confirmedPatient.kind === 'new',
         signal: controller.signal,
@@ -161,6 +159,7 @@ export function AnalysisUploadPage() {
       const url = URL.createObjectURL(file)
       previewRef.current = url
       setSelectedMedia({ ...info, url, name: file.name })
+      setUsingTemplate(false)
       setSelectedFile(file)
       setFormError('')
     } catch (error) { setFormError(error.message) }
@@ -169,6 +168,7 @@ export function AnalysisUploadPage() {
   const clearFile = () => {
     if (previewRef.current) URL.revokeObjectURL(previewRef.current)
     previewRef.current = null
+    setUsingTemplate(!resumeRecordId)
     setSelectedFile(null); setSelectedMedia(null)
   }
 
@@ -275,27 +275,17 @@ export function AnalysisUploadPage() {
       <section className="upload-card">
         <div className="form-section">
           <h3>{t.imageSource}</h3>
-          {resumeRecordId && <p className="resume-upload-hint">{tr("請選擇本機影像或影片；完成上傳後才會建立分析結果。")}</p>}
+          {resumeRecordId && <p className="resume-upload-hint">{tr("請選擇雲端範本或本機檔案。")}</p>}
 
           <div className="source-grid">
             <div className="source-option highlight">
               <h4>{t.cloudTemplate}</h4>
-              <select
-                value={selectedTemplate}
-                onChange={(event) => setSelectedTemplate(event.target.value)}
-              >
-                {templateOptions.map((option, index) => (
-                  <option key={option} value={option}>
-                    {t[`template${String.fromCharCode(65 + index)}`]}
-                  </option>
-                ))}
+              <select aria-label={t.cloudTemplate} value={usingTemplate ? templateName : ''}
+                onChange={event => { clearFile(); setTemplateName(event.target.value); setUsingTemplate(true) }}>
+                {!usingTemplate && <option value="" disabled>{t.cloudTemplate}</option>}
+                {templateNames.map(name => <option key={name} value={name}>{tr(name)}</option>)}
               </select>
-
-              <div className="template-preview">
-                <div className="template-thumb template-a" />
-                <div className="template-thumb template-b" />
-                <div className="template-thumb template-c" />
-              </div>
+              {usingTemplate && <video className="demo-video" src={demoCase.sourceUrl} controls playsInline preload="metadata" />}
             </div>
 
             <div className="source-option">
@@ -331,14 +321,14 @@ export function AnalysisUploadPage() {
       </section>
 
       <section className="upload-card">
-        <h3>{tr("本次檔案")}</h3><p>{resumeRecordId ? tr("照片最多 10 MB，影片最多 50 MB。請選擇檢體影像後再開始分析。") : tr("一次一個檔案：照片最多 10 MB、影片最多 50 MB。未選檔案時將使用預設模擬影像與數值。")}</p>
+        <h3>{tr("本次檔案")}</h3><p>{resumeRecordId ? tr("照片最多 10 MB，影片最多 50 MB。請選擇檢體影像後再開始分析。") : tr("照片最多 10 MB，影片最多 50 MB")}</p>
         {selectedMedia ? <div className="selected-media-preview">
           <p>{selectedMedia.name} · {(selectedFile.size / 1_000_000).toFixed(2)} MB</p>
           {selectedMedia.kind === 'video'
             ? <video src={selectedMedia.url} controls playsInline preload="metadata" />
             : <img src={selectedMedia.url} alt={tr("本次選取的照片預覽")} />}
           <button type="button" className="secondary-btn small" onClick={clearFile}>{tr("移除本次選取")}</button>
-        </div> : <p>{resumeRecordId ? t.resumeUploadNotice : `${tr("預設影像：")}${selectedTemplate}`}</p>}
+        </div> : <p>{!usingTemplate ? t.resumeUploadNotice : tr("已選範本：{{0}}", [tr(templateName)])}</p>}
       </section>
       </fieldset>}
       {hasAttempted && !isLoading && formError && <p role="note">{tr("部分資料可能已儲存，已鎖定本次病患與檔案；請在本頁重試以沿用原檢測。")}</p>}

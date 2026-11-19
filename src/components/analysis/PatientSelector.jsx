@@ -75,7 +75,7 @@ export function PatientSelector({ confirmed, onConfirm, onChangePatient, locked,
   if (confirmed) return <section className="upload-card patient-confirmed">
     <div className="panel-header"><h3>{tr("已確認本次病患")}</h3><span className="chip success">{confirmed.kind === 'existing' ? tr("既有病患") : tr("待新增病患")}</span></div>
     <strong>{confirmed.draft.patientName}</strong>
-    <p>{maskNationalId(confirmed.draft.nationalId)}{tr("· 出生日期")}{confirmed.draft.birthDate}</p>
+    <p>{maskNationalId(confirmed.draft.nationalId)} · {tr("{{0}}：{{1}}", [tr("出生日期"), confirmed.draft.birthDate])}</p>
     <p>{confirmed.kind === 'existing' ? tr("沿用病患主檔，開始本次檢測時不會覆寫基本資料。") : tr("按下開始後才會建立病患與本次檢測。")}</p>
     {allowChangePatient && <button type="button" className="secondary-btn small" disabled={locked} onClick={onChangePatient}>{tr("更換／重新確認病患")}</button>}
   </section>
@@ -119,15 +119,15 @@ export function PatientSelector({ confirmed, onConfirm, onChangePatient, locked,
     {mode === 'existing' && preview.error && <p className="form-banner error" role="alert">{tr(preview.error)}{tr("請重新選擇病患以重試。")}</p>}
     {mode === 'existing' && preview.patient && <section className="upload-card patient-history-preview">
       <div className="panel-header"><h3>{preview.patient.patient_name}{tr("· 檢測前確認")}</h3><span className="chip neutral">{tr("歷史預覽")}</span></div>
-      <p>{tr("出生日期：")}{preview.patient.birth_date} · Email：{preview.patient.email || tr("未填寫")}</p>
+      <p>{tr("{{0}}：{{1}}", [tr("出生日期"), preview.patient.birth_date])} · {tr("{{0}}：{{1}}", [tr("電子郵件"), preview.patient.email || tr("未填寫")])}</p>
       <PatientActions key={preview.patient.id} patientId={preview.patient.id}
         onSaved={() => choosePatient(preview.patient.id)}
         onDeleted={() => { selection.current++; setPreview({ patient: null, history: [], loading: false, error: '' }); setSearch({ rows: [], loading: false, error: '', searched: false }); changeMode('existing') }} />
       <h4>{tr("病患備註")}</h4><p className="patient-note-preview">{preview.patient.patient_notes?.note || tr("尚無備註")}</p>
       <h4>{tr("最近五筆檢測與摘要")}</h4>
       {!preview.history.length ? <p>{tr("此病患尚無過往分析紀錄；可以開始第一筆檢測。")}</p> : <ol className="patient-preview-records">{preview.history.map(r => <li key={r.id}>
-        <strong>{r.date} · {r.sampleId}</strong><span>{tr(r.processingState)}{r.isDemo ? ` · ${tr('模擬資料')}` : ''}</span>
-        <p>{tr("濃度")}{r.density} {r.measurements.densityUnit || ''}{tr("· 活動力")}{r.motility}{tr("· 正常型態")}{r.morphology}</p>
+        <strong>{r.date} · {r.sampleId}</strong><span>{tr(r.processingState)}</span>
+        <p>{tr("濃度")} {r.density} {tr(r.measurements.densityUnit || '')} · {tr("活動力")} {r.motility} · {tr("正常型態比例")} {r.morphology}</p>
         <p>{displayRecordSummary(r) || tr("尚無摘要")}</p>
       </li>)}</ol>}
       {preview.hasMore && <p>{tr("此處僅列最近五筆；完整內容可至病患歷史頁查看。")}</p>}

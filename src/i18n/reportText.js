@@ -9,8 +9,8 @@ export function buildResultEmail(record, language = currentLanguage(), draft = {
     return text('{{0}}：{{1}}', [text(item.label), formatMeasurement(result, unknown)])
   })
   return {
-    subject: text('{{0}}檢測結果與衛教 · {{1}}', [record.isDemo ? `${text('模擬資料')} · ` : '', record.sampleId]),
-    body: [text('{{0}} 您好：',[record.patient?.name || '']), '', record.isDemo ? text('本筆為模擬資料，未進行實際影像分析。') : text('本次檢測結果'),
+    subject: text('{{0}}檢測結果與衛教 · {{1}}', ['', record.sampleId]),
+    body: [text('{{0}} 您好：',[record.patient?.name || '']), '', record.isDemo ? text('數值來源：預設案例。') : text('本次檢測結果'),
       text('檢體編號：{{0}}',[record.sampleId]),text('檢測日期：{{0}}',[record.date]),
       ...measurements, '', displayRecordSummary(record,language), draft.notes ? text('備註：{{0}}', [draft.notes]) : '',
       draft.supplement ? text('補充說明：{{0}}', [draft.supplement]) : '',
@@ -25,7 +25,7 @@ export function buildHistoryEmail(patient, records, language = currentLanguage()
     subject: `${text('精蟲檢驗歷史與衛教')} — ${patient.name}`,
     body: [text('歷史檢測報告'), '', text('【一、病患與報告資訊】'), text('病患姓名：{{0}}',[patient.name]),text('年齡：{{0}}',[patient.age]),
       text('聯絡電話：{{0}}',[patient.phone]),text('主治醫師：{{0}}',[patient.doctor || '—']),text('檢驗紀錄筆數：{{0}} 筆',[records.length]),'',text('【二、歷史檢驗結果】'),
-      ...sorted.flatMap((record,index)=>[text('第 {{0}} 筆檢驗',[index+1]),record.isDemo?text('本筆為模擬資料，未進行實際影像分析。'):'',
+      ...sorted.flatMap((record,index)=>[text('第 {{0}} 筆檢驗',[index+1]),record.isDemo?text('數值來源：預設案例。'):'',
         text('檢驗日期：{{0}}',[record.date]),text('檢體編號：{{0}}',[record.sampleId]),
         text('處理狀態：{{0}}',[tr(record.processingState,[],language)]),
         ...CORE_MEASUREMENT_STANDARDS.map(item => text('{{0}}：{{1}}', [text(item.label), formatMeasurement(evaluateMeasurement(record, item.key), language === 'en' ? 'Not determined' : language === 'ko' ? '미판정' : '未判定')])),

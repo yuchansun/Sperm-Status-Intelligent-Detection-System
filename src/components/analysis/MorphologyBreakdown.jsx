@@ -21,7 +21,7 @@ export function MorphologyBreakdown({ record, height = 190 }) {
     <div className="morphology-breakdown">
       <div className="morphology-breakdown-heading">
         <strong>{t.morphologyAnalysis}</strong>
-        <span>{tr('正常率')}{hasValue ? `${morphology}%` : tr('未判定')}</span>
+        <span>{tr('{{0}}：{{1}}', [tr('正常率'), hasValue ? `${morphology}%` : tr('未判定')])}</span>
       </div>
       <div className="morphology-breakdown-chart">
         {hasValue ? <ResponsiveContainer width="100%" height={height}>

@@ -42,7 +42,7 @@ export function PatientDetailPage() {
     morphologyValue: Number.isFinite(Number.parseFloat(historyRecord.measurements?.morphology ?? historyRecord.morphology)) ? Number.parseFloat(historyRecord.measurements?.morphology ?? historyRecord.morphology) : null,
   }))
 
-  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{error || tr("雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
+  if (loading || error) return <div className="page-shell"><p role={error ? 'alert' : 'status'}>{tr(error || "雲端紀錄載入中…")}</p>{error && <button onClick={reload}>{tr("重試")}</button>}</div>
 
   if (!record) {
     return (
@@ -58,7 +58,7 @@ export function PatientDetailPage() {
   }
 
   const isAwaitingImage = ['影像待上傳', '待分析'].includes(record.processingState)
-  const translateStatus = isAwaitingImage ? t.awaitingImage : record.status === '正常' ? t.normal : record.status === '示範資料' ? tr("示範資料") : record.status === '未判讀' ? tr("未判讀") : record.status === '未分析' ? tr("未分析") : t.followUp
+  const translateStatus = isAwaitingImage ? t.awaitingImage : record.status === '正常' ? t.normal : ['示範資料', '未判讀'].includes(record.status) ? tr("未判讀") : record.status === '未分析' ? tr("未分析") : t.followUp
   const translateProcessingState = record.processingState === '已完成' ? t.completed : record.processingState === '待複核' ? t.reviewResult : record.processingState
   const confirmReview = async () => {
     setReviewing(true)
@@ -140,7 +140,7 @@ export function PatientDetailPage() {
 
           <div className="detail-card-box">
             <h4>{t.testSummary}</h4>
-            <p>{isAwaitingImage ? tr("尚未上傳檢體影像，因此尚未產生檢驗摘要。") : <>{record.isDemo && <strong>{tr("模擬資料")} · </strong>}{displayRecordSummary(record)}</>}</p>
+            <p>{isAwaitingImage ? tr("尚未上傳檢體影像，因此尚未產生檢驗摘要。") : displayRecordSummary(record)}</p>
             <ul className="summary-list compact-list">
               {!record.isDemo && record.aiResult?.precision && <li><span>{tr(t.precision)}</span><strong>{tr(record.aiResult.precision)}</strong></li>}
               {!record.isDemo && record.aiResult?.confidence && <li><span>{tr(t.confidence)}</span><strong>{tr(record.aiResult.confidence)}</strong></li>}
